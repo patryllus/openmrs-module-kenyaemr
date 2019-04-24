@@ -153,7 +153,11 @@
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 				<ref bean="kenyaemr.app.hts" />
+<<<<<<< HEAD
+				<!--<ref bean="kenyaemr.app.prep" />-->
+=======
 				<ref bean="kenyaemr.app.prep" />
+>>>>>>> KEMR-862-Configure Triage form as an available form in PrEP module
 			</set>
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
