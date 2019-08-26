@@ -28,7 +28,8 @@
                 jq("#linkage").hide()
             }
             //Default location
-            jq('#default-location').click(defaultLocationChange);
+            jq('#default-location').click(defaultLocationChange);//Default location
+            jq('#location-referred').click(defaultReferralLocationChange);      //Default referred locations
 
         });
         function linkStatusSelected() {
@@ -56,6 +57,17 @@
             }else{
                 getField('facility.value').val("");
                 clearHiddenSections(jq('#default-location'));
+            }
+        }
+        //Ckeckbox to prepopulate default referrals location
+        var defaultReferralLocationChange = function () {
+            var val = jq(this).val();
+            var default_referral_location = "<lookup expression="kenyaemr.location()" />";
+            if (jq(this).is(':checked')){
+                getField('referred-facility.value').val(default_referral_location);
+            }else{
+                getField('referred-facility.value').val("");
+                clearHiddenSections(jq('#location-referred'));
             }
         }
         //Before Submit
@@ -103,6 +115,21 @@
     </div>
 
     <div class="ke-form-content">
+        <fieldset id="referral">
+            <legend>Client Referral</legend>
+            <table id="tbl-referral">
+                <tr>
+                    <td>&#160;&#160;&#160;&#160;&#160;&#160;Facility referred to: </td>
+                    <td> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                        <obs id="referred-facility" conceptId="161550AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                    </td><td>  <input type="checkbox" name="facility-referred" id="location-referred" /> This facility</td>
+                    <td>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Date referred : </td>
+                    <td>
+                        <obs conceptId="161561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="date-referred"   allowFutureDates="true" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
 
         <fieldset>
             <legend>Patient Tracing</legend>
