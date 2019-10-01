@@ -53,6 +53,7 @@
 				<ref bean="kenyaemr.hiv.report.artPrepRegister" />
 				<ref bean="kenyaemr.hiv.report.enhancedAdherenceRegister" />
 				<ref bean="kenyaemr.common.report.enrollmentTracker" />
+				<ref bean="kenyaemr.hiv.report.artRegister" />
 			</set>
 		</property>
 		<property name="fragments">
@@ -405,6 +406,20 @@
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 		<property name="template" value="kenyaemr:hts/Enrollment_Tracker.xls" />
 		<property name="repeatingSection" value="sheet:1,row:6,dataset:allPatients" />
+	</bean>
+
+	<!-- Art Register -->
+	<bean id="kenyaemr.hiv.report.artRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+		<property name="targetUuid" value="e0c4994f-6bee-4894-a1f2-1c84deaf0408" />
+		<property name="name" value="ART Register" />
+		<property name="description" value="ART register based on art initiation date" />
+		<property name="apps">
+			<set>
+				<ref bean="kenyaemr.app.reports" />
+			</set>
+		</property>
+		<property name="template" value="kenyaemr:art/artRegister.xls" />
+		<property name="repeatingSection" value="sheet:1,row:18,dataset:artCohortRegister" />
 	</bean>
 
 </beans>
