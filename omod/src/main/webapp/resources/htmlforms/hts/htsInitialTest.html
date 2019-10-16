@@ -109,6 +109,7 @@
         var defaultLotNumberClicked = function () {
             var val = jq(this).val();
             var kitName1 = getField('kit-name-1.value').val();
+            //console.log("Kit name 1 ==>"+kitName1);
             jq('#upnError').hide();
             if (jq(this).is(':checked') &amp;&amp; !isNaN(kitName1) ){
                 jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/lastLotNumberUsedForHTSTesting.action', {kitName: kitName1}, function (data) {
@@ -153,7 +154,7 @@
                         jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/lastLotExpiryDateUsedForHTSTesting.action', {kitName: kitName2}, function (data) {
 
                             if (data.lastLotExpiryDate != null || data.lastLotExpiryDate != "") {
-                                jq('#expiry-date2 input[type=text]').val(data.lastLotExpiryDate);
+                               jq('#expiry-date2 input[type=text]').val(data.lastLotExpiryDate);
                             }
                         });
                     } else {
