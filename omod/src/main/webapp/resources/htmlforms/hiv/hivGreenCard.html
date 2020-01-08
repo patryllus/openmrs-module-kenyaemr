@@ -97,11 +97,135 @@ Green Card follow-up visit form
         var PATIENT_PREGNANT = GREENCARD_VELOCITY.split(",")[10].split(":")[1];
         var PATIENT_BREASTFEEDING = GREENCARD_VELOCITY.split(",")[11].split(":")[1];
 
-
+        var patientId = <lookup expression="patient.patientId"/>;
         var pAge = parseInt('<lookup expression="patient.age"/>');
         var pgender = "<lookup expression="patient.gender" />";
         var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
 
+
+// Greencard Utils
+        function greencardFormUtilsEverHIVEnrolled() {
+
+            jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkWhetherPatientEverEnrolledInHivProgram.action', {patientId: patientId}, function (data) {
+                if (data != null) {
+                    if (data.everEnrolledInHIV != null || data.everEnrolledInHIV != "") {
+                        console.log("PATIENT_EVER_ENROLLED_IN_HIV == > " + data.everEnrolledInHIV);
+                    }
+                }
+            });
+        }
+
+        function greencardFormUtilsEnrolledInTb() {
+            var patientId = <lookup expression="patient.patientId"/>;
+            jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkWhetherInTbProgram.action',  {patientId: patientId},function(data) {
+                if(data != null) {
+                    if (data.inTB != null || data.inTB != "") {
+                        console.log("PATIENT_ENROLLED_IN_TB== > " + data.inTB);
+                    }
+                }
+            });
+        }
+        function greencardFormUtilsEnrolledInIpt() {
+            var patientId = <lookup expression="patient.patientId"/>;
+            jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkWhetherInIPTProgram.action',  {patientId: patientId},function(data) {
+                if(data != null) {
+                    if (data.inIPT != null || data.inIPT != "") {
+                        console.log("PATIENT_ENROLLED_IN_IPT == > " + data.inIPT);
+                    }
+                }
+            });
+        }
+    function greencardFormUtilsOnART() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkWhetherPatientOnART.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.onART != null || data.onART != "") {
+                    console.log("PATIENT_ENROLLED_ON_ART == > " + data.onART);
+                }
+            }
+        });
+    }
+    function greencardFormUtilsRegimenName() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkRegimenNameForPatientOnART.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.regimenName != null || data.regimenName != "") {
+                    console.log("PATIENT_REGIMEN_NAME == > " + data.regimenName);
+                }
+            }
+        });
+    }
+    function greencardFormUtilsHasBeenOnART() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkWhetherPatientHasBeenOnART.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.hasBeenOnART != null || data.hasBeenOnART != "") {
+                    console.log("PATIENT_HAS_BEEN_ON_ART == > " + data.hasBeenOnART);
+                }
+            }
+        });
+    }
+    function greencardFormUtilsDurationOnART() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkDurationPatientHasBeenOnART.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.duration != null || data.duration != "") {
+                    console.log("PATIENT_DURATION_ON_ART == > " + data.duration);
+                }
+            }
+        });
+    }
+    function greencardFormUtilPatientAdherence() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkPatientAdherence.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.adherence != null || data.adherence != "") {
+                    console.log("PATIENT_ADHERENCE== > " + data.adherence);
+                }
+            }
+        });
+    }
+    function greencardFormUtilPatientCompletedIPT() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkPatientHasCompeletedIPT.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.iptCompleted != null || data.iptCompleted != "") {
+                    console.log("PATIENT_COMPLETED_IPT== > " + data.iptCompleted);
+                }
+            }
+        });
+    }
+
+    function greencardFormUtilPatientVlResults() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkPatientViralLoadResults.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.vlResult != null || data.vlResult != "") {
+                    console.log("PATIENT_VL_RESULTS== > " + data.vlResult);
+                }
+            }
+        });
+    }
+    function greencardFormUtilPatientIsPregnant() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkWhetherPatientIsPregnant.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.isPregnant != null || data.isPregnant != "") {
+                    console.log("PATIENT_IS_PREGNANT== > " + data.isPregnant);
+                }
+            }
+        });
+    }
+    function greencardFormUtilPatientIsBreastFeeding() {
+        var patientId = <lookup expression="patient.patientId"/>;
+        jq.getJSON('/' + ctxPath + '/kenyaemr/greencardUtils/checkWhetherPatientIsBreastFeeding.action',  {patientId: patientId},function(data) {
+            if(data != null) {
+                if (data.isBreastFeeding != null || data.isBreastFeeding != "") {
+                    console.log("PATIENT_IS_BREASTFEEDING== > " + data.isBreastFeeding);
+                }
+            }
+        });
+    }
 
 //Start on jq onready
         jq(function() {
@@ -132,6 +256,23 @@ Green Card follow-up visit form
             function setError(stepnumber){
                 jq('#greencard').smartWizard('setError',{stepnum:stepnumber,iserror:true});
             }
+
+            greencardFormUtilsEverHIVEnrolled();
+            greencardFormUtilsEnrolledInTb();
+            greencardFormUtilsEnrolledInIpt();
+            greencardFormUtilsOnART();
+            greencardFormUtilsRegimenName();
+            greencardFormUtilsHasBeenOnART();
+            greencardFormUtilsDurationOnART();
+            greencardFormUtilPatientAdherence();
+            greencardFormUtilPatientCompletedIPT();
+            greencardFormUtilPatientVlResults();
+            greencardFormUtilPatientIsPregnant();
+
+
+
+
+
             getField('weight.value').change(onWeightOrHeightChange);
             getField('height.value').change(onWeightOrHeightChange);
             onWeightOrHeightChange();

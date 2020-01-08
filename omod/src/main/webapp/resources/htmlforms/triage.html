@@ -21,7 +21,7 @@
             if (!isNaN(weightKg) &amp;&amp; !isNaN(heightM)) {
                 var bmi = weightKg / (heightM * heightM);
                 if (isNaN(bmi) || bmi &lt; 10 || bmi &gt; 50) {
-                    display = 'Abnormal value. Were height and height entered correctly?';
+                    display = 'Abnormal value. Were height and weight entered correctly?';
                 }
                 else {
                     display = bmi.toFixed(2);
