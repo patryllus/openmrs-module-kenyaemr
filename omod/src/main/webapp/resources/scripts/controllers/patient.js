@@ -50,6 +50,23 @@ kenyaemrApp.controller('PatientSearchForm', ['$scope', 'PatientService','$timeou
 }]);
 
 /**
+ * Controller for peer search form
+ */
+kenyaemrApp.controller('PeerSearchForm', ['$scope', 'PatientService', function($scope, patientService) {
+
+    $scope.query = '';
+
+    $scope.init = function() {
+        $scope.which = "";
+        $scope.$evalAsync($scope.updateSearch); // initiate an initial search
+    };
+
+    $scope.updateSearch = function() {
+        patientService.updateSearch($scope.query, $scope.which);
+    };
+}]);
+
+/**
  * Controller for patient search results
  */
 kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($scope, $http) {
@@ -249,23 +266,7 @@ kenyaemrApp.controller('RecentlyViewed', ['$scope', '$http', function($scope, $h
 	$scope.onResultClick = function(patient) {
 		ui.navigate('kenyaemr', 'chart/chartViewPatient', { patientId: patient.id });
 	};
-}]);
 
-/**
- * Controller for peer search form
- */
-kenyaemrApp.controller('PeerSearchForm', ['$scope', 'PatientService', function($scope, patientService) {
-
-    $scope.query = '';
-
-    $scope.init = function() {
-        $scope.which = "";
-        $scope.$evalAsync($scope.updateSearch); // initiate an initial search
-    };
-
-    $scope.updateSearch = function() {
-        patientService.updateSearch($scope.query, $scope.which);
-    };
 }]);
 
 /**
@@ -329,9 +330,6 @@ kenyaemrApp.controller('PeerSearchResults', ['$scope', '$http','$q','$timeout', 
         ui.navigate('kenyakeypop', 'peerCalender/peerViewClients', { patientId: peer.id ,effectiveDate:finalDate});
 
     };
-
-
-
 
     function getMonthDays(MonthYear) {
         var months = [
