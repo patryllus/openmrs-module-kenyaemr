@@ -326,7 +326,7 @@ kenyaemrApp.controller('PeerSearchResults', ['$scope', '$http','$q','$timeout', 
         }else {
             finalDate = currentDate
         }
-        ui.navigate('kenyaemr', 'peerCalender/peerViewClients', { patientId: peer.id ,effectiveDate:finalDate});
+        ui.navigate('kenyakeypop', 'peerCalender/peerViewClients', { patientId: peer.id ,effectiveDate:finalDate});
 
     };
 
