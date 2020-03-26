@@ -244,7 +244,8 @@
                                 onDetectedAtPOEChange();
                                 onSymptomaticChange();
                                 onPregnantChange();
-                                onUnderlyingConditionsChange()
+                                onUnderlyingConditionsChange();
+                                onTravelledRecentlyChange();
 
                             });
                             function onDetectedAtPOEChange() {
@@ -257,6 +258,16 @@
                                     jq('#date-detected-poe-lbl').hide();
                                     jq('#date-detected-poe').hide();
                                 }
+                                function onTravelledRecentlyChange() {
+                                    if (getValue('travelled-last-14-days.value') == 1065) {
+                                        jq('#places-visited').show();
+                                    }else{
+                                        clearHiddenSections(jq('#country'));
+                                        clearHiddenSections(jq('#city'));
+                                        jq('#places-visited').hide();
+                                    }
+                                }
+
                                 function onSymptomaticChange() {
 
                                     if (getValue('symptomatic.value') == 1065) {
