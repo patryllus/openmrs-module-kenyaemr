@@ -15,8 +15,6 @@ import org.openmrs.module.kenyacore.report.CohortReportDescriptor;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 import org.openmrs.module.kenyacore.report.builder.CalculationReportBuilder;
 import org.openmrs.module.kenyacore.report.data.patient.definition.CalculationDataDefinition;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressNationalityCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressSubCountyCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressCountyCalculation;
@@ -24,20 +22,6 @@ import org.openmrs.module.kenyaemr.calculation.library.rdqa.PatientProgramEnroll
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.reporting.calculation.converter.PatientProgramEnrollmentDateConverter;
 import org.openmrs.module.kenyaemr.reporting.calculation.converter.RDQACalculationResultConverter;
-=======
-import org.openmrs.module.kenyaemr.calculation.library.hiv.Cd4DueDateCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.hiv.LastReturnVisitDateCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.mchcs.PersonAddressCalculation;
-=======
-import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressNationalityCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressSubCountyCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressCountyCalculation;
->>>>>>> add country, county, sub county address calculations
-import org.openmrs.module.kenyaemr.calculation.library.rdqa.PatientProgramEnrollmentCalculation;
-import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
-import org.openmrs.module.kenyaemr.reporting.calculation.converter.PatientProgramEnrollmentDateConverter;
-import org.openmrs.module.kenyaemr.reporting.calculation.converter.RDQACalculationResultConverter;
-import org.openmrs.module.kenyaemr.reporting.data.converter.CalculationResultConverter;
 import org.openmrs.module.kenyaemr.reporting.data.converter.IdentifierConverter;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.data.DataDefinition;
