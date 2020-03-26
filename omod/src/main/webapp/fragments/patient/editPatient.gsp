@@ -1,6 +1,7 @@
 <%
-    ui.decorateWith("kenyaui", "panel", [heading: (config.heading ?: "Edit Patient"), frameOnly: true])
+    ui.decorateWith("kenyaui", "panel", [heading: (config.heading ?: "Edit Case"), frameOnly: true])
     def countyName = command.personAddress.countyDistrict
+    def country = command.personAddress.country
 
     def nameFields = [
             [
@@ -164,6 +165,22 @@
         <fieldset>
             <legend>Address</legend>
 
+            <table>
+                <tr>
+                    <td class="ke-field-label" style="width: 265px">Nationality</td>
+                </tr>
+                <tr>
+                    <td style="width: 265px">
+                        <select name="personAddress.country">
+                            <option></option>
+                            <%countryList.each { %>
+                            <option ${!country? "" : it.trim() == country.trim() ? "selected" : ""} value="${it}">${it}</option>
+                            <%}%>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <br/>
             <% contactsFields.each { %>
             ${ui.includeFragment("kenyaui", "widget/rowOfFields", [fields: it])}
             <% } %>
@@ -180,7 +197,7 @@
                         <select name="personAddress.countyDistrict">
                             <option></option>
                             <%countyList.each { %>
-                            <option ${!countyName? "" : it == command.personAddress.countyDistrict ? "selected" : ""} value="${it}">${it}</option>
+                            <option ${!countyName? "" : it.trim() == countyName.trim() ? "selected" : ""} value="${it}">${it}</option>
                             <%}%>
                         </select>
                     </td>

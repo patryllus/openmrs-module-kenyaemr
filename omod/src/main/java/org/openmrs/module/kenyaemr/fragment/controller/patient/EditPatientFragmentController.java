@@ -28,6 +28,7 @@ import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.module.kenyaemr.validator.TelephoneNumberValidator;
 import org.openmrs.module.kenyaemr.wrapper.PatientWrapper;
 import org.openmrs.module.kenyaemr.wrapper.PersonWrapper;
@@ -145,6 +146,10 @@ public class EditPatientFragmentController {
 		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.LIVING_WITH_PARTNER));
 		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.NEVER_MARRIED));
 		model.addAttribute("maritalStatusOptions", maritalStatusOptions);
+
+		//get list of countries
+
+		model.addAttribute("countryList", EmrUtils.getCountryList());
 
 		// Create a list of cause of death answer concepts
 		List<Concept> causeOfDeathOptions = new ArrayList<Concept>();

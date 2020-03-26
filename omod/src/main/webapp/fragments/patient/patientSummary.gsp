@@ -12,6 +12,11 @@
 			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/edit.png") }" />
 		</button>
 
+		${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Nationality", value: nationality ]) }
+		${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "County", value: county ]) }
+		${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Sub-County", value: subCounty ]) }
+		${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Address", value: postalAddress ]) }
+
 		<% patient.activeAttributes.each { %>
 		${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: ui.format(it.attributeType), value: it ]) }
 		<% } %>

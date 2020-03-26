@@ -10,6 +10,7 @@
 package org.openmrs.module.kenyaemr.fragment.controller.patient;
 
 import org.openmrs.Patient;
+import org.openmrs.PersonAddress;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculation;
 import org.openmrs.calculation.patient.PatientCalculationService;
@@ -46,13 +47,43 @@ public class PatientSummaryFragmentController {
 
 		// Get all common per-patient forms as simple objects
 		List<SimpleObject> forms = new ArrayList<SimpleObject>();
-		for (FormDescriptor formDescriptor : formManager.getCommonFormsForPatient(currentApp, patient)) {
+		/*for (FormDescriptor formDescriptor : formManager.getCommonFormsForPatient(currentApp, patient)) {
 			forms.add(ui.simplifyObject(formDescriptor.getTarget()));
+		}*/
+		String nationality = "";
+		String county = "";
+		String subCounty = "";
+		String postalAddress = "";
+
+		PersonAddress personAddress = patient.getPersonAddress();
+
+		if (personAddress !=null && personAddress.getCountry() != null) {
+			nationality = patient.getPersonAddress().getCountry();
 		}
+
+		// county
+		if (personAddress !=null && personAddress.getCountyDistrict() != null) {
+			county = patient.getPersonAddress().getCountyDistrict();
+		}
+
+		// sub county
+		if (personAddress !=null && personAddress.getStateProvince() != null) {
+			subCounty = patient.getPersonAddress().getStateProvince();
+		}
+
+		// get ward
+		if (personAddress !=null && personAddress.getAddress1() != null) {
+			postalAddress = patient.getPersonAddress().getAddress1();
+		}
+
 
 		model.addAttribute("patient", patient);
 		model.addAttribute("recordedAsDeceased", hasBeenRecordedAsDeceased(patient));
 		model.addAttribute("forms", forms);
+		model.addAttribute("nationality", nationality);
+		model.addAttribute("county", county);
+		model.addAttribute("subCounty", subCounty);
+		model.addAttribute("postalAddress", postalAddress);
 	}
 
 	/**

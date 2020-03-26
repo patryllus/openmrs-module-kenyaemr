@@ -41,6 +41,6 @@ public class COVIDMetadata extends AbstractMetadataBundle {
 	public void install() {
 
 
-		install(program("COVID-19", "Isoniazid Preventive Therapy (IPT)", _Concept.COVID, _Program.COVID));
+		install(program("COVID-19 Case Investigation", "Isoniazid Preventive Therapy (IPT)", _Concept.COVID, _Program.COVID));
 	}
 }
