@@ -29,6 +29,7 @@
 		<property name="reports">
 			<set>
 				<ref bean="kenyaemr.covid.report.enrolledInCovid" />
+				<ref bean="kenyaemr.covid.report.covidLineList" />
 				<ref bean="kenyaemr.covid.report.discontinuedOnCovid" />
 			</set>
 		</property>
@@ -61,7 +62,7 @@
 				<ref bean="kenyaemr.app.registration" />
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.surveillance" />
-			</set>
+			</set>enr
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:covid/covidClinicalForm.html" />
@@ -101,4 +102,12 @@
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 	</bean>
 
+	<bean id="kenyaemr.covid.report.covidLineList" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+		<property name="targetUuid" value="a3625ff5-579d-4e13-8ebb-5d08c7cc1dd5" />
+		<property name="name" value="Covid-19 Line List" />
+		<property name="description" value="Covid-19 Line List" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:covid/COVID_19_Line_List.xls" />
+		<property name="repeatingSection" value="sheet:2,row:2,dataset:CovidLinelist" />
+	</bean>
 </beans>
