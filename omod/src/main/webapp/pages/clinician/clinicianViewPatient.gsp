@@ -82,9 +82,10 @@
 
 						<h3>Relationship</h3>
 					</div>
+					<div class="info-body">
 
 					${ ui.includeFragment("kenyaemr", "patient/patientRelationships", [ patient: currentPatient ]) }
-
+					</div>
 				</div>
 
 				<div class="info-section">
