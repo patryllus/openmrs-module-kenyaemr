@@ -97,7 +97,7 @@
 
 	<bean id="kenyaemr.covid.report.discontinuedOnCovid" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
 		<property name="targetUuid" value="1b2555e4-a608-4dc2-ac43-6ccbaa2849ee" />
-		<property name="name" value="Discontinued Patients" />
+		<property name="name" value="Discharged Covid Patients" />
 		<property name="description" value="Discontinued Patients" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 	</bean>

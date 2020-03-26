@@ -48,18 +48,24 @@ public class PersonAddressCalculation extends AbstractPatientCalculation {
 			PersonAddress personAddress = patient.getPersonAddress();
 			List<String> addresses = new ArrayList<String>();
 
-			// get village
-			if (personAddress !=null && personAddress.getCityVillage() != null) {
-				addresses.add(patient.getPersonAddress().getCityVillage());
+			// county
+			if (personAddress !=null && personAddress.getCountyDistrict() != null) {
+				addresses.add(patient.getPersonAddress().getCountyDistrict());
 			}
 
-			// get landmark
-			if (personAddress !=null && personAddress.getAddress2() != null) {
-				addresses.add(patient.getPersonAddress().getAddress2());
+			// sub county
+			if (personAddress !=null && personAddress.getStateProvince() != null) {
+				addresses.add(patient.getPersonAddress().getStateProvince());
 			}
+
+			// get ward
+			if (personAddress !=null && personAddress.getAddress4() != null) {
+				addresses.add(patient.getPersonAddress().getAddress4());
+			}
+
 
 			if (addresses.size() > 0) {
-				personAddressString = StringUtils.join(addresses, "|");
+				personAddressString = StringUtils.join(addresses, "/");
 
 			}
 

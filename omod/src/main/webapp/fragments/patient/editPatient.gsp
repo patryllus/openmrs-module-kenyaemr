@@ -180,7 +180,7 @@
                         <select name="personAddress.countyDistrict">
                             <option></option>
                             <%countyList.each { %>
-                            <option ${!countyName? "" : it.toLowerCase() == command.personAddress.country.toLowerCase() ? "selected" : ""} value="${it}">${it}</option>
+                            <option ${!countyName? "" : it == command.personAddress.countyDistrict ? "selected" : ""} value="${it}">${it}</option>
                             <%}%>
                         </select>
                     </td>

@@ -41,7 +41,7 @@
 	<bean id="kenyaemr.config.report" class="org.openmrs.module.kenyacore.report.ReportConfiguration">
 		<property name="commonReports">
 			<set>
-				<ref bean="kenyaemr.common.report.allPatients" />
+				<ref bean="kenyaemr.covid.report.confirmedCases"/>
 
 			</set>
 		</property>
@@ -378,6 +378,14 @@
 	<bean id="kenyaemr.common.report.allPatients" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="9e2ed586-130b-11e4-929a-8746415b715a" />
 		<property name="name" value="All Patients List" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.AllPatientsCalculation" />
+		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+
+	<bean id="kenyaemr.covid.report.confirmedCases" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+		<property name="targetUuid" value="5956be9b-6b28-43c0-acf9-9a182fa8b55e" />
+		<property name="name" value="Confirmed Covid-19 Cases" />
 		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.AllPatientsCalculation" />
 		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>

@@ -24,6 +24,8 @@ import java.util.List;
 public class PatientProgramEnrollmentDateConverter implements DataConverter {
 
 	public static final String HIV = "dfdc6d40-2f2f-463d-ba90-cc97350441a8";
+	String COVID_PROGRAM = "e7ee7548-6958-4361-bed9-ee2614423947";
+
 
 	@Override
 	public Object convert(Object original) {
@@ -63,7 +65,7 @@ public class PatientProgramEnrollmentDateConverter implements DataConverter {
 
 		Date enrollmentDate = null;
 		for (PatientProgram p : enrolledPrograms) {
-			if (p.getProgram().getUuid().equals(HIV)) {
+			if (p.getProgram().getUuid().equals(COVID_PROGRAM)) {
 				enrollmentDate = p.getDateEnrolled();
 				break;
 			}
