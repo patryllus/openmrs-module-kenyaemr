@@ -7,7 +7,7 @@
 		<% if(encounters) { %>
 		<table>
 			<tr>
-				<th>Date</th>
+
 				<th>Arrival</th>
 				<th>Mode</th>
 				<th>Destination</th>
@@ -19,7 +19,6 @@
 
 		<% encounters.each { %>
 			<tr>
-				<td width="80px">${it.encDate}</td>
 				<td>${it.arrivalDate}</td>
 				<td>${it.transportMode}</td>
 				<td>${it.destination}</td>
