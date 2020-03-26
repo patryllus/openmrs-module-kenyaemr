@@ -12,7 +12,10 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
-
+	<macros>
+		<macro key="countyCodes" value="001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,017,018,019,020,021,022,023,024,025,026,027,028,029,030,031,032,033,034,035,036,037,038,039,040,041,042,043,044,045,046,047" />
+		<macro key="countyNames" value="Nairobi,Mombasa,Kilifi,Kwale,Homa-Bay,Kisumu,Migori,Kisii,Uasin-Gishu,Bomet,Busia,Kiambu,Nyeri,Muranga,Kirinyaga,Nyandarua,Machakos,Kitui,Makueni,Embu,Meru,Isiolo,Marsabit,Turkana,Mandera,Lamu,West Pokot,Bungoma,Vihiga,Kakamega,Siaya,Nyamira,Kericho,Trans Nzoia,Nakuru,Laikipia,Tharaka Nith,Garissa,Taita Taveta,Tana River,Samburu,Elgeyo Marakwet,Nandi,Baringo,Narok,Kajiado,Wajir" />
+	</macros>
 	<style type="text/css">
 		table.right-aligned-first td:first-child {
 			text-align: right;
@@ -86,16 +89,16 @@
 					<td><obs conceptId="159635" /></td>
 				</tr>
 				<tr>
-					<td>Village/House number/Hotel</td>
-					<td><obs  conceptId="1354" size="30"/> </td>
+					<td>County</td>
+					<td><obs id="county" conceptId="CIEL:165197"  answers="$countyCodes" answerLabels="$countyNames"/></td>
 				</tr>
 				<tr>
 					<td>Sublocation/Estate</td>
-					<td></td>
+					<td><obs  conceptId="161551AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="30"/></td>
 				</tr>
 				<tr>
-					<td>County</td>
-					<td><obs conceptId="165197" size="30" /></td>
+					<td>Village/House number/Hotel</td>
+					<td><obs  conceptId="1354" size="30"/> </td>
 				</tr>
 				<tr>
 					<td>Address</td>
