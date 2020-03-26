@@ -15,6 +15,7 @@ import org.openmrs.module.kenyacore.report.CohortReportDescriptor;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 import org.openmrs.module.kenyacore.report.builder.CalculationReportBuilder;
 import org.openmrs.module.kenyacore.report.data.patient.definition.CalculationDataDefinition;
+<<<<<<< HEAD
 import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressNationalityCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressSubCountyCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.covid.PersonAddressCountyCalculation;
@@ -22,6 +23,17 @@ import org.openmrs.module.kenyaemr.calculation.library.rdqa.PatientProgramEnroll
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.reporting.calculation.converter.PatientProgramEnrollmentDateConverter;
 import org.openmrs.module.kenyaemr.reporting.calculation.converter.RDQACalculationResultConverter;
+=======
+import org.openmrs.module.kenyaemr.calculation.library.hiv.Cd4DueDateCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.LastReturnVisitDateCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.mchcs.PersonAddressCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.rdqa.PatientProgramEnrollmentCalculation;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
+import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.reporting.calculation.converter.PatientProgramEnrollmentDateConverter;
+import org.openmrs.module.kenyaemr.reporting.calculation.converter.RDQACalculationResultConverter;
+import org.openmrs.module.kenyaemr.reporting.data.converter.CalculationResultConverter;
+>>>>>>> fix NPE on editing registration. add report for patients currently under covid investigation
 import org.openmrs.module.kenyaemr.reporting.data.converter.IdentifierConverter;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.data.DataDefinition;
@@ -50,12 +62,10 @@ public class ConfirmedCovid19CasesReportBuilder extends CalculationReportBuilder
         String DATE_FORMAT = "dd/MM/yyyy";
 
         addStandardColumns(report, dsd);
+        dsd.addColumn("Date of Birth", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
         dsd.addColumn("National ID", natIdDef, "");
         dsd.addColumn("Passport Number", passportDef, "");
-        dsd.addColumn("Date of Birth", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
-        dsd.addColumn("Nationality", new CalculationDataDefinition("Nationality", new PersonAddressNationalityCalculation()), "", new RDQACalculationResultConverter());
-        dsd.addColumn("County", new CalculationDataDefinition("County", new PersonAddressCountyCalculation()), "", new RDQACalculationResultConverter());
-        dsd.addColumn("Sub-County", new CalculationDataDefinition("Sub-County", new PersonAddressSubCountyCalculation()), "", new RDQACalculationResultConverter());
+        dsd.addColumn("Village_Estate_Landmark", new CalculationDataDefinition("County/Sub-County/Ward", new PersonAddressCalculation()), "", new RDQACalculationResultConverter());
         dsd.addColumn("Telephone No", new PersonAttributeDataDefinition(phoneNumber), "");
 
         dsd.addColumn("Case Reporting Date", new CalculationDataDefinition("Case Reporting Date", new PatientProgramEnrollmentCalculation()), "", new PatientProgramEnrollmentDateConverter());

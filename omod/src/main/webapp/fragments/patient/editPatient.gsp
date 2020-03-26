@@ -197,7 +197,11 @@
                         <select name="personAddress.countyDistrict">
                             <option></option>
                             <%countyList.each { %>
+<<<<<<< HEAD
                             <option ${!countyName? "" : it.trim() == countyName.trim() ? "selected" : ""} value="${it}">${it}</option>
+=======
+                            <option ${!countyName? "" : it == command.personAddress.countyDistrict ? "selected" : ""} value="${it}">${it}</option>
+>>>>>>> fix NPE on editing registration. add report for patients currently under covid investigation
                             <%}%>
                         </select>
                     </td>
