@@ -35,7 +35,11 @@ public class SampleCollectedDataEvaluator implements PersonDataEvaluator {
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context) throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "";
+        String qry = "SELECT e.patient_id, CASE WHEN EXISTS\n" +
+                "           (\n" +
+                "                   SELECT e.patient_id as epatient,o.patient_id as opatient FROM openmrs.orders o inner join kenyaemr_etl.etl_covid_19_enrolment e on o.patient_id = e.patient_id where o.concept_id = 165611 group by e.patient_id\n" +
+                "           ) then 'True' else 'False' End\n" +
+                "from kenyaemr_etl.etl_covid_19_enrolment e;";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         Date startDate = (Date)context.getParameterValue("startDate");

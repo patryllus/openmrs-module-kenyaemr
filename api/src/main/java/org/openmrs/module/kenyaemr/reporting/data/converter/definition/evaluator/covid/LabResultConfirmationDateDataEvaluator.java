@@ -35,7 +35,7 @@ public class LabResultConfirmationDateDataEvaluator implements PersonDataEvaluat
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context) throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "";
+        String qry = "select o.person_id,date(o.obs_datetime) as lab_confirmation_date from openmrs.obs o inner join kenyaemr_etl.etl_covid_19_enrolment e on o.person_id = e.patient_id where o.concept_id =165611 group by o.person_id;";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         Date startDate = (Date)context.getParameterValue("startDate");
