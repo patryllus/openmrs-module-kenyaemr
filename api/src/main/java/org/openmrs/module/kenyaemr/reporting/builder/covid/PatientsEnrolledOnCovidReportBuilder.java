@@ -98,7 +98,7 @@ public class PatientsEnrolledOnCovidReportBuilder extends AbstractHybridReportBu
         dsd.addColumn("Age", new AgeDataDefinition(), "");
         dsd.addColumn("Sex", new GenderDataDefinition(), "");
         dsd.addColumn("Phone Number",new PhoneNumberDataDefinition(), "");
-        //dsd.addColumn("Occupation",new OccupationDataDefinition(), "");
+        dsd.addColumn("Occupation",new OccupationDataDefinition(), "");
         dsd.addColumn("County",new CountyDataDefinition(), "");
         dsd.addColumn("SubCounty",new SubcountyDataDefinition(), "");
         //dsd.addColumn("Ward",new WardDataDefinition(), "");
