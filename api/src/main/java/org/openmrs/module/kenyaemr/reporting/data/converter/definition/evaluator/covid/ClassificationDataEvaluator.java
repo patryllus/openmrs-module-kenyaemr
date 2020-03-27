@@ -36,7 +36,9 @@ public class ClassificationDataEvaluator implements PersonDataEvaluator {
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context) throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "";
+        String qry = "select e.patient_id,\n" +
+                "if(((e.recently_travelled='Yes' and  e.symptomatic = 'Yes') or (e.recent_contact_with_infected_person='Yes' and  e.symptomatic = 'Yes')), 'Meet case definition','Do not meet case definition')\n" +
+                "from kenyaemr_etl.etl_covid_19_enrolment e;";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         Date startDate = (Date)context.getParameterValue("startDate");

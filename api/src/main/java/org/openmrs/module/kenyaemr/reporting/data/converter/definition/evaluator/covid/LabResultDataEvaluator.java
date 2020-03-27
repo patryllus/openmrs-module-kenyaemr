@@ -35,7 +35,8 @@ public class LabResultDataEvaluator implements PersonDataEvaluator {
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context) throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "";
+        String qry = "select o.person_id,max(if(o.concept_id=165611,(case o.value_coded when 703 then \"Positive\" when 664 then \"Negative\" else \"\" end),null)) as lab_result\n" +
+                "from openmrs.obs o inner join kenyaemr_etl.etl_covid_19_enrolment e on o.person_id = e.patient_id group by o.person_id;";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         Date startDate = (Date)context.getParameterValue("startDate");
