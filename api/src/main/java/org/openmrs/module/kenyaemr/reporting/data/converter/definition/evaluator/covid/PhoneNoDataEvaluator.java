@@ -35,8 +35,7 @@ public class PhoneNoDataEvaluator implements PersonDataEvaluator {
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context) throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "select d.patient_id, d.phone_number from kenyaemr_etl.etl_patient_demographics d inner join kenyaemr_etl.etl_covid_19_enrolment e on d.patient_id = e.patient_id\n" +
-                "where e.visit_date between date(:startDate) and date(:endDate);";
+        String qry = "";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         Date startDate = (Date)context.getParameterValue("startDate");
