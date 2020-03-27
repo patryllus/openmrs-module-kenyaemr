@@ -27,7 +27,7 @@ import java.util.Map;
  * Evaluates a PhoneNumberDataDefinition
  */
 @Handler(supports= PhoneNumberDataDefinition.class, order=50)
-public class PhoneNumberDataEvaluator implements PersonDataEvaluator {
+public class PhoneNoDataEvaluator implements PersonDataEvaluator {
 
     @Autowired
     private EvaluationService evaluationService;

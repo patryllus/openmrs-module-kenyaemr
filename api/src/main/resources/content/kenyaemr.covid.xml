@@ -62,7 +62,7 @@
 				<ref bean="kenyaemr.app.registration" />
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.surveillance" />
-			</set>enr
+			</set>
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:covid/covidClinicalForm.html" />
