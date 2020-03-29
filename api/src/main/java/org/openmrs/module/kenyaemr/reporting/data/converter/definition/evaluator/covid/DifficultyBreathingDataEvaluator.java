@@ -35,7 +35,7 @@ public class DifficultyBreathingDataEvaluator implements PersonDataEvaluator {
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context) throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "select e.patient_id,e.shortness_breath from kenyaemr_etl.etl_covid_19_enrolment e where e.visit_date between date(:startDate) and date(:endDate);";
+        String qry = "select e.patient_id,e.shortness_breath from kenyaemr_etl.etl_covid_19_enrolment e;";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         Date startDate = (Date)context.getParameterValue("startDate");

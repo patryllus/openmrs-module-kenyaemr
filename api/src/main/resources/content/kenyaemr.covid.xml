@@ -107,7 +107,7 @@
 		<property name="name" value="Covid-19 Line List" />
 		<property name="description" value="Covid-19 Line List" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
-		<property name="template" value="kenyaemr:covid/COVID_19_Line_List.xls" />
-		<property name="repeatingSection" value="sheet:2,row:2,dataset:CovidLinelist" />
+		<property name="template" value="kenyaemr:covid/covid_line_list.xls" />
+		<property name="repeatingSection" value="sheet:1,row:2,dataset:CovidLinelist" />
 	</bean>
 </beans>
