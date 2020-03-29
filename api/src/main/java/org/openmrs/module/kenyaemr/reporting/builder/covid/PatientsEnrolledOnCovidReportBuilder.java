@@ -90,9 +90,9 @@ public class PatientsEnrolledOnCovidReportBuilder extends AbstractHybridReportBu
         DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
         DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(upn.getName(), upn), identifierFormatter);
 
-        DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
-        dsd.addColumn("Unique Patient No", identifierDef, "");
+        DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName} {middleName}");
         DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
+        dsd.addColumn("Unique Patient No", identifierDef, "");
         dsd.addColumn("id", new PersonIdDataDefinition(), "");
         dsd.addColumn("Name", nameDef, "");
         dsd.addColumn("Age", new AgeDataDefinition(), "");
