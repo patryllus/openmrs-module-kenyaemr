@@ -252,6 +252,7 @@ public class DashBoardCohorts {
     }
 
     /**
+     * Returns a list of cases enrolled in covid-19 program
      * @param context optional (used to return a cached value if possible)
      * @return
      */
@@ -264,14 +265,75 @@ public class DashBoardCohorts {
     }
 
     /**
+     * Gives list of listed contacts
      * @param context optional (used to return a cached value if possible)
      * @return
      */
-    public static EvaluatedCohort htsTotalTestedFamily(EvaluationContext context) {
+    public static EvaluatedCohort totalListedContacts(EvaluationContext context) {
         try {
-            return getService().evaluate(new HTSFamilyContactsTestedCohortDefinition(), context);
+            return getService().evaluate(new TotalListedContactsCohortDefinition(), context);
         } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total HTS family contacts tested", e);
+            throw new IllegalStateException("Error evaluating total listed contacts", e);
+        }
+    }
+
+    /** Gives a list of total contacts reached
+     * @param context optional (used to return a cached value if possible)
+     * @return
+     */
+    public static EvaluatedCohort totalContactsReached(EvaluationContext context) {
+        try {
+            return getService().evaluate(new ContactsTracedCohortDefinition(), context);
+        } catch (EvaluationException e) {
+            throw new IllegalStateException("Error evaluating total contacts reached", e);
+        }
+    }
+
+    /**
+     * Gives a list of contacts under followup
+     * @param context optional (used to return a cached value if possible)
+     * @return
+     */
+    public static EvaluatedCohort contactsUnderCovid19Followup(EvaluationContext context) {
+        try {
+            return getService().evaluate(new ContactsUnderCovid19FollowupCohortDefinition(), context);
+        } catch (EvaluationException e) {
+            throw new IllegalStateException("Error evaluating total contacts under followup", e);
+        }
+    }
+
+    /**
+     * Returns reported cases of covid-19
+     * @param context optional (used to return a cached value if possible)
+     * @return
+     */
+    public static EvaluatedCohort reportedCasesofCovid19(EvaluationContext context) {
+        try {
+            return getService().evaluate(new ReportedCasesOfCovid19CohortDefinition(), context);
+        } catch (EvaluationException e) {
+            throw new IllegalStateException("Error evaluating total reported covid-19 cases", e);
+        }
+    }
+    /**
+     * @param context optional (used to return a cached value if possible)
+     * @return
+     */
+    public static EvaluatedCohort exposureFromLivingTogether(EvaluationContext context) {
+        try {
+            return getService().evaluate(new ExposureFromLivingTogetherCohortDefinition(), context);
+        } catch (EvaluationException e) {
+            throw new IllegalStateException("Error evaluating exposure from living together", e);
+        }
+    }
+    /**
+     * @param context optional (used to return a cached value if possible)
+     * @return
+     */
+    public static EvaluatedCohort exposureFromTravelingTogether(EvaluationContext context) {
+        try {
+            return getService().evaluate(new ExposureFromTravelingTogetherCohortDefinition(), context);
+        } catch (EvaluationException e) {
+            throw new IllegalStateException("Error evaluating exposure from traveling together", e);
         }
     }
 
@@ -279,11 +341,11 @@ public class DashBoardCohorts {
      * @param context optional (used to return a cached value if possible)
      * @return
      */
-    public static EvaluatedCohort htsTotalTestedIDU(EvaluationContext context) {
+    public static EvaluatedCohort exposureFromWorkingTogether(EvaluationContext context) {
         try {
-            return getService().evaluate(new HTSIDUContactsTestedCohortDefinition(), context);
+            return getService().evaluate(new ExposureFromWorkingTogetherCohortDefinition(), context);
         } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total HTS IDU contacts tested", e);
+            throw new IllegalStateException("Error evaluating exposure from working together", e);
         }
     }
 
@@ -291,69 +353,11 @@ public class DashBoardCohorts {
      * @param context optional (used to return a cached value if possible)
      * @return
      */
-    public static EvaluatedCohort htsUnknownStatusFamily(EvaluationContext context) {
+    public static EvaluatedCohort healthcareAssociatedExposure(EvaluationContext context) {
         try {
-            return getService().evaluate(new HTSFamilyContactsUknownStatusCohortDefinition(), context);
+            return getService().evaluate(new HealthcareAssociatedExposureCohortDefinition(), context);
         } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total Unknown HIV status family contacts", e);
-        }
-    }
-
-    /**
-     * @param context optional (used to return a cached value if possible)
-     * @return
-     */
-    public static EvaluatedCohort htsUnknownStatusPartner(EvaluationContext context) {
-        try {
-            return getService().evaluate(new HTSPartnerContactsUknownStatusCohortDefinition(), context);
-        } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total Unknown HIV status Partner contacts", e);
-        }
-    }
-    /**
-     * @param context optional (used to return a cached value if possible)
-     * @return
-     */
-    public static EvaluatedCohort htsUnknownStatusIDU(EvaluationContext context) {
-        try {
-            return getService().evaluate(new HTSIDUContactsUknownStatusCohortDefinition(), context);
-        } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total Unknown HIV status IDU contacts", e);
-        }
-    }
-    /**
-     * @param context optional (used to return a cached value if possible)
-     * @return
-     */
-    public static EvaluatedCohort htsTotalTestedPartner(EvaluationContext context) {
-        try {
-            return getService().evaluate(new HTSPartnerContactsTestedCohortDefinition(), context);
-        } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total HTS Partners contacts tested", e);
-        }
-    }
-
-    /**
-     * @param context optional (used to return a cached value if possible)
-     * @return
-     */
-    public static EvaluatedCohort htsTotalPositivePartner(EvaluationContext context) {
-        try {
-            return getService().evaluate(new HTSPositivePartnerContactsCohortDefinition(), context);
-        } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total HTS HIV Positive Partner contacts", e);
-        }
-    }
-
-    /**
-     * @param context optional (used to return a cached value if possible)
-     * @return
-     */
-    public static EvaluatedCohort htsTotalPositiveIDU(EvaluationContext context) {
-        try {
-            return getService().evaluate(new HTSPositiveIDUContactsCohortDefinition(), context);
-        } catch (EvaluationException e) {
-            throw new IllegalStateException("Error evaluating total HTS HIV Positive IDU contacts", e);
+            throw new IllegalStateException("Error evaluating healthcare associated exposure", e);
         }
     }
 

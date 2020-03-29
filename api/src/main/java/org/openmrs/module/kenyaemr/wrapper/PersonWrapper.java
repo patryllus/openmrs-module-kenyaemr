@@ -34,6 +34,23 @@ public class PersonWrapper extends AbstractPersonWrapper {
 		return getAsAttribute(CommonMetadata._PersonAttributeType.TELEPHONE_CONTACT);
 	}
 
+
+	/**
+	 * Gets the county name
+	 * @return the county name
+	 */
+	public String getCountyName() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.COUNTY);
+	}
+
+	/**
+	 * Sets the county
+	 * @param value the county
+	 */
+	public void setCountyName(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.COUNTY, value);
+	}
+
 	/**
 	 * Sets the telephone contact
 	 * @param value the telephone number
@@ -41,6 +58,8 @@ public class PersonWrapper extends AbstractPersonWrapper {
 	public void setTelephoneContact(String value) {
 		setAsAttribute(CommonMetadata._PersonAttributeType.TELEPHONE_CONTACT, value);
 	}
+
+
 
 	/**
 	 * Gets the email address

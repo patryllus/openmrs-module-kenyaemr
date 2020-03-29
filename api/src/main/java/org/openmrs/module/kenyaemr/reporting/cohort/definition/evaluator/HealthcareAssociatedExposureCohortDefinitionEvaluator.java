@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyaemr.reporting.cohort.definition.HTSIDUContactsUknownStatusCohortDefinition;
+import org.openmrs.module.kenyaemr.reporting.cohort.definition.HealthcareAssociatedExposureCohortDefinition;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
@@ -28,10 +28,10 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Evaluator for partner contacts with unknown HIV status
+ * Evaluator for healthcare associated exposure
  */
-@Handler(supports = {HTSIDUContactsUknownStatusCohortDefinition.class})
-public class HTSIDUContactsUknownStatusCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
+@Handler(supports = {HealthcareAssociatedExposureCohortDefinition.class})
+public class HealthcareAssociatedExposureCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
 
     private final Log log = LogFactory.getLog(this.getClass());
 	@Autowired
@@ -40,17 +40,17 @@ public class HTSIDUContactsUknownStatusCohortDefinitionEvaluator implements Coho
     @Override
     public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) throws EvaluationException {
 
-		HTSIDUContactsUknownStatusCohortDefinition definition = (HTSIDUContactsUknownStatusCohortDefinition) cohortDefinition;
+		HealthcareAssociatedExposureCohortDefinition definition = (HealthcareAssociatedExposureCohortDefinition) cohortDefinition;
 
         if (definition == null)
             return null;
 
 		Cohort newCohort = new Cohort();
 
-		String qry="select id from (select c.id\n" +
-				"                from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_etl.etl_hts_test t on c.patient_id = t.patient_id\n" +
-				"                where t.voided=0 and c.voided = 0 and c.relationship_type =157351 and t.final_test_result = \"Inconclusive\"\n" +
-				"                group by c.id ) t;";
+		String qry="select c.id\n" +
+				"                from kenyaemr_hiv_testing_patient_contact c \n" +
+				"                where c.voided = 0 and c.pns_approach = 117163 \n" +
+				"                ;";
 
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);

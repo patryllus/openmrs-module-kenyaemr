@@ -10,6 +10,7 @@
 package org.openmrs.module.kenyaemr.page.controller;
 
 import org.codehaus.jackson.node.ObjectNode;
+import org.openmrs.Role;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyacore.CoreUtils;
@@ -82,6 +83,18 @@ public class ReportPageController {
 		model.addAttribute("returnUrl", returnUrl);
 		model.addAttribute("period", definition.getName().replaceAll("[^0-9]", ""));
 
+		String downloadReportRole = "Download Reports";
+		boolean canDownloadReport = false;
+		if (Context.getAuthenticatedUser().isSuperUser()) {
+			canDownloadReport = true;
+		} else {
+			for (Role r : Context.getAuthenticatedUser().getAllRoles()) {
+				if (r.getName().equals(downloadReportRole)) {
+					canDownloadReport = true;
+					break;
+				}
+			}
+		}
 
 
 
@@ -105,7 +118,7 @@ public class ReportPageController {
 			date ="_"+ datePeriodForAll.format(startDate);
 		}
 		model.addAttribute("date", date);
-
+		model.addAttribute("canDownloadReport", canDownloadReport);
 		model.addAttribute("requests", getRequests(definition, ui, reportService));
 	}
 

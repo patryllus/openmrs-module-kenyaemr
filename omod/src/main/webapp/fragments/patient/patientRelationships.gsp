@@ -1,4 +1,8 @@
 <%
+
+    /*--<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyaemr", "registration/editRelationship", [ patientId: patient.id, appId: currentApp.id, returnUrl: ui.thisUrl() ])}')">
+		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/add.png") }" /> Add Relationship
+	</button>--*/
 %>
 <script type="text/javascript">
 	function onVoidRelationship(relId) {
@@ -42,7 +46,5 @@
 <% } %>
 
 <div class="ke-panel-footer">
-	<button type="button" onclick="ui.navigate('${ ui.pageLink("kenyaemr", "registration/editRelationship", [ patientId: patient.id, appId: currentApp.id, returnUrl: ui.thisUrl() ])}')">
-		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/add.png") }" /> Add Relationship
-	</button>
+
 </div>

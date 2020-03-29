@@ -15,10 +15,10 @@ import org.openmrs.module.reporting.definition.configuration.ConfigurationProper
 import org.openmrs.module.reporting.evaluation.caching.Caching;
 
 /**
- * Cumulative on HTS Positive Partner Contacts cohort definition
+ * Cumulative on Partner Contacts tested cohort definition
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-@Localized("reporting.HTSPositivePartnerContactsCohortDefinition")
-public class HTSPositivePartnerContactsCohortDefinition extends BaseCohortDefinition {
+@Localized("reporting.ExposureFromTravelingTogetherCohortDefinition")
+public class ExposureFromTravelingTogetherCohortDefinition extends BaseCohortDefinition {
 
 }

@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyaemr.reporting.cohort.definition.HTSFamilyContactsUknownStatusCohortDefinition;
+import org.openmrs.module.kenyaemr.reporting.cohort.definition.ContactsUnderCovid19FollowupCohortDefinition;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
@@ -28,10 +28,10 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Evaluator for partner contacts with unknown HIV status
+ * Evaluator for contacts unrolled in covid-19 program
  */
-@Handler(supports = {HTSFamilyContactsUknownStatusCohortDefinition.class})
-public class HTSFamilyContactsUknownStatusCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
+@Handler(supports = {ContactsUnderCovid19FollowupCohortDefinition.class})
+public class ContactsUnderCovid19FollowupCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
 
     private final Log log = LogFactory.getLog(this.getClass());
 	@Autowired
@@ -40,7 +40,7 @@ public class HTSFamilyContactsUknownStatusCohortDefinitionEvaluator implements C
     @Override
     public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) throws EvaluationException {
 
-		HTSFamilyContactsUknownStatusCohortDefinition definition = (HTSFamilyContactsUknownStatusCohortDefinition) cohortDefinition;
+		ContactsUnderCovid19FollowupCohortDefinition definition = (ContactsUnderCovid19FollowupCohortDefinition) cohortDefinition;
 
         if (definition == null)
             return null;
@@ -48,8 +48,8 @@ public class HTSFamilyContactsUknownStatusCohortDefinitionEvaluator implements C
 		Cohort newCohort = new Cohort();
 
 		String qry="select id from (select c.id\n" +
-				"                from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_etl.etl_hts_test t on c.patient_id = t.patient_id\n" +
-				"                where t.voided=0 and c.voided = 0 and c.relationship_type in (970,971,972,1528,5617,162221) and t.final_test_result = \"Inconclusive\"\n" +
+				"                from kenyaemr_hiv_testing_patient_contact c inner join patient_program pp on c.patient_id = pp.patient_id\n" +
+				"                where c.voided=0 and pp.voided = 0 \n" +
 				"                group by c.id ) t;";
 
 		SqlQueryBuilder builder = new SqlQueryBuilder();

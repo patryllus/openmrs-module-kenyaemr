@@ -1,5 +1,7 @@
 <%
 	ui.decorateWith("kenyaui", "panel", [ heading: "Step 2: Register Account" ])
+	def countyName = command.personAddress.countyDistrict
+
 
 	def nameFields = [
 			[
@@ -90,7 +92,25 @@
 		${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 		<% } %>
 
-	</fieldset>
+	<table>
+		<tr>
+			<td valign="top">
+				<label class="ke-field-label">County *</label>
+				<span class="ke-field-content">
+					<select name="countyName" id="county-name" >
+						<option></option>
+						<%countyList.each { %>
+						<option ${!countyName? "" : it.toLowerCase() == command.personAddress.country.toLowerCase() ? "selected" : ""} value="${it}">${it}</option>
+						<%}%>
+					</select>
+					<span id="county-name-error" class="error" style="display: none"></span>
+				</span>
+			</td>
+		</tr>
+	</table>
+
+
+</fieldset>
 
 	<fieldset>
 		<legend>Login Info</legend>

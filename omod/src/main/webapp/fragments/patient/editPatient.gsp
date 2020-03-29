@@ -88,7 +88,7 @@
                 </tr>
                 <% } %>
                 <tr>
-                    <td class="ke-field-label">Patient Clinic Number</td>
+                    <td class="ke-field-label">Case ID</td>
                     <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "patientClinicNumber"])}</td>
                     <td class="ke-field-instructions"><% if (!command.patientClinicNumber) { %>(if available)<%
                         } %></td>

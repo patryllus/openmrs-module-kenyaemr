@@ -40,6 +40,7 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 		public static final String VIEW_LEGACY_INTERFACE = "Emr: View Legacy Interface";
 		public static final String MANAGE_DRUG_ORDERS = "Can service drug prescriptions";
 		public static final String MANAGE_LAB_REQUESTS = "Can service lab requests";
+		public static final String DOWNLOAD_SYSTEM_REPORTS = "Can view and download system reports";
 	}
 
 	public static final class _Role {
@@ -59,6 +60,7 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 		public static final String DRUG_ORDER = "Pharmacist";
 		public static final String LAB_TECHNICIAN = "Lab Technician";
 		public static final String HIV_TESTING_COUNSELLOR = "HTS Counsellor";
+		public static final String DOWNLOAD_REPORTS = "Download Reports";
 	}
 
 	/**
@@ -104,6 +106,10 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 
 		install(role(_Role.API_PRIVILEGES_VIEW_AND_EDIT, "All viewing and editing API privileges",
 				null, getApiPrivileges(false))
+		);
+
+		install(role(_Role.DOWNLOAD_REPORTS, "Can view and download reports",
+				null, null)
 		);
 
 		/*install(role(_Role.REGISTRATION, "Can access the registration app",

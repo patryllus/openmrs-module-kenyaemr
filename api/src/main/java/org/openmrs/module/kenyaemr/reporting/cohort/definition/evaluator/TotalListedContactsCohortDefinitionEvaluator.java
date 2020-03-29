@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyaemr.reporting.cohort.definition.HTSPositiveIDUContactsCohortDefinition;
+import org.openmrs.module.kenyaemr.reporting.cohort.definition.TotalListedContactsCohortDefinition;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
@@ -28,10 +28,10 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Evaluator for IDU contact partners tested HIV Positive
+ * Evaluator for total contacts listed
  */
-@Handler(supports = {HTSPositiveIDUContactsCohortDefinition.class})
-public class HTSPositiveIDUContactsCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
+@Handler(supports = {TotalListedContactsCohortDefinition.class})
+public class TotalListedContactsCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
 
     private final Log log = LogFactory.getLog(this.getClass());
 	@Autowired
@@ -40,17 +40,15 @@ public class HTSPositiveIDUContactsCohortDefinitionEvaluator implements CohortDe
     @Override
     public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) throws EvaluationException {
 
-		HTSPositiveIDUContactsCohortDefinition definition = (HTSPositiveIDUContactsCohortDefinition) cohortDefinition;
+		TotalListedContactsCohortDefinition definition = (TotalListedContactsCohortDefinition) cohortDefinition;
 
         if (definition == null)
             return null;
 
 		Cohort newCohort = new Cohort();
 
-		String qry="select id from (select c.id\n" +
-				"                from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_etl.etl_hts_test t on c.patient_id = t.patient_id\n" +
-				"                where t.voided=0 and c.voided = 0 and c.relationship_type =157351 and t.test_type=2 and t.final_test_result = \"Positive\"\n" +
-				"                group by c.id ) t;";
+		String qry="select c.id \n" +
+				"    from kenyaemr_hiv_testing_patient_contact c  where c.voided = 0;";
 
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);

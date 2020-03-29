@@ -11,11 +11,13 @@ package org.openmrs.module.kenyaemr.fragment.controller.account;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Person;
-import org.openmrs.PersonName;
-import org.openmrs.Privilege;
-import org.openmrs.Provider;
 import org.openmrs.Role;
+import org.openmrs.PersonName;
+import org.openmrs.PersonAddress;
 import org.openmrs.User;
+import org.openmrs.Provider;
+import org.openmrs.Privilege;
+import org.openmrs.Location;
 import org.openmrs.api.PasswordException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.EmrConstants;
@@ -42,6 +44,9 @@ import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.ArrayList;
+
 
 /**
  * Create new account fragment controller
@@ -59,6 +64,21 @@ public class NewAccountFragmentController {
 				SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT,
 				SecurityMetadata._Role.SYSTEM_DEVELOPER
 		);
+
+		// create list of counties
+
+		List<String> countyList = new ArrayList<String>();
+		List<Location> locationList = Context.getLocationService().getAllLocations();
+		for(Location loc: locationList) {
+			String locationCounty = loc.getCountyDistrict();
+			if(!StringUtils.isEmpty(locationCounty) && !StringUtils.isBlank(locationCounty)) {
+				countyList.add(locationCounty);
+
+			}
+		}
+
+		Set<String> uniqueCountyList = new HashSet<String>(countyList);
+		model.addAttribute("countyList", uniqueCountyList);
 
 		model.addAttribute("disallowedRoles", disallowedRoles);
 		model.addAttribute("command", newCreateAccountForm(person));
@@ -110,10 +130,14 @@ public class NewAccountFragmentController {
 		private Person original;
 		
 		private PersonName personName;
-		
+		private PersonAddress personAddress;
+
+
 		private String gender;
 
 		private String telephoneContact;
+
+		private String countyName;
 
 		private String emailAddress;
 		
@@ -129,6 +153,7 @@ public class NewAccountFragmentController {
 		
 		public CreateAccountForm() {
 			personName = new PersonName();
+			personAddress = new PersonAddress();
 		}
 
 		public CreateAccountForm(Person original) {
@@ -137,8 +162,16 @@ public class NewAccountFragmentController {
 			this.personName = original.getPersonName();
 			this.gender = original.getGender();
 
+
+			if (original.getPersonAddress() != null) {
+				personAddress = original.getPersonAddress();
+			} else {
+				personAddress.setPerson(original);
+			}
+
 			PersonWrapper wrapper = new PersonWrapper(original);
 			this.telephoneContact = wrapper.getTelephoneContact();
+			this.countyName = wrapper.getCountyName();
 			this.emailAddress = wrapper.getEmailAddress();
 		}
 		
@@ -152,6 +185,7 @@ public class NewAccountFragmentController {
 			require(errors, "personName.familyName");
 			require(errors, "gender");
 			require(errors, "telephoneContact");
+			require(errors, "countyName");
 
 			if (StringUtils.isNotBlank(telephoneContact)) {
 				validateField(errors, "telephoneContact", new TelephoneNumberValidator());
@@ -245,6 +279,7 @@ public class NewAccountFragmentController {
 
 			PersonWrapper wrapper = new PersonWrapper(ret);
 			wrapper.setTelephoneContact(telephoneContact);
+			wrapper.setCountyName(countyName);
 			wrapper.setEmailAddress(emailAddress);
 
 			return ret;
@@ -317,6 +352,14 @@ public class NewAccountFragmentController {
 			this.telephoneContact = telephoneContact;
 		}
 
+		public String getCountyName() {
+			return countyName;
+		}
+
+		public void setCountyName(String countyName) {
+			this.countyName = countyName;
+		}
+
 		public String getEmailAddress() {
 			return emailAddress;
 		}
@@ -324,6 +367,21 @@ public class NewAccountFragmentController {
 		public void setEmailAddress(String emailAddress) {
 			this.emailAddress = emailAddress;
 		}
+
+		/**
+		 * @return the personAddress
+		 */
+		public PersonAddress getPersonAddress() {
+			return personAddress;
+		}
+
+		/**
+		 * @param personAddress the personAddress to set
+		 */
+		public void setPersonAddress(PersonAddress personAddress) {
+			this.personAddress = personAddress;
+		}
+
 
 		/**
 		 * @return the username

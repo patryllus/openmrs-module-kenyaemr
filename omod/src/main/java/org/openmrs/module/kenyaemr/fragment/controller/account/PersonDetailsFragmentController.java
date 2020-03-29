@@ -12,7 +12,9 @@ package org.openmrs.module.kenyaemr.fragment.controller.account;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Person;
 import org.openmrs.PersonName;
+import org.openmrs.PersonAddress;
 import org.openmrs.User;
+import org.openmrs.Location;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.EmrConstants;
@@ -29,6 +31,12 @@ import org.openmrs.ui.framework.fragment.action.SuccessResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Editable Person details
  */
@@ -36,6 +44,21 @@ public class PersonDetailsFragmentController {
 
 	public void controller(@FragmentParam("person") Person person,
 						   FragmentModel model) {
+
+		// create list of counties
+
+		List<String> countyList = new ArrayList<String>();
+		List<Location> locationList = Context.getLocationService().getAllLocations();
+		for(Location loc: locationList) {
+			String locationCounty = loc.getCountyDistrict();
+			if(!StringUtils.isEmpty(locationCounty) && !StringUtils.isBlank(locationCounty)) {
+				countyList.add(locationCounty);
+
+			}
+		}
+
+		Set<String> uniqueCountyList = new HashSet<String>(countyList);
+		model.addAttribute("countyList", uniqueCountyList);
 
 		model.addAttribute("person", person);
 		model.addAttribute("form", newEditPersonDetailsForm(person));
@@ -66,10 +89,10 @@ public class PersonDetailsFragmentController {
 
 		return new SuccessResult("Saved personal details");
 	}
-
 	public EditPersonDetailsForm newEditPersonDetailsForm(@RequestParam("person.personId") Person person) {
 		return new EditPersonDetailsForm(person);
 	}
+
 
 	public class EditPersonDetailsForm extends ValidatingCommandObject {
 
@@ -77,15 +100,29 @@ public class PersonDetailsFragmentController {
 
 		private String telephoneContact;
 
+		private PersonAddress personAddress;
+
+		private String countyName;
+
 		private String emailAddress;
+
 
 		public EditPersonDetailsForm(Person person) {
 			this.original = person;
 
+
 			PersonWrapper wrapper = new PersonWrapper(person);
+			if (person.getPersonAddress() == null) {
+				personAddress = new PersonAddress();
+				personAddress.setPerson(person);
+
+			}else {
+				personAddress = person.getPersonAddress();
+			}
 
 			this.telephoneContact = wrapper.getTelephoneContact();
 			this.emailAddress = wrapper.getEmailAddress();
+			this.countyName = wrapper.getCountyName();
 		}
 
 		/**
@@ -114,6 +151,7 @@ public class PersonDetailsFragmentController {
 			PersonWrapper wrapper = new PersonWrapper(original);
 			wrapper.setTelephoneContact(telephoneContact);
 			wrapper.setEmailAddress(emailAddress);
+			wrapper.setCountyName(countyName);
 
 			Context.getPersonService().savePerson(original);
 		}
@@ -128,6 +166,18 @@ public class PersonDetailsFragmentController {
 		public PersonName getPersonName() {
 			return original.getPersonName();
 		}
+
+		public PersonAddress getPersonAddress() {
+			return personAddress;
+		}
+
+		/**
+		 * @param personAddress the personAddress to set
+		 */
+		public void setPersonAddress(PersonAddress personAddress) {
+			this.personAddress = personAddress;
+		}
+
 
 		/**
 		 * @return the gender
@@ -173,6 +223,13 @@ public class PersonDetailsFragmentController {
 		 */
 		public void setEmailAddress(String emailAddress) {
 			this.emailAddress = emailAddress;
+		}
+		public String getCountyName() {
+			return countyName;
+		}
+
+		public void setCountyName(String countyName) {
+			this.countyName = countyName;
 		}
 	}
 }

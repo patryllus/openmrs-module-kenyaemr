@@ -41,7 +41,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String TRIAGE = "d1059fb9-a079-4feb-a749-eedd709ae542";
 		public static final String HTS = "9c0a7a57-62ff-4f75-babe-5835b0e921b7";
 		public static final String DRUG_REGIMEN_EDITOR = "7dffc392-13e7-11e9-ab14-d663bd873d93";
-		public static final String COVID_19_TREATMENT = "a4414aee-6832-11ea-bc55-0242ac130003";
+		public static final String COVID_19_CASE_INVESTIGATION = "a4414aee-6832-11ea-bc55-0242ac130003";
 		public static final String COVID_19_CONTACT_TRACING = "6dd1ace2-6ce2-11ea-bc55-0242ac130003";
 		public static final String COVID_19_TRAVEL_HISTORY = "50a59411-921b-435a-9109-42aa68ee7aa7";
 		public static final String COVID_OUTCOME = "7b118dac-6f61-4466-ad1a-7e01aca077ad";
@@ -99,6 +99,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String NEAREST_HEALTH_CENTER = "27573398-4651-4ce5-89d8-abec5998165c";
 		public static final String GUARDIAN_FIRST_NAME = "8caf6d06-9070-49a5-b715-98b45e5d427b";
 		public static final String GUARDIAN_LAST_NAME = "0803abbd-2be4-4091-80b3-80c6940303df";
+		public static final String COUNTY = "3b2d1ef0-204b-4493-95f4-fcfdb4c4f7fa";
 	}
 
 	public static final class _Provider {
@@ -138,9 +139,8 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Triage", "Collection of limited data prior to a more thorough examination", _EncounterType.TRIAGE));
 		install(encounterType("HTS", "HTS Services", _EncounterType.HTS));
 		install(encounterType("Drug Regimen Editor", "Handles patient regimen events", _EncounterType.DRUG_REGIMEN_EDITOR));
-		install(encounterType("COVID-19 Treatment", "COVID-19 treatment form", _EncounterType.COVID_19_TREATMENT));
+		install(encounterType("COVID-19 Case Investigation", "COVID-19 Case Investigation", _EncounterType.COVID_19_CASE_INVESTIGATION));
 		install(encounterType("COVID-19 Contact tracing", "COVID-19 treatment form", _EncounterType.COVID_19_CONTACT_TRACING));
-		install(encounterType("COVID-19 Treatment", "COVID-19 treatment", _EncounterType.COVID_19_TREATMENT));
 		install(encounterType("COVID-19 Travel", "COVID-19 travel", _EncounterType.COVID_19_TRAVEL_HISTORY));
 		install(encounterType("COVID-19 Outcome", "COVID-19 travel", _EncounterType.COVID_OUTCOME));
 
@@ -159,7 +159,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(form("Drug Regimen Editor", null, _EncounterType.DRUG_REGIMEN_EDITOR, "1", _Form.DRUG_REGIMEN_EDITOR));
 		install(form("HTS Client Tracing Form", "Form for tracing hts clients", _EncounterType.HTS, "1", _Form.HTS_CLIENT_TRACING));
 		install(form("HTS Client Referral Form", "Form for HTS linkage referral", _EncounterType.HTS, "1", _Form.HTS_REFERRAL));
-		install(form("COVID-19 Case Investigation Form", "A form to record treatment for covid-19 PUI ", _EncounterType.COVID_19_TREATMENT, "1", _Form.COVID_19_CARE_FORM));
+		install(form("COVID-19 Case Investigation Form", "A form to record treatment for covid-19 PUI ", _EncounterType.COVID_19_CASE_INVESTIGATION, "1", _Form.COVID_19_CARE_FORM));
 		install(form("COVID-19 Travel History", "A form to record travel history for covid-19 PUI ", _EncounterType.COVID_19_TRAVEL_HISTORY, "1", _Form.COVID_19_TRAVEL_HISTORY));
 		install(form("COVID-19 Monitored Reporting Form", "A form to trace contacts for covid-19 ", _EncounterType.COVID_19_CONTACT_TRACING, "1", _Form.COVID_19_CONTACT_TRACING_FORM));
 
@@ -227,7 +227,8 @@ public class CommonMetadata extends AbstractMetadataBundle {
 				String.class, null, false, 4.3, _PersonAttributeType.GUARDIAN_FIRST_NAME));
 		install(personAttributeType("Guardian Last Name", "Guardian's last name",
 				String.class, null, false, 4.3, _PersonAttributeType.GUARDIAN_LAST_NAME));
-
+		install(personAttributeType("County Name", "Name of the county user resides",
+				String.class, null, false, 4.3, _PersonAttributeType.COUNTY));
 
 		/*install(relationshipType("Guardian", "Dependant", "One that guards, watches over, or protects", _RelationshipType.GUARDIAN_DEPENDANT));
 		install(relationshipType("Spouse", "Spouse", "A spouse is a partner in a marriage, civil union, domestic partnership or common-law marriage a male spouse is a husband and a female spouse is a wife", _RelationshipType.SPOUSE));

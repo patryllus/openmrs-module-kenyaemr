@@ -75,13 +75,17 @@
 										</a>
 									</td>
 									<td>
+										<% if(canDownloadReport) { %>
 										<div ng-if="request.hasDataSet">
 											<a href="#" ng-click="exportReportData(request.id, 'csv')">
 												<img src="${ ui.resourceLink("kenyaui", "images/glyphs/csv.png") }" class="ke-glyph" /> CSV
 											</a>
 										</div>
+										<% } %>
 									</td>
 									<td>
+										<% if(canDownloadReport) { %>
+
 										<div ng-if="request.hasDataSet">
 											<% if (excelRenderable){ %>
 											<a href="#" ng-click="exportReportData(request.id , 'excel')">
@@ -89,6 +93,7 @@
 											</a>
 											<% } %>
 										</div>
+										<% } %>
 									</td>
 									<td>
 										<div ng-if="request.hasDataSet">

@@ -27,8 +27,6 @@ import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -49,7 +47,7 @@ public class PatientComorbiditiesFragmentController {
 
 
 		Form cifForm = MetadataUtils.existing(Form.class, CommonMetadata._Form.COVID_19_CARE_FORM);
-		EncounterType cifEncType = MetadataUtils.existing(EncounterType.class, CommonMetadata._EncounterType.COVID_19_TREATMENT);
+		EncounterType cifEncType = MetadataUtils.existing(EncounterType.class, CommonMetadata._EncounterType.COVID_19_CASE_INVESTIGATION);
 
 		Encounter lastCifEnc = EmrUtils.lastEncounter(patient, cifEncType, cifForm);
 

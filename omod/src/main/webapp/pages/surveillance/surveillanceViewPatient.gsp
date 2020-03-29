@@ -94,7 +94,7 @@
                     <div class="info-header">
                         <i class="fa fa-users fa-2x"></i>
 
-                        <h3>Relationship</h3>
+                        <h3>Contacts under followup</h3>
                     </div>
                     <div class="info-body">
 

@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyaemr.reporting.cohort.definition.HTSPositivePartnerContactsCohortDefinition;
+import org.openmrs.module.kenyaemr.reporting.cohort.definition.ContactsTracedCohortDefinition;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
@@ -28,10 +28,10 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Evaluator for sexual contact partners tested HIV Positive
+ * Evaluator for IDU contacts tested for HIV
  */
-@Handler(supports = {HTSPositivePartnerContactsCohortDefinition.class})
-public class HTSPositivePartnerContactsCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
+@Handler(supports = {ContactsTracedCohortDefinition.class})
+public class ContactsTracedCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
 
     private final Log log = LogFactory.getLog(this.getClass());
 	@Autowired
@@ -40,17 +40,17 @@ public class HTSPositivePartnerContactsCohortDefinitionEvaluator implements Coho
     @Override
     public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) throws EvaluationException {
 
-		HTSPositivePartnerContactsCohortDefinition definition = (HTSPositivePartnerContactsCohortDefinition) cohortDefinition;
+		ContactsTracedCohortDefinition definition = (ContactsTracedCohortDefinition) cohortDefinition;
 
         if (definition == null)
             return null;
 
 		Cohort newCohort = new Cohort();
 
-		String qry="select id from (select c.id\n" +
-				"                from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_etl.etl_hts_test t on c.patient_id = t.patient_id\n" +
-				"                where t.voided=0 and c.voided = 0 and c.relationship_type =163565  and t.test_type=2 and t.final_test_result = \"Positive\"\n" +
-				"                group by c.id ) t;";
+		String qry="select c.id\n" +
+				"     from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_hiv_testing_client_trace t on c.id = t.client_id\n" +
+				"     where t.voided=0 and c.voided = 0\n" + // and t.status='Contacted and Linked'
+				"     ;";
 
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);

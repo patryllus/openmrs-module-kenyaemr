@@ -13,8 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyaemr.reporting.cohort.definition.CumulativeOnARTCohortDefinition;
-import org.openmrs.module.kenyaemr.reporting.cohort.definition.HTSPartnerContactsUknownStatusCohortDefinition;
+import org.openmrs.module.kenyaemr.reporting.cohort.definition.ReportedCasesOfCovid19CohortDefinition;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
@@ -29,10 +28,10 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Evaluator for partner contacts with unknown HIV status
+ * Evaluator for all reported cases. those enrolled in covid-19 program
  */
-@Handler(supports = {HTSPartnerContactsUknownStatusCohortDefinition.class})
-public class HTSPartnerContactsUknownStatusCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
+@Handler(supports = {ReportedCasesOfCovid19CohortDefinition.class})
+public class ReportedCasesOfCovid19CohortDefinitionEvaluator implements CohortDefinitionEvaluator {
 
     private final Log log = LogFactory.getLog(this.getClass());
 	@Autowired
@@ -41,17 +40,14 @@ public class HTSPartnerContactsUknownStatusCohortDefinitionEvaluator implements 
     @Override
     public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) throws EvaluationException {
 
-		HTSPartnerContactsUknownStatusCohortDefinition definition = (HTSPartnerContactsUknownStatusCohortDefinition) cohortDefinition;
+		ReportedCasesOfCovid19CohortDefinition definition = (ReportedCasesOfCovid19CohortDefinition) cohortDefinition;
 
         if (definition == null)
             return null;
 
 		Cohort newCohort = new Cohort();
 
-		String qry="select id from (select c.id\n" +
-				"                from kenyaemr_hiv_testing_patient_contact c inner join kenyaemr_etl.etl_hts_test t on c.patient_id = t.patient_id\n" +
-				"                where t.voided=0 and c.voided = 0 and c.relationship_type =163565  and  t.final_test_result = \"Inconclusive\"\n" +
-				"                group by c.id ) t;";
+		String qry="select patient_id from patient_program where voided=0;";
 
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);
