@@ -132,6 +132,18 @@
                 jq('#fpOptionValues :input[type=checkbox]').prop('disabled', true);
                 jq('#fpOptionValues :input').prop('checked', false);
             });
+            var diff_mode = "<lookup expression="fn.latestObs(1758).getValueCoded()"/>"; // this is the last DCM
+            if (diff_mode==164943 || diff_mode==1744) {
+                  getField('fmode.value').prop("selectedIndex", 1);
+            }else if(diff_mode==1555 || diff_mode==164944){
+                getField('fmode.value').prop("selectedIndex", 2);
+            }else if(diff_mode==5618 || diff_mode==164945){
+                getField('fmode.value').prop("selectedIndex", 3);
+            }else if (diff_mode==1537 || diff_mode==164946){
+                getField('fmode.value').prop("selectedIndex", 4);
+            }else{
+                getField('fmode.value').prop("selectedIndex", 0);
+            }
 
         });
 
@@ -150,7 +162,6 @@
             </tr>
         </table>
     </div>
-
     <div class="ke-form-content">
         <fieldset>
             <legend>ART Fast Track for Stable Patients</legend>
@@ -159,7 +170,7 @@
                 <tr>
                     <td colspan="2">
                         ART Refill Model :
-                        <obs conceptId="1758AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="fast-track"
+                        <obs conceptId="1758AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="fmode"
                              answerConceptIds="1744AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5618AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1537AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              style="dropdown"
                              answerLabels="Fast Track,Community ART Distribution - HCW Led,Community ART Distribution - Peer Led,Facility ART Distribution Group"/>
