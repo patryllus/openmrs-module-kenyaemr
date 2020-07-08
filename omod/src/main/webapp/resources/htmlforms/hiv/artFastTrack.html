@@ -145,6 +145,14 @@
                 getField('fmode.value').prop("selectedIndex", 0);
             }
 
+            var missed_doses = "<lookup expression="fn.latestObs(162878).valueNumeric"/>"; // this is the last Missed doses
+             if (missed_doses==1065.0){
+                jq("#missed-doses-yes").prop("checked", true);
+               }else{
+                  jq("#missed-doses-no").prop("checked", true);
+                 getField('no-misses-doses.value').val("");
+                  }
+
         });
 
 
@@ -303,15 +311,15 @@
                 <tr>
                     <td> Any missed doses of ARVs since last clinic visit?</td>
                     <td>
-                        <input type="radio" name="missed-doses" class="missed-doses" value="1065"/> Yes
-                        <input type="radio" name="missed-doses" class="missed-doses" value="1066"/> No
+                        <input type="radio" name="missed-doses" class="missed-doses" id="missed-doses-yes" value="1065"/> Yes
+                        <input type="radio" name="missed-doses" class="missed-doses" id="missed-doses-no" value="1066"/> No
                     </td>
                 </tr>
             </table>
             <table class="tbl-missed-doses">
                 <tr>
                     <td>If yes specify how many doses missed:</td>
-                    <td><obs conceptId="162878AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+                    <td><obs conceptId="162878AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  id="no-misses-doses"/></td>
                 </tr>
             </table>
         </fieldset>
