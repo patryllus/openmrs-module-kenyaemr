@@ -98,7 +98,7 @@ public class ETLTransferOutPatientsReportBuilder extends AbstractHybridReportBui
 		dsd.addColumn("Sex", new GenderDataDefinition(), "", new DataConverter[0]);
 		dsd.addColumn("Transfer out date", new CalculationDataDefinition("Transfer out date", new TransferOutDateCalculation()), "", new CalculationResultConverter());
 		dsd.addColumn("Transfer out verified", new CalculationDataDefinition("Transfer out verified", new TransferOutVerificationCalculation()), "", new CalculationResultConverter());
-		dsd.addColumn("Transfer out verification date", new CalculationDataDefinition("Transfer out verification date", new TransferOutVerificationDateCalculation()), "", new CalculationResultConverter());
+		dsd.addColumn("Verification date", new CalculationDataDefinition("Verification date", new TransferOutVerificationDateCalculation()), "", new CalculationResultConverter());
 		dsd.addColumn("Last Visit Date", definition, "", new EncounterDatetimeConverter());
 		dsd.addColumn("Last Appointment date", new CalculationDataDefinition("Appointment date", new LastReturnVisitDateCalculation()), "", new DataConverter[]{new CalculationResultDateYYMMDDConverter()});
 		dsd.addColumn("Phone number", new CalculationDataDefinition("Phone number", new TelephoneNumberCalculation()), "", new DataConverter[]{new CalculationResultConverter()});
