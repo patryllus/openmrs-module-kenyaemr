@@ -53,7 +53,7 @@
 
         var hasOtherDisabilitySelected = function () {
             var val = jq(this).val();
-                 // Specify other
+            // Specify other
             if (val == 5622){
                 jq('#disability').show();
                 jq('#tbl-other-disability').show();
@@ -136,7 +136,7 @@
                     if (data.lastLotNumber != null || data.lastLotNumber != "") {
                         jq('#upnError').text("");
                         jq('#lot-number-1 input[type=text]').val(data.lastLotNumber);
-                       //Check lot expiry date
+                        //Check lot expiry date
                         jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/lastLotExpiryDateUsedForHTSTesting.action', {kitName: kitName1}, function (data) {
                             if (data.lastLotExpiryDate != null || data.lastLotExpiryDate != "") {
                                 jq('#expiry-date input[type=text]').val(data.lastLotExpiryDate);
@@ -171,7 +171,7 @@
                         jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/lastLotExpiryDate2UsedForHTSTesting.action', {kitName: kitName2}, function (data) {
 
                             if (data.lastLotExpiryDate != null || data.lastLotExpiryDate != "") {
-                               jq('#expiry-date2 input[type=text]').val(data.lastLotExpiryDate);
+                                jq('#expiry-date2 input[type=text]').val(data.lastLotExpiryDate);
                             }
                         });
                     } else {
@@ -198,8 +198,10 @@
                 clearHiddenSections(jq('#duration_months'));
             }
         }
+
         var consentSelected = function () {
             var val = jq(this).val();
+            console.log("Consent selected ==>"+val);
             if (val == 'true' ){
                 jq('#couple-testing input').prop("disabled", false);
                 jq('#hiv-test1-result select').prop("disabled", false);
@@ -401,28 +403,28 @@
             jq('#tbl-other-strategy').hide();
 
             var htsStrategySelected = getField('strategy.value').val();
-                if (htsStrategySelected == 159938 ){
-                    getField('hts-entry-point.value').prop("selectedIndex", 9);
-                }else if (htsStrategySelected == 159939 ){
-                    getField('hts-entry-point.value').prop("selectedIndex", 10);
-                }else if (htsStrategySelected == 164954 || htsStrategySelected == 164955){
-                    getField('hts-entry-point.value').prop("selectedIndex", 8);
-                }
-                // Specify other
-                if (htsStrategySelected == 5622){
-                    jq('#tbl-other-strategy').show();
-                }else{
-                    jq('#tbl-other-strategy').hide();
-                }
+            if (htsStrategySelected == 159938 ){
+                getField('hts-entry-point.value').prop("selectedIndex", 9);
+            }else if (htsStrategySelected == 159939 ){
+                getField('hts-entry-point.value').prop("selectedIndex", 10);
+            }else if (htsStrategySelected == 164954 || htsStrategySelected == 164955){
+                getField('hts-entry-point.value').prop("selectedIndex", 8);
+            }
+            // Specify other
+            if (htsStrategySelected == 5622){
+                jq('#tbl-other-strategy').show();
+            }else{
+                jq('#tbl-other-strategy').hide();
+            }
 
             jq('#has-other-disability :input[type=checkbox]').change(otherDisabilitySelected);
             var hasDisability = getValue('has-disability.value');
-                   // Specify other
+            // Specify other
             if (hasDisability == 1065){
                 jq('#disability').show();
                 jq('#tbl-other-disability').show();
-               }
-            otherDisabilitySelected();
+            }
+           // otherDisabilitySelected();
             var otherDisabilitySelected = function() {
                 var val = jq(this).val();
                 if (val == 5622) {
@@ -600,7 +602,7 @@
                 getField('kit-name-2.error').html('Please use a different kit.').hide();
             }
         });
-           </script>
+    </script>
 
     <div class="ke-form-header">
         <table style="width: 100%">
@@ -689,7 +691,7 @@
                                 }
 
                                 //show syphilis results if they exist
-                               var testKit1 = getField('kit-name-1.value').val();
+                                var testKit1 = getField('kit-name-1.value').val();
                                 if (testKit1 == 165351 ){   //Dual kit selected
                                     jq('#dual-results-1').show();
                                     getField("kit-name-2.value").val("");
@@ -759,10 +761,10 @@
             <table id="priority-population">
                 <tr>
                     <td>
-                           <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Fisher folk" style="checkbox" /><br/>
-                            <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162198AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 answerLabel="Truck driver" style="checkbox" /><br/>
+                        <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162198AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Truck driver" style="checkbox" /><br/>
                         <includeIf velocityTest="$patient.gender == 'F'">
                             <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160549AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                  answerLabel="Adolescent and young girls" style="checkbox" id="adyg" /><br/>
@@ -799,7 +801,7 @@
                         <obs conceptId="162558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Other" style="checkbox" id="has-other-disability"  /><br/>
 
-                       <table id="tbl-other-disability">
+                        <table id="tbl-other-disability">
                             <tr>
                                 <td>  &#160;&#160;&#160; Specify :
                                     <obs id="other-disability" conceptId="160632" />
@@ -828,7 +830,7 @@
                         />
                         &#160;&#160;&#160;
                     </td>
-                 </tr>
+                </tr>
             </table>
             <table id="tbl-hiv-selftest">
                 <tr>
@@ -856,13 +858,13 @@
                     </td>
                     <td>
                         <table id="tbl-other-strategy">
-                             <tr>
+                            <tr>
                                 <td>  &#160;&#160;&#160; Specify :
                                     <obs id="other-strategy" conceptId="163761" />
                                     &#160;&#160;&#160;
                                 </td>
-                           </tr>
-                          </table>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
@@ -904,7 +906,7 @@
             <table id="tbl-hiv-test">
                 <obsgroup groupingConceptId="164410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
                     <tr>
-                          <td>&#160;&#160;&#160;&#160; Kit Name
+                        <td>&#160;&#160;&#160;&#160; Kit Name
                             <obs class="kit-name"
                                  id="kit-name-1"
                                  conceptId="164962"
@@ -931,12 +933,12 @@
                                  style="dropdown" answerLabels="Positive,Negative,Invalid"/>
                         </td>
                         <td>
-                        <div id="dual-results-1" style="display:none;" >&#160;&#160;&#160;&#160; Syphilis Results
-                            <obs conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 id="syphilis-test-results-1"
-                                 answerConceptIds="1229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1228AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 answerLabels="Negative,Positive"/>
-                        </div>
+                            <div id="dual-results-1" style="display:none;" >&#160;&#160;&#160;&#160; Syphilis Results
+                                <obs conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     id="syphilis-test-results-1"
+                                     answerConceptIds="1229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1228AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabels="Negative,Positive"/>
+                            </div>
                         </td>
 
                     </tr>
