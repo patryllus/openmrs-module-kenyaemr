@@ -27,7 +27,6 @@
         var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
         var GREENCARD_VELOCITY = "<lookup expression="kenyaemr.GreenCardVelocityCalculation()" />";
         var ENROLLED_IN_HIV = GREENCARD_VELOCITY.split(",")[12].split(":")[1];
-        var GENERATE_UPN = <lookup expression="kenyaemr.getFacilityToGenerateUPN()" />;
 
         //On Ready
         jq(function() {
@@ -283,7 +282,6 @@
             if (entryPointStatus == NEW_CLIENT) {
                 var facility_confirmed = "<lookup expression="fn.latestObs(162724).getValueText()"/>";
                 jq('#hiv-id :input').prop('disabled', false);
-                jq('#gen-hiv-id :input').prop('disabled', false);
                 jq('#generate-hiv-id').show();
                 jq('#transfer-details').hide();
                 jq('#patient-history').show();
@@ -325,7 +323,6 @@
             if (entryPointStatus== TRANSFER_IN) {
                 jq('#transfer-details :input').prop('disabled', false);
                 jq('#hiv-id :input').prop('disabled', false);
-                jq('#gen-hiv-id :input').prop('disabled', false);
                 jq('#generate-hiv-id').hide();
                 jq('#transfer-details').show();
                 jq('#patient-history').show();
@@ -362,7 +359,6 @@
             }
             if (entryPointStatus== TRANSIT) {
                 jq('#hiv-id :input').prop('disabled', false);
-                jq('#gen-hiv-id :input').prop('disabled', false);
                 jq('#generate-hiv-id').hide();
                 jq('#transit-patient').show();
                 jq('#transfer-details').hide();
@@ -374,7 +370,6 @@
             }
             if (entryPointStatus == RE_ENROLL) {
                 jq('#hiv-id :input').prop('disabled', true);
-                jq('#gen-hiv-id :input').prop('disabled', true);
                 jq('#generate-hiv-id').hide();
                 jq('#transit-patient').hide();
                 jq('#transfer-details').hide();
@@ -386,7 +381,6 @@
             }
             if (entryPointStatus == false) {
                 jq('#hiv-id :input').prop('disabled', false);
-                jq('#gen-hiv-id :input').prop('disabled', false);
                 jq('#generate-hiv-id').hide();
                 jq('#transit-patient').hide();
                 jq('#transfer-details').hide();
@@ -423,7 +417,7 @@
                 okLabel: 'Continue',
                 okCallback: function() {
                     jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/nextHivUniquePatientNumber.action', function(data) {
-                        jq('#gen-hiv-id input[type=text]').val(data.value);
+                        jq('#hiv-id input[type=text]').val(data.value);
                         jq('#generate-hiv-id').hide();
                     });
                 }
@@ -562,27 +556,18 @@
 					</obsgroup></td>
 					</td>
 				</tr>
-				 <excludeIf velocityTest="$kenyaemr.getFacilityToGenerateUPN()==true">
 				<tr>
 					<td>Unique Patient Number (UPN)</td>
 					<td> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 						<span id="hiv-id"><patient id="upn" field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" /></span>
 						<span id="upnError" class="error"></span>
-					</td>
-				</tr>
-				 </excludeIf>
-				 <excludeIf velocityTest="$kenyaemr.getFacilityToGenerateUPN()==false">
-				<tr>
-					<td>Unique Patient Number (UPN)</td>
-					<td> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-						<span id="gen-hiv-id"><patient id="upn" field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" /></span>
-						<span id="upnError" class="error"></span>
 						 <excludeIf velocityTest="$kenyaemr.hasHivUniquePatientNumber()">
-							<input type="button" id="generate-hiv-id" value="Generate"/>
+							 <excludeIf velocityTest="$kenyaemr.generateUPN()==false">
+							      <input type="button" id="generate-hiv-id" value="Generate"/>
+							 </excludeIf>
 						 </excludeIf>
 					</td>
 				</tr>
-				 </excludeIf>
 			</table>
 			<table id="transit-patient" style="display: inline-block">
 				<tr>

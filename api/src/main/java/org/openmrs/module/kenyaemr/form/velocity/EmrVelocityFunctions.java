@@ -230,7 +230,7 @@ public class EmrVelocityFunctions {
 	 * @param conceptIdentifier the concept identifier
 	 *
 	 */
-	public String getFacilityToGenerateUPN() {
+	public String generateUPN() {
 		AdministrationService administrationService = org.openmrs.api.context.Context.getAdministrationService();
 		GlobalProperty globalProperty = administrationService.getGlobalPropertyObject("kenyaemr.generateUPN");
 		if (globalProperty.getValue() != null) {
