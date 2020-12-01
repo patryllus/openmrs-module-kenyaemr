@@ -150,6 +150,8 @@ public class CommonMetadata extends AbstractMetadataBundle {
 
 		install(globalProperty("order.drugDosingUnitsConceptUuid", "Drug dosing units concept", "162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 
+		install(globalProperty("kenyaemr.generateUPN", "Defines facility to enable UPN Autogeneration", "false"));
+
 		install(patientIdentifierType("Old Identification Number", "Identifier given out prior to OpenMRS",
 				null, null, null,
 				LocationBehavior.NOT_USED, false, _PatientIdentifierType.OLD_ID));

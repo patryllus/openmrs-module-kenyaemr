@@ -224,6 +224,21 @@ public class EmrVelocityFunctions {
 		}
 		return "Unknown Location";
 	}
+
+	/**
+	 * This facility types will have their UPN Generation enabled
+	 * @param conceptIdentifier the concept identifier
+	 *
+	 */
+	public String getFacilityToGenerateUPN() {
+		AdministrationService administrationService = org.openmrs.api.context.Context.getAdministrationService();
+		GlobalProperty globalProperty = administrationService.getGlobalPropertyObject("kenyaemr.generateUPN");
+		if (globalProperty.getValue() != null) {
+			return globalProperty.getPropertyValue();
+		}
+		return "true";
+	}
+
 	public List<Obs> allObs(String conceptIdentifier) {
 		if (session.getPatient() == null)
 			return new ArrayList<Obs>();
