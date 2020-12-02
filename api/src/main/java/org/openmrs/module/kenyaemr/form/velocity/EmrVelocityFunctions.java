@@ -236,7 +236,7 @@ public class EmrVelocityFunctions {
 		if (globalProperty.getValue() != null) {
 			return globalProperty.getPropertyValue();
 		}
-		return "true";
+		return "false";
 	}
 
 	public List<Obs> allObs(String conceptIdentifier) {
