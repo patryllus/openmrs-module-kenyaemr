@@ -884,7 +884,7 @@ public class ETLMoh731GreenCardIndicatorLibrary {
      * @return indicator
      */
     public CohortIndicator assessedForNutritionInHIV() {
-        return cohortIndicator("Started on IPT", map(moh731Cohorts.assessedForNutritionInHIV(), "startDate=${startDate},endDate=${endDate}"));
+        return cohortIndicator("Started on TPT", map(moh731Cohorts.assessedForNutritionInHIV(), "startDate=${startDate},endDate=${endDate}"));
     }
     /**
      * patients in HIV program who are malnourished
@@ -892,7 +892,7 @@ public class ETLMoh731GreenCardIndicatorLibrary {
      * @return indicator
      */
     public CohortIndicator malnourishedInHIV() {
-        return cohortIndicator("Started on IPT", map(moh731Cohorts.malnourishedInHIV(), "startDate=${startDate},endDate=${endDate}"));
+        return cohortIndicator("Started on TPT", map(moh731Cohorts.malnourishedInHIV(), "startDate=${startDate},endDate=${endDate}"));
     }
     /**
      * patients started on ipt
@@ -900,7 +900,7 @@ public class ETLMoh731GreenCardIndicatorLibrary {
      * @return indicator
      */
     public CohortIndicator startedOnIPT() {
-        return cohortIndicator("Started on IPT", map(moh731Cohorts.startedOnIPT(), "startDate=${startDate},endDate=${endDate}"));
+        return cohortIndicator("Started on TPT", map(moh731Cohorts.startedOnIPT(), "startDate=${startDate},endDate=${endDate}"));
     }
     /**
      * patients who started ipt 12 months ago and have completed

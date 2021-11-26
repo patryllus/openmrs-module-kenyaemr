@@ -193,7 +193,7 @@ public class GreenCardVelocityCalculation extends BaseEmrCalculation {
                 patientInTBProgram = true;
             }
 
-            //Currently on IPT
+            //Currently on TPT
             if (activeInIptProgram.contains(ptId)) {
                 inIptProgram = true;
             }

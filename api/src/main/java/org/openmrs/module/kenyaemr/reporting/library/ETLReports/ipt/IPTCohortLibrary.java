@@ -35,7 +35,7 @@ public class IPTCohortLibrary {
         cd.setQuery(sqlQuery);
         cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
         cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-        cd.setDescription("Patients on IPT");
+        cd.setDescription("Patients on TPT");
 
         return cd;
     }
@@ -48,7 +48,7 @@ public class IPTCohortLibrary {
         cd.setQuery(sqlQuery);
         cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
         cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-        cd.setDescription("PLHIV patients on IPT");
+        cd.setDescription("PLHIV patients on TPT");
 
         return cd;
     }
@@ -60,7 +60,7 @@ public class IPTCohortLibrary {
         cd.setQuery(sqlQuery);
         cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
         cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-        cd.setDescription("Prisoners on IPT");
+        cd.setDescription("Prisoners on TPT");
 
         return cd;
     }
@@ -73,7 +73,7 @@ public class IPTCohortLibrary {
         cd.setQuery(sqlQuery);
         cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
         cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-        cd.setDescription("Prisoners on IPT");
+        cd.setDescription("Prisoners on TPT");
 
         return cd;
     }

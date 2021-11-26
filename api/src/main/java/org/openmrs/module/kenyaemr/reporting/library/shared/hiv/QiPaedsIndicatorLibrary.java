@@ -211,11 +211,11 @@ public class QiPaedsIndicatorLibrary {
 	}
 
 	/**
-	 * patients eligible for IPT who were initiated on IPT
+	 * patients eligible for IPT who were initiated on TPT
 	 * @return CohortIndicator
 	 */
 	public CohortIndicator patientsEligibleForIPTWhoWereInitiatedOnIPT() {
-		return cohortIndicator("TB IPT - Service Coverage Child",
+		return cohortIndicator("TB TPT - Service Coverage Child",
 				map(qiCohorts.patientWithNegativeTbScreenWhoHaveNotHadIPT(), "onOrAfter=${startDate},onOrBefore=${endDate}"),
 				map(qiCohorts.patientsWhoHaveHadNoIptWithinLast2YearsTbNegativeDuring6MonthsReviewPeriod(), "onOrAfter=${startDate},onOrBefore=${endDate}")
 		);

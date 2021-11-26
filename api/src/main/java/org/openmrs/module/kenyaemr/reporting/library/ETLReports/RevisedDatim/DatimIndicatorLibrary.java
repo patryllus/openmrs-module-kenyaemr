@@ -1141,21 +1141,21 @@ public class DatimIndicatorLibrary {
     }
 
     /**
-     * Previously enrolled on IPT and have completed during this reporting period
+     * Previously enrolled on TPT and have completed during this reporting period
      */
 
     public CohortIndicator previouslyOnIPTCompleted() {
         return cohortIndicator("Number of individuals who were previously on TPT and have completed", ReportUtils.<CohortDefinition>map(datimCohorts.previouslyOnIPTandCompleted(), "startDate=${startDate},endDate=${endDate}"));
     }
     /**
-     * Newly initiated on ART Previously enrolled on IPT and have completed during this reporting period
+     * Newly initiated on ART Previously enrolled on TPT and have completed during this reporting period
      */
 
     public CohortIndicator newARTpreviouslyOnIPTCompleted() {
         return cohortIndicator("Number of individuals who are newly initiated on ART and were previously on TPT and have completed", ReportUtils.<CohortDefinition>map(datimCohorts.newOnARTprevOnIPTandCompleted(), "startDate=${startDate},endDate=${endDate}"));
     }
     /**
-     * Previously initiated on ART and enrolled on IPT and have completed during this reporting period
+     * Previously initiated on ART and enrolled on TPT and have completed during this reporting period
      */
 
     public CohortIndicator previouslyARTandIPTCompleted() {

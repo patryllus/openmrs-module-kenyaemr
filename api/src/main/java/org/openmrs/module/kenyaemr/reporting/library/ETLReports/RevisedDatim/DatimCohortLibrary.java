@@ -4580,7 +4580,7 @@ public CohortDefinition txMLLTFUonDrugsOver3Months() {
         cd.setQuery(sqlQuery);
         cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
         cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-        cd.setDescription("previously enrolled on IPT and have completed");
+        cd.setDescription("previously enrolled on TPT and have completed");
         return cd;
 
     }
@@ -4605,7 +4605,7 @@ public CohortDefinition txMLLTFUonDrugsOver3Months() {
         cd.setQuery(sqlQuery);
         cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
         cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-        cd.setDescription("Newly on ART previously enrolled on IPT and have completed");
+        cd.setDescription("Newly on ART previously enrolled on TPT and have completed");
         return cd;
 
     }

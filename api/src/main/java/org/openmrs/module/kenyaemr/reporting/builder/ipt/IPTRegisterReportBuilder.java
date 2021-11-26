@@ -170,11 +170,11 @@ public class IPTRegisterReportBuilder extends AbstractHybridReportBuilder {
         String indParams = "startDate=${startDate},endDate=${endDate}";
 
         EmrReportingUtils.addRow(cohortDsd, "numberOnIPT", "No of Clients", ReportUtils.map(iptIndicators.numberOnIPT(), indParams), iptAgeDisaggregation, Arrays.asList("01", "02", "03"));
-        cohortDsd.addColumn("plhiv", "HIV+ on IPT", ReportUtils.map(iptIndicators.plhivOnIPT(), indParams), "");
-        cohortDsd.addColumn("prisoners", "Prisoners on IPT", ReportUtils.map(iptIndicators.prisonersOnIPT(), indParams), "");
-        cohortDsd.addColumn("hcw", "Health Care Workers on IPT", ReportUtils.map(iptIndicators.hcwOnIPT(), indParams), "");
+        cohortDsd.addColumn("plhiv", "HIV+ on TPT", ReportUtils.map(iptIndicators.plhivOnIPT(), indParams), "");
+        cohortDsd.addColumn("prisoners", "Prisoners on TPT", ReportUtils.map(iptIndicators.prisonersOnIPT(), indParams), "");
+        cohortDsd.addColumn("hcw", "Health Care Workers on TPT", ReportUtils.map(iptIndicators.hcwOnIPT(), indParams), "");
         cohortDsd.addColumn("childrenExposedTB", "Children Exposed to TB", ReportUtils.map(iptIndicators.childrenExposedTB(), indParams), "");
-        cohortDsd.addColumn("completedIPT", "Completed IPT", ReportUtils.map(iptIndicators.completedIPT(), indParams), "");
+        cohortDsd.addColumn("completedIPT", "Completed TPT", ReportUtils.map(iptIndicators.completedIPT(), indParams), "");
 
         return cohortDsd;
     }

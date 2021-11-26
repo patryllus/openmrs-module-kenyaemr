@@ -260,7 +260,7 @@ public class Moh731KDoDReportBuilder extends AbstractReportBuilder {
         EmrReportingUtils.addRow(cohortDsd,"HV03-058", "Presumed TB_Total", ReportUtils.map(moh731GreenCardIndicators.presumedForTb(), indParams), cadreDisaggregation,Arrays.asList("16","17","18"));
 
         // 3.8
-        EmrReportingUtils.addRow(cohortDsd, "HV03", "Started on IPT", ReportUtils.map(moh731GreenCardIndicators.startedOnIPT(), indParams), ageAndCadreDisaggregation, Arrays.asList("103", "104", "105", "106", "107", "108", "109","110","111","112","113","114","115","116","117"));
+        EmrReportingUtils.addRow(cohortDsd, "HV03", "Started on TPT", ReportUtils.map(moh731GreenCardIndicators.startedOnIPT(), indParams), ageAndCadreDisaggregation, Arrays.asList("103", "104", "105", "106", "107", "108", "109","110","111","112","113","114","115","116","117"));
         EmrReportingUtils.addRow(cohortDsd,"HV03-066", "Completed IPT 12 months", ReportUtils.map(moh731GreenCardIndicators.ipt12MonthsCohort(), indParams),cadreDisaggregation,Arrays.asList("19","20","21"));
         // 3.10
         EmrReportingUtils.addRow(cohortDsd,"HV03-076", "TB new cases", ReportUtils.map(moh731GreenCardIndicators.tbEnrollment(), indParams),cadreDisaggregation,Arrays.asList("22","23","24"));

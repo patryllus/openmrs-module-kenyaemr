@@ -28,21 +28,21 @@ public class IPTIndicatorLibrary {
 IPTCohortLibrary iptCohorts;
 
 	public CohortIndicator numberOnIPT() {
-		return cohortIndicator("No.on IPT", map(iptCohorts.patientsOnIPT(), "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("No.on TPT", map(iptCohorts.patientsOnIPT(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	public CohortIndicator plhivOnIPT() {
-		return cohortIndicator("PLHIV on IPT", map(iptCohorts.PLHIVInitiatedIPT(), "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("PLHIV on TPT", map(iptCohorts.PLHIVInitiatedIPT(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	public CohortIndicator prisonersOnIPT() {
-		return cohortIndicator("Prisoners on IPT", map(iptCohorts.prisonersInitiatedIPT(), "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("Prisoners on TPT", map(iptCohorts.prisonersInitiatedIPT(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	public CohortIndicator hcwOnIPT() {
-		return cohortIndicator("HCW on IPT", map(iptCohorts.hcwInitiatedIPT(), "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("HCW on TPT", map(iptCohorts.hcwInitiatedIPT(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	public CohortIndicator childrenExposedTB() {
 		return cohortIndicator("Children Exposed TB", map(iptCohorts.childrenExposedTB(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	public CohortIndicator completedIPT() {
-		return cohortIndicator("Completed IPT", map(iptCohorts.completedIPT(), "startDate=${startDate},endDate=${endDate}"));
+		return cohortIndicator("Completed TPT", map(iptCohorts.completedIPT(), "startDate=${startDate},endDate=${endDate}"));
 	}
 }
