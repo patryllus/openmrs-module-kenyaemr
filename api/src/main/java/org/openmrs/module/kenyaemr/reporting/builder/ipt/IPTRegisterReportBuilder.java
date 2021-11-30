@@ -132,8 +132,8 @@ public class IPTRegisterReportBuilder extends AbstractHybridReportBuilder {
         dsd.addColumn("WeightAtStart", new WeightAtStartDataDefinition(), "");
         dsd.addColumn("Height", new HeightDataDefinition(), "");
         dsd.addColumn("BMI or Z Score or MUAC", new BMIZScoreMUACDataDefinition(), "");
-        dsd.addColumn("IPT Start Date", new CalculationDataDefinition("IPT Start Date", new IPTStartDateCalculation()), "", new DateArtStartDateConverter());
-        dsd.addColumn("Indication for IPT", new IPTIndicationDataDefinition(), "");
+        dsd.addColumn("TPT Start Date", new CalculationDataDefinition("IPT Start Date", new IPTStartDateCalculation()), "", new DateArtStartDateConverter());
+        dsd.addColumn("Indication for TPT", new IPTIndicationDataDefinition(), "");
         dsd.addColumn("INH Dose(Mg)", new INHDataDefinition(), "");
         dsd.addColumn("VTB 6(Pyridoxine)Dose", new VTBDataDefinition(), "");
         dsd.addColumn("Treatment start date", new TreatmentStartDateDataDefinition(), "");
