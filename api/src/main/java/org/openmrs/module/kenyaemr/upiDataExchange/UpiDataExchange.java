@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.kenyaemr.upiDataExchange;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +35,9 @@ import org.openmrs.module.kenyaemrorderentry.util.Utils;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.util.PrivilegeConstants;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -77,7 +80,7 @@ public class UpiDataExchange {
 		ObjectNode address = getPatientAddress(patient);
 		ObjectNode identifiers = getPatientIdentifiers(patient);
 		ObjectNode contact = getPatientContactInformation(patient);
-		ObjectNode nextOfKin = getPatientNextOfKins(patient);
+		ArrayNode nextOfKin = getPatientNextOfKins(patient);
 
 			payload.put("clientNumber", patientWrapper.getUPINumber() != null ? patientWrapper.getUPINumber() : "");
 	    	payload.put("firstName", patient.getFamilyName()!= null ? patient.getFamilyName() : "");
@@ -243,12 +246,13 @@ public class UpiDataExchange {
 	}
 
 	/**
-	 * Returns a patient's next of kins
+	 * Returns an array of nextOfKins and their contacts
 	 *
-	 * @param patient
 	 * @return
 	 */
-	public static ObjectNode getPatientNextOfKins(Patient patient) {
+	public static ArrayNode getPatientNextOfKins(Patient patient) {
+
+		ArrayNode nextOfKinsListNode = getJsonNodeFactory().arrayNode();
 		//patient next of kins details
 		ObjectNode patientNextOfKinNode = getJsonNodeFactory().objectNode();
 		PatientWrapper patientWrapper = new PatientWrapper(patient);
@@ -261,8 +265,10 @@ public class UpiDataExchange {
 		patientNextOfKinNode.put("nextOfKinRelationship", nextOfKinRelationship);
 		patientNextOfKinNode.put("nextOfKinContact", nextOfKinContact);
 
-		return patientNextOfKinNode;
+		nextOfKinsListNode.add(patientNextOfKinNode);
+		return nextOfKinsListNode;
 	}
+
 	/*Maps a list of marital status answers by concepts  */
 	static String maritalStatusConverter(Concept key) {
 		Map<Concept, String> maritalStatusTypeList = new HashMap<Concept, String>();

@@ -1,0 +1,38 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public License,
+ * v. 2.0. If a copy of the MPL was not distributed with this file, You can
+ * obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+ * the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+ *
+ * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+ * graphic logo is a trademark of OpenMRS Inc.
+ */
+package org.openmrs.module.kenyaemr.fragment.controller.upi;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.Patient;
+import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyaemr.upiDataExchange.UpiDataExchange;
+import org.openmrs.ui.framework.annotation.FragmentParam;
+import org.openmrs.ui.framework.fragment.FragmentModel;
+
+public class UpiDataExchangeFragmentController {
+
+	private Log log = LogFactory.getLog(UpiDataExchangeFragmentController.class);
+	public static ConceptService conceptService = Context.getConceptService();
+
+	public ObjectNode controller(FragmentModel model, @FragmentParam("patient") Patient patient) {
+
+		if (patient != null) {
+			UpiDataExchange e = new UpiDataExchange();
+			ObjectNode payload = e.generatePayloadForUpi(patient);
+			return payload;
+		} else {
+			return null;
+		}
+
+	}
+}

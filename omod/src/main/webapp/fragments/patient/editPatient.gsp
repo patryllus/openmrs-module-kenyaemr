@@ -343,9 +343,22 @@
             <% nextOfKinFieldRows.each { %>
             ${ui.includeFragment("kenyaui", "widget/rowOfFields", [fields: it])}
             <% } %>
-
         </fieldset>
+       <fieldset>
+      <table>
+            <tr>
+                <td valign="top">
+                    <button type="button"
+                            onclick="ui.navigate('${ ui.pageLink("kenyaemr", "upi/upiDataExchangeHome", [patientId: currentPatient.patientId])}')">
+                        <img src="${ui.resourceLink("kenyaui", "images/buttons/report_queue.png")}"/>
+                        Verify
+                    </button>
+                </td>
+            </tr>
+        </table>
 
+
+       </fieldset>
     </div>
 
     <div class="ke-panel-footer">
