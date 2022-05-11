@@ -347,12 +347,9 @@
        <fieldset>
       <table>
             <tr>
-                <td valign="top">
-                    <button type="button"
-                            onclick="ui.navigate('${ ui.pageLink("kenyaemr", "upi/upiDataExchangeHome", [patientId: currentPatient.patientId])}')">
-                        <img src="${ui.resourceLink("kenyaui", "images/buttons/report_queue.png")}"/>
-                        Verify
-                    </button>
+                <td class="ke-field-instructions">
+                    <button type="button" id="post-registrations">Post to CR</button>
+                    <label id="post-msgBox"></label>
                 </td>
             </tr>
         </table>
@@ -493,7 +490,25 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
         jQuery('#upi-number').hide();
         jQuery('#other-identifiers').click(otherIdentifiersChange);
         jQuery('#show-cr-info-dialog').click(showDataFromCR);
+        jQuery('#post-registrations').click(postRegistrationDetailsToCR{
+          //  village,landMark,address,identificationType,identificationNumber,primaryPhone,secondaryPhone,emailAddress,name,relationship,residence,nokPrimaryPhone,nokSecondaryPhone,nokEmailAddress,isAlive) {
+            jQuery('input[name="personName.familyName"]').val(),
+            jQuery('input[name="personName.givenName"]').val(),
+            jQuery('input[name="personName.middleName"]').val(),
+            jQuery('#patient-birthdate_date').val(),
+            jQuery('input[name=gender]').val(),
+            jQuery('input[name=maritalStatus]').val(),
+            jQuery('input[name=occupation]').val(),
+            jQuery('input[name=education]').val(),
+            jQuery('input[name="personAddress.countyDistrict"]').val(),
+            jQuery('input[name="personAddress.stateProvince"]').val(),
+            jQuery('input[name="personAddress.address4"]').val()
+            jQuery('input[name="personAddress.cityVillage"]').val()
+            jQuery('input[name="personAddress.address2"]').val()    //landmark
+            jQuery('input[name="personAddress.address1"]').val()    //address
+        });
         jQuery('#validate-identifier').click(function(event){
+
 
             // connect to dhp server
             var authToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkU0MUU1QUM5RUIxNTlBMjc1NTY4NjM0MzIxMUJDQzAzMDMyMEUzMTZSUzI1NiIsIng1dCI6IjVCNWF5ZXNWbWlkVmFHTkRJUnZNQXdNZzR4WSIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJodHRwczovL2RocGlkZW50aXR5c3RhZ2luZ2FwaS5oZWFsdGguZ28ua2UiLCJuYmYiOjE2NTIxODUyMzQsImlhdCI6MTY1MjE4NTIzNCwiZXhwIjoxNjUyMjcxNjM0LCJhdWQiOlsiREhQLkdhdGV3YXkiLCJESFAuVmlzaXRhdGlvbiJdLCJzY29wZSI6WyJESFAuR2F0ZXdheSIsIkRIUC5WaXNpdGF0aW9uIl0sImNsaWVudF9pZCI6InBhcnRuZXIudGVzdC5jbGllbnQiLCJqdGkiOiJENjUyOTUwNDQ1RDYyMjg2NDc1OTE3NjkxQzMwMzM4MyJ9.tey01umz34GOZv1ewpafpyiuj3Y0-lUO0ufww5nPEQ89Gl3QG73j6AjuU-mvnupCEt5hrPePuwTXt2gQ6CSgP9C82gVsdboF8pwbcr3eBZQ8Q9jNxPzKSOFoI6FuThnig_YDg6uHEcykgMnGBcM1OJIJnEnJcvc01mcfHi6J2IRlfI_wlG5__oeKKbvt2DjGygjuwBVUb4nGyEmqhjg8VRB0LZsD83h1bB2Z0FCU7IKyqUMC5dzZxGpWLYCtABdxG_YvPAP2tkzFD7SXdJKu7GT4UMJwh5CvNmQ4BVSWfcLOEk4d_8YblHjVXDy110Zk-qmPl5vv7NNRX1lv69N-gQ";
@@ -760,5 +775,115 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
             kenyaui.openPanelDialog({ templateId: 'cr-dialog', width: 55, height: 80, scrolling: true });
     }
 
+    function postRegistrationDetailsToCR(firstName,middleName,lastName,dateOfBirth,gender,maritalStatus,occupation,religion,educationLevel,country,countyOfBirth,county,subCounty,ward,village,landMark,address,identificationType,identificationNumber,primaryPhone,secondaryPhone,emailAddress,name,relationship,residence,nokPrimaryPhone,nokSecondaryPhone,nokEmailAddress,isAlive) {
+        // connect to CR server
+        var params = {"firstName":firstName,
+                      "middleName":middleName,
+                      "lastName":lastName,
+                      "dateOfBirth":dateOfBirth,
+                      "gender":gender,
+                      "maritalStatus":maritalStatus,
+                      "occupation":occupation,
+                      "religion":religion,
+                      "educationLevel":educationLevel,
+                      "residence": {
+                          "country": "",
+                          "countyOfBirth": "",
+                          "county": county,
+                          "subCounty": subCounty,
+                          "ward": ward,
+                          "village": village,
+                          "landMark": landMark,
+                          "address": address
+                          },
+                      "identification": {
+                          "identificationType": identificationType,
+                          "identificationNumber": identificationNumber
+                          },
+                       "contact": {
+                          "primaryPhone": primaryPhone,
+                          "secondaryPhone": secondaryPhone,
+                          "emailAddress": emailAddress,
+                           },
+                        "nextOfKins": [{
+                                        "name": name,
+                                        "relationship": relationship,
+                                        "residence": residence,
+                                        "contact": {
+                                            "primaryPhone": nokPrimaryPhone,
+                                            "secondaryPhone": nokSecondaryPhone,
+                                            "emailAddress": nokEmailAddress,
+                                            }
+                                        }],
+                           "isAlive":isAlive,
+
+                       };
+        var authToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkU0MUU1QUM5RUIxNTlBMjc1NTY4NjM0MzIxMUJDQzAzMDMyMEUzMTZSUzI1NiIsIng1dCI6IjVCNWF5ZXNWbWlkVmFHTkRJUnZNQXdNZzR4WSIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJodHRwczovL2RocGlkZW50aXR5c3RhZ2luZ2FwaS5oZWFsdGguZ28ua2UiLCJuYmYiOjE2NTIxODUyMzQsImlhdCI6MTY1MjE4NTIzNCwiZXhwIjoxNjUyMjcxNjM0LCJhdWQiOlsiREhQLkdhdGV3YXkiLCJESFAuVmlzaXRhdGlvbiJdLCJzY29wZSI6WyJESFAuR2F0ZXdheSIsIkRIUC5WaXNpdGF0aW9uIl0sImNsaWVudF9pZCI6InBhcnRuZXIudGVzdC5jbGllbnQiLCJqdGkiOiJENjUyOTUwNDQ1RDYyMjg2NDc1OTE3NjkxQzMwMzM4MyJ9.tey01umz34GOZv1ewpafpyiuj3Y0-lUO0ufww5nPEQ89Gl3QG73j6AjuU-mvnupCEt5hrPePuwTXt2gQ6CSgP9C82gVsdboF8pwbcr3eBZQ8Q9jNxPzKSOFoI6FuThnig_YDg6uHEcykgMnGBcM1OJIJnEnJcvc01mcfHi6J2IRlfI_wlG5__oeKKbvt2DjGygjuwBVUb4nGyEmqhjg8VRB0LZsD83h1bB2Z0FCU7IKyqUMC5dzZxGpWLYCtABdxG_YvPAP2tkzFD7SXdJKu7GT4UMJwh5CvNmQ4BVSWfcLOEk4d_8YblHjVXDy110Zk-qmPl5vv7NNRX1lv69N-gQ";
+        var idType = 'identification-number';
+        var idValue = jQuery('input[name=nationalIdNumber]').val();
+        var getUrl = 'https://dhpstaging.health.go.ke/visit/registry/';
+        jq.ajax({
+            url: getUrl,
+            type: "POST",
+            headers: { Authorization: 'Bearer ' + authToken},
+            error: function(err) {
+                switch (err.status) {
+                    case "400":
+                        // bad request
+                        break;
+                    case "401":
+                        // expired or invalid token
+                        break;
+                    case "403":
+                        // forbidden
+                        break;
+                    default:
+                        //Something bad happened
+                        break;
+                }
+            },
+            data:params,
+            success: function(data) {
+                if(data.clientExists) {
+                    jQuery('#msgBox').text('Client exists in the registry. UPI number:  ' + data.client.clientNumber);
+                    jQuery('#cr-full-name').text(data.client.firstName + ' ' + data.client.middleName + ' ' + data.client.lastName);
+                    jQuery('#cr-sex').text(data.client.gender);
+                    jQuery('#cr-primary-contact').text(data.client.contact.primaryPhone);
+                    jQuery('#cr-secondary-contact').text(data.client.contact.secondaryPhone);
+                    jQuery('#cr-email').text(data.client.contact.emailAddress);
+
+                    // residence
+                    jQuery('#cr-county').text(data.client.residence.county);
+                    jQuery('#cr-sub-county').text(data.client.residence.subCounty);
+                    jQuery('#cr-ward').text(data.client.residence.ward);
+
+                    // next of kin
+
+                    if(data.client.nextOfKins.length > 0) {
+                        var nextOfKin = data.client.nextOfKins[0];
+                        jQuery('#cr-kin-name').text(nextOfKin.name);
+                        jQuery('#cr-kin-relation').text(nextOfKin.relationship);
+                        jQuery('#cr-kin-contact').text(nextOfKin.contact.primaryPhone);
+
+                    }
+
+                    // identifiers
+                    jQuery('#cr-upi').text(data.client.clientNumber); // update UPI field
+                    if (data.client.identifications.length > 0) {
+                        for (i = 0; i < data.client.identifications.length; i++) {
+                            var identifierObj = data.client.identifications[i];
+                            if (identifierObj.identificationType == 'Identification Number') {
+                                jQuery('#cr-national-id').text(identifierObj.identificationNumber);
+                            }
+                        }
+                    }
+
+                } else {
+                    jQuery('#msgBox').text('Client not found in the registry. Please enter registration data and post to CR ');
+                }
+            }
+        });
+
+    }
 </script>
 

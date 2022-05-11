@@ -11,6 +11,7 @@ package org.openmrs.module.kenyaemr.upiDataExchange;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
@@ -19,12 +20,14 @@ import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAddress;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.Program;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyacore.calculation.CalculationUtils;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
@@ -35,6 +38,7 @@ import org.openmrs.module.kenyaemrorderentry.util.Utils;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.util.PrivilegeConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +72,7 @@ public class UpiDataExchange {
 		//get occupation
 		Obs savedOccupation = EmrUtils.getLatestObs(patient, Dictionary.OCCUPATION);
 		String occupation = "";
-		if (savedMaritalStatus != null) {
+		if (savedOccupation != null) {
 			occupation = occupationTypeConverter(savedOccupation.getValueCoded());
 		}
 		//get highest level of education
@@ -80,7 +84,8 @@ public class UpiDataExchange {
 		ObjectNode address = getPatientAddress(patient);
 		ObjectNode identifiers = getPatientIdentifiers(patient);
 		ObjectNode contact = getPatientContactInformation(patient);
-		ArrayNode nextOfKin = getPatientNextOfKins(patient);
+		//ObjectNode nextOfKin = getPatientNextOfKins(patient);
+		ArrayNode nextOfKin = getNextOfKinsList(patient);
 
 			payload.put("clientNumber", patientWrapper.getUPINumber() != null ? patientWrapper.getUPINumber() : "");
 	    	payload.put("firstName", patient.getFamilyName()!= null ? patient.getFamilyName() : "");
@@ -106,16 +111,15 @@ public class UpiDataExchange {
 		    payload.put("identificationNumber:", identifiers.get("nationalId").textValue());
 		    payload.put("identificationType", "Birth Certificate Number");
 		    payload.put("identificationType", identifiers.get("birthCertificate").textValue());
-		       //Contact infromation
+		       //Contact information
 		    payload.put("primaryPhone", contact.get("primaryPhone").textValue());
 		    payload.put("secondaryPhone", contact.get("secondaryPhone").textValue());
 		    payload.put("emailAddress:", contact.get("emailAddress").textValue());
 		        //Get Next of kin
-		    payload.put("name", nextOfKin.get("emailAddress").textValue());
-		    payload.put("relationship", nextOfKin.get("nextOfKinRelationship").textValue());
-		    payload.put("residence", nextOfKin.get("nextOfKinContact").textValue());
+		    payload.put("nextOfKins", nextOfKin);
 
 
+      log.info("Payload ==> "+payload);
 		return payload;
 	}
 
@@ -235,38 +239,52 @@ public class UpiDataExchange {
 		//patient contact details
 		ObjectNode patientContactsNode = getJsonNodeFactory().objectNode();
 		PersonWrapper personWrapper = new PersonWrapper(patient);
+		PatientWrapper patientWrapper = new PatientWrapper(patient);
 		String phoneNumber = personWrapper.getTelephoneContact() != null ? personWrapper.getTelephoneContact() : "";
+		String alternatePhonephoneNumber = patientWrapper.getAlternativePhoneContact() != null ? patientWrapper.getAlternativePhoneContact() : "";
 		String emailAddress = personWrapper.getEmailAddress() != null ? personWrapper.getEmailAddress() : "";
 
 		patientContactsNode.put("primaryPhone", phoneNumber);
-		patientContactsNode.put("secondaryPhone", "");
+		patientContactsNode.put("secondaryPhone", alternatePhonephoneNumber);
 		patientContactsNode.put("emailAddress", emailAddress);
 
 		return patientContactsNode;
 	}
 
+
 	/**
-	 * Returns an array of nextOfKins and their contacts
+	 * Returns an array of nextOfKins
 	 *
 	 * @return
 	 */
-	public static ArrayNode getPatientNextOfKins(Patient patient) {
+	public static ArrayNode getNextOfKinsList(Patient patient) {
 
-		ArrayNode nextOfKinsListNode = getJsonNodeFactory().arrayNode();
-		//patient next of kins details
+		ArrayNode patientNokArray = getJsonNodeFactory().arrayNode();
 		ObjectNode patientNextOfKinNode = getJsonNodeFactory().objectNode();
 		PatientWrapper patientWrapper = new PatientWrapper(patient);
 		String nextOfKinName = patientWrapper.getNextOfKinName() != null ? patientWrapper.getNextOfKinName() : "";
 		String nextOfKinRelationship = patientWrapper.getNextOfKinRelationship() != null ? patientWrapper.getNextOfKinRelationship() : "";
+		String nextOfKinResidence = patientWrapper.getNextOfKinAddress() != null ? patientWrapper.getNextOfKinAddress() : "";
+		patientNextOfKinNode.put("name", nextOfKinName);
+		patientNextOfKinNode.put("relationship", nextOfKinRelationship);
+		patientNextOfKinNode.put("residence", nextOfKinResidence);
+
+		//Next of kins contacts
+		ObjectNode nextOfKinContactNode = getJsonNodeFactory().objectNode();
 		String nextOfKinContact = patientWrapper.getNextOfKinContact() != null ? patientWrapper.getNextOfKinContact() : "";
 
+		nextOfKinContactNode.put("primaryPhone", nextOfKinContact);
+		nextOfKinContactNode.put("secondaryPhone", "");
+		nextOfKinContactNode.put("emailAddress", "");
 
-		patientNextOfKinNode.put("nextOfKinName", nextOfKinName);
-		patientNextOfKinNode.put("nextOfKinRelationship", nextOfKinRelationship);
-		patientNextOfKinNode.put("nextOfKinContact", nextOfKinContact);
+		//Get Next of kin
+		//payload.put("nextOfKins", nextOfKin);
 
-		nextOfKinsListNode.add(patientNextOfKinNode);
-		return nextOfKinsListNode;
+		patientNokArray.add(nextOfKinContactNode);
+		patientNokArray.add(patientNextOfKinNode);
+
+
+		return patientNokArray;
 	}
 
 	/*Maps a list of marital status answers by concepts  */

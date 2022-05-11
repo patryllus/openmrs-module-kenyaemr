@@ -24,14 +24,11 @@ public class UpiDataExchangeFragmentController {
 	private Log log = LogFactory.getLog(UpiDataExchangeFragmentController.class);
 	public static ConceptService conceptService = Context.getConceptService();
 
-	public ObjectNode controller(FragmentModel model, @FragmentParam("patient") Patient patient) {
+	public void controller(FragmentModel model, @FragmentParam("patient") Patient patient) {
 
 		if (patient != null) {
 			UpiDataExchange e = new UpiDataExchange();
 			ObjectNode payload = e.generatePayloadForUpi(patient);
-			return payload;
-		} else {
-			return null;
 		}
 
 	}
