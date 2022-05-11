@@ -26,7 +26,6 @@ import org.json.simple.parser.JSONParser;
 import org.openmrs.Patient;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.kenyaemr.upiDataExchange.UpiDataExchange;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.slf4j.Logger;
@@ -42,17 +41,12 @@ public class UpiDataExchangeFragmentController {
 
 	public void controller(FragmentModel model, @FragmentParam("patient") Patient patient) {
 
-		if (patient != null) {
-			UpiDataExchange e = new UpiDataExchange();
-			ObjectNode payload = e.generatePayloadForUpi(patient);
-		}
-
 	}
 	public void postUpiClientRegistrationInfoToCR(@RequestParam("postParams") String params ) throws IOException {
 		generateAccessToken("https://dhpidentitystagingapi.health.go.ke/connect/token");
 		System.out.println("Params"+params);
 		//Prepare the post request
-		String serverUrl =url;
+		String serverUrl ="https://dhpstaging.health.go.ke/visit/registry";
 		String API_KEY = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkU0MUU1QUM5RUIxNTlBMjc1NTY4NjM0MzIxMUJDQzAzMDMyMEUzMTZSUzI1NiIsIng1dCI6IjVCNWF5ZXNWbWlkVmFHTkRJUnZNQXdNZzR4WSIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJodHRwczovL2RocGlkZW50aXR5c3RhZ2luZ2FwaS5oZWFsdGguZ28ua2UiLCJuYmYiOjE2NTIyNzMzNzksImlhdCI6MTY1MjI3MzM3OSwiZXhwIjoxNjUyMzU5Nzc5LCJhdWQiOlsiREhQLkdhdGV3YXkiLCJESFAuVmlzaXRhdGlvbiJdLCJzY29wZSI6WyJESFAuR2F0ZXdheSIsIkRIUC5WaXNpdGF0aW9uIl0sImNsaWVudF9pZCI6InBhcnRuZXIudGVzdC5jbGllbnQiLCJqdGkiOiJDMDE2RUYyQjhFMkUzQUI5NzIyNDY4Q0EwOUYxOTVGRiJ9.FD_VpzTqoUj3JnWSEZXFuvPyOs-rkDlxOLE_QnVWYY5w-scn1RtkaLuTwLU274t_TWAX3r2NYvft5l-bmEWRkrjevQ87FN9vplbpLx1kMAqgrdNysiLW4PfPFYZ_DjmoeAeSAVLEkQhs86ZjhapffI03QRmT8dFUB_Ta_Aq2l25Sru8Tb7kIE9J186e7RVIK3DgCSCS3srm66Se5HY7w56UEaYNAhjKncn_GaCpUsF6TXEvr-dOE4PdJQrjZopdLfs9DQKk8WKrlbOAZW_bznIEMhOxyTQ4hK3IvR6lcyf-S_9KZgwZF9KXK0IYNPCgzynLl_TYQmQCEPRTTlhPkHw";
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
 				SSLContexts.createDefault(),
