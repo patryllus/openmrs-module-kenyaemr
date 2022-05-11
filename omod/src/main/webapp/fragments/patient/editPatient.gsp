@@ -77,6 +77,7 @@
     ]
 %>
 <script type="text/javascript" src="/${ contextPath }/moduleResources/kenyaemr/scripts/KenyaAddressHierarchy.js"></script>
+
 <form id="edit-patient-form" method="post" action="${ui.actionLink("kenyaemr", "patient/editPatient", "savePatient")}">
     <% if (command.original) { %>
     <input type="hidden" name="personId" value="${command.original.id}"/>
@@ -84,34 +85,6 @@
 
     <div class="ke-panel-content">
 
-        <fieldset>
-            <legend>Client verification with Client Registry</legend>
-            <table>
-                <tr>
-                    <td colspan="4"><label id="msgBox"></label></td>
-                </tr>
-                <tr>
-                    <td>Identifier Type</td>
-                    <td>
-                        <select id="idType" name="idtype">
-                            <option>Select a valid identifier from the list</option>
-                            <% idTypes.each {%>
-                            <option value="${it.patientIdentifierTypeId}">${it.name}</option>
-                            <%}%>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" id="idValue" name="idValue" />
-                    </td>
-                    <td class="ke-field-instructions">
-                        <button type="button" class="ke-verify-button" id="validate-identifier">Validate Identifier</button>
-                        <button type="button" class="ke-verify-button" id="show-cr-info-dialog">Show CR info</button>
-                    </td>
-                </tr>
-                <tr></tr>
-
-            </table>
-        </fieldset>
         <div class="ke-form-globalerrors" style="display: none"></div>
 
         <div class="ke-form-instructions">
@@ -232,6 +205,15 @@
                     <td class="ke-field-instructions"><% if (!command.patientClinicNumber) { %>(if available)<%
                         } %></td>
                 </tr>
+                <tr id="national-id">
+                    <td class="ke-field-label">National ID Number</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "nationalIdNumber"])}</td>
+                    <td class="ke-field-instructions">
+                        <button type="button" id="validate-identifier">Validate Identifier</button>
+                        <button type="button" id="show-cr-info-dialog">Show CR info</button>
+                        <label id="msgBox"></label>
+                    </td>
+                </tr>
                 <tr id="passport-no">
                     <td class="ke-field-label">Passport Number</td>
                     <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "passPortNumber"])}</td>
@@ -256,6 +238,11 @@
                     <td class="ke-field-label">Driving License Number</td>
                     <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "drivingLicenseNumber"])}</td>
                     <td class="ke-field-instructions"><% if (!command.drivingLicenseNumber) { %>(if available)<% } %></td>
+                </tr>
+                <tr id="upi-number">
+                    <td class="ke-field-label">Unique Patient Identifier</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "upiNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.upiNumber) { %>(if available)<% } %></td>
                 </tr>
 
                 <tr id="kdod-service-no">
@@ -382,36 +369,31 @@
 
 </form>
 
-<div id="cr-dialog" title="Patient Overview" style="display: none; background-color: white; padding: 10px;">
+<div id="cr-dialog" title="Patient Overview" style="display: none; background-color: floralwhite; padding: 10px;">
     <div id="client-registry-info">
 
         <fieldset>
             <legend>Client name</legend>
             <table>
                 <tr>
-                    <td width="250px">Full name</td>
-                    <td id="cr-full-name" width="100px"></td>
-                    <td><button id="use-full-name" type="button">use in form</button></td>
+                    <td width="60">Full name</td>
+                    <td id="cr-full-name"></td>
                 </tr>
                 <tr>
                     <td>Sex</td>
                     <td id="cr-sex"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
                 <tr>
                     <td>Primary phone Number</td>
                     <td id="cr-primary-contact"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
                 <tr>
                     <td>Secondary phone</td>
                     <td id="cr-secondary-contact"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
                 <tr>
                     <td>Email address</td>
                     <td id="cr-email"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
             </table>
         </fieldset>
@@ -419,19 +401,16 @@
             <legend>Client identifiers</legend>
             <table>
                 <tr>
-                    <td width="250px">UPI</td>
-                    <td id="cr-upi" width="100px"></td>
-                    <td></td>
+                    <td width="60">UPI</td>
+                    <td id="cr-upi"></td>
                 </tr>
                 <tr>
                     <td>National ID</td>
                     <td id="cr-national-id"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
                 <tr>
                     <td>Passport Number</td>
                     <td id="cr-passport"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
             </table>
         </fieldset>
@@ -439,19 +418,16 @@
             <legend>Address</legend>
             <table>
                 <tr>
-                    <td width="250px">County</td>
-                    <td id="cr-county" width="100px"></td>
-                    <td><button type="button">use in form</button></td>
+                    <td width="60">County</td>
+                    <td id="cr-county"></td>
                 </tr>
                 <tr>
                     <td>Sub county</td>
                     <td id="cr-sub-county"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
                 <tr>
                     <td>Ward</td>
                     <td id="cr-ward"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
             </table>
         </fieldset>
@@ -459,19 +435,16 @@
             <legend>Next of kin</legend>
             <table>
                 <tr>
-                    <td width="250px">Name</td>
-                    <td id="cr-kin-name" width="100px"></td>
-                    <td><button type="button">use in form</button></td>
+                    <td width="60">Name</td>
+                    <td id="cr-kin-name"></td>
                 </tr>
                 <tr>
                     <td>Relationship</td>
                     <td id="cr-kin-relation"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
                 <tr>
                     <td>Phone number</td>
                     <td id="cr-kin-contact"></td>
-                    <td><button type="button">use in form</button></td>
                 </tr>
             </table>
         </fieldset>
@@ -501,39 +474,9 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
         cancelLabel      : ui.message("general.cancel")
 ])}
 
-<style>
-.ke-cr-client-exists {
-    padding: 10px 20px;
-    background-color: yellowgreen;
-    color: #ffffff;
-    font-weight: 200;
-}
 
-.ke-cr-client-not-found {
-    padding: 10px 20px;
-    background-color: darkred;
-    color: #ffffff;
-    font-weight: 200;
-}
-
-.ke-verify-button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #155cd2;
-    color: #ffffff;
-    /*font-family: Montserrat;*/
-    font-size: 16px;
-    font-weight: 200;
-}
-
-.ke-verify-button:hover {
-    background-color:#002ead;
-    transition: 0.7s;
-}
-</style>
 <script type="text/javascript">
     //On ready
-    crResponseData = ""; // response from client registry
     jQuery(function () {
         jQuery('#identifiers').hide();
         jQuery('#national-id').hide();
@@ -546,6 +489,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
         jQuery('#upi-number').hide();
         jQuery('#other-identifiers').click(otherIdentifiersChange);
         jQuery('#show-cr-info-dialog').click(showDataFromCR);
+        jQuery('#show-cr-info-dialog').hide();
         var identifierType;
         var identifierValue;
         if(jQuery('input[name=nationalIdNumber]').val() !=""){
@@ -591,18 +535,13 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
 
             ) });
 
-
-
-        jQuery('#show-cr-info-dialog').hide();
-        jQuery('#other-identifiers').click(otherIdentifiersChange);
-        jQuery('#show-cr-info-dialog').click(showDataFromCR);
         jQuery('#use-full-name').click(useFullName);
         jQuery('#validate-identifier').click(function(event){
 
             // connect to dhp server
             var authToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkU0MUU1QUM5RUIxNTlBMjc1NTY4NjM0MzIxMUJDQzAzMDMyMEUzMTZSUzI1NiIsIng1dCI6IjVCNWF5ZXNWbWlkVmFHTkRJUnZNQXdNZzR4WSIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJodHRwczovL2RocGlkZW50aXR5c3RhZ2luZ2FwaS5oZWFsdGguZ28ua2UiLCJuYmYiOjE2NTIxODUyMzQsImlhdCI6MTY1MjE4NTIzNCwiZXhwIjoxNjUyMjcxNjM0LCJhdWQiOlsiREhQLkdhdGV3YXkiLCJESFAuVmlzaXRhdGlvbiJdLCJzY29wZSI6WyJESFAuR2F0ZXdheSIsIkRIUC5WaXNpdGF0aW9uIl0sImNsaWVudF9pZCI6InBhcnRuZXIudGVzdC5jbGllbnQiLCJqdGkiOiJENjUyOTUwNDQ1RDYyMjg2NDc1OTE3NjkxQzMwMzM4MyJ9.tey01umz34GOZv1ewpafpyiuj3Y0-lUO0ufww5nPEQ89Gl3QG73j6AjuU-mvnupCEt5hrPePuwTXt2gQ6CSgP9C82gVsdboF8pwbcr3eBZQ8Q9jNxPzKSOFoI6FuThnig_YDg6uHEcykgMnGBcM1OJIJnEnJcvc01mcfHi6J2IRlfI_wlG5__oeKKbvt2DjGygjuwBVUb4nGyEmqhjg8VRB0LZsD83h1bB2Z0FCU7IKyqUMC5dzZxGpWLYCtABdxG_YvPAP2tkzFD7SXdJKu7GT4UMJwh5CvNmQ4BVSWfcLOEk4d_8YblHjVXDy110Zk-qmPl5vv7NNRX1lv69N-gQ";
-            var idType = 'national-id';
-            var idValue = jQuery('input[name=idValue]').val();
+            var idType = 'identification-number';
+            var idValue = jQuery('input[name=nationalIdNumber]').val();
             var getUrl = 'https://dhpstagingapi.health.go.ke/visit/registry/search/' + idType + '/' +  idValue;
             jq.ajax({
                 url: getUrl,
@@ -625,31 +564,8 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
                     }
                 },
                 success: function(data) {
-                    crResponseData = data;
                     if(data.clientExists) {
-                        var className = jQuery('#msgBox').attr("class");
-                        jQuery('#msgBox').removeClass(className);
-                        jQuery('#msgBox').addClass('ke-cr-client-exists');
                         jQuery('#msgBox').text('Client exists in the registry. UPI number:  ' + data.client.clientNumber);
-
-                        // unset vars
-                        jQuery('#cr-full-name').text("");
-                        jQuery('#cr-sex').text("");
-                        jQuery('#cr-primary-contact').text("");
-                        jQuery('#cr-secondary-contact').text("");
-                        jQuery('#cr-email').text("");
-
-                        jQuery('#cr-county').text("");
-                        jQuery('#cr-sub-county').text("");
-                        jQuery('#cr-ward').text("");
-
-                        jQuery('#cr-kin-name').text("");
-                        jQuery('#cr-kin-relation').text("");
-                        jQuery('#cr-kin-contact').text("");
-                        jQuery('#cr-national-id').text("");
-                        jQuery('#cr-upi').text("");
-
-                        //
                         jQuery('#cr-full-name').text(data.client.firstName + ' ' + data.client.middleName + ' ' + data.client.lastName);
                         jQuery('#cr-sex').text(data.client.gender);
                         jQuery('#cr-primary-contact').text(data.client.contact.primaryPhone);
@@ -682,13 +598,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
                             }
                         }
 
-                        jQuery('#show-cr-info-dialog').show();
-
                     } else {
-                        jQuery('#show-cr-info-dialog').hide();
-                        var className = jQuery('#msgBox').attr("class");
-                        jQuery('#msgBox').removeClass(className);
-                        jQuery('#msgBox').addClass('ke-cr-client-not-found');
                         jQuery('#msgBox').text('Client not found in the registry. Please enter registration data and post to CR ');
                     }
                 }
