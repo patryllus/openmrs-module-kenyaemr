@@ -115,7 +115,6 @@
         <div class="ke-form-globalerrors" style="display: none"></div>
 
         <div class="ke-form-instructions">
-        <div class="ke-form-instructions">
             <strong>*</strong> indicates a required field
         </div>
         <fieldset>
@@ -359,6 +358,15 @@
             <% } %>
 
         </fieldset>
+            <fieldset>
+                <table>
+                    <tr>
+                        <td>
+                            <button type="button" class="ke-verify-button" id="post-registrations">Post registration to CR</button>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
 
     </div>
 
@@ -540,45 +548,50 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
         jQuery('#show-cr-info-dialog').click(showDataFromCR);
         var identifierType;
         var identifierValue;
-        if(jQuery('#national-id').val() !=""){
+        if(jQuery('input[name=nationalIdNumber]').val() !=""){
             identifierType = "national-id";
-            identifierValue = jQuery('#national-id').val();
-        }else if(jQuery('#birth-cert-no').val() !=""){
+            identifierValue = "5484654";
+        }
+        if(jQuery('#birth-cert-no').val() !=""){
             identifierType = "birth-certificate";
             identifierValue = jQuery('#birthCertificateNo').val();
         }
-        jQuery('#post-registrations').click(postRegistrationDetailsToCR(
-            jQuery('input[name="personName.familyName"]').val(),
-            jQuery('input[name="personName.givenName"]').val(),
-            jQuery('input[name="personName.middleName"]').val(),
-            jQuery('#patient-birthdate_date').val(),
-            jQuery('input[name=gender]').val(),
-            jQuery('input[name=maritalStatus]').val(),
-            jQuery('input[name=occupation]').val(),
-            "",   //  Religeon we do not collect
-            jQuery('input[name=education]').val(),
-            "",   //Country variable not collected
-            "",   //CountryOfBirth variable not collected
-            jQuery('input[name="personAddress.countyDistrict"]').val(),
-            jQuery('input[name="personAddress.stateProvince"]').val(),
-            jQuery('input[name="personAddress.address4"]').val(),
-            jQuery('input[name="personAddress.cityVillage"]').val(),
-            jQuery('input[name="personAddress.address2"]').val(),    //landmark
-            jQuery('input[name="personAddress.address1"]').val(),   //address
-            identifierType,
-            identifierValue,
-           jQuery('input[name="telephoneContact"]').val(),
-           jQuery('input[name="alternatePhoneContact"]').val(),
-           jQuery('input[name="emailAddress"]').val(),
-           jQuery('input[name="nameOfNextOfKin"]').val(),
-           jQuery('input[name="nextOfKinRelationship"]').val(),
-            "", //Next of kin residence not collected
-           jQuery('input[name="nextOfKinContact"]').val(),
-           "", //Next of kin secondary phone not collected
-           "", //Next of kin email address not collected
-           jQuery('input[name="dead"]').val()
 
-        ));
+        jQuery('#post-registrations').click(function(){
+            postRegistrationDetailsToCR(
+                jQuery('input[name="personName.familyName"]').val(),
+                jQuery('input[name="personName.givenName"]').val(),
+                jQuery('input[name="personName.middleName"]').val(),
+                jQuery('#patient-birthdate_date').val(),
+                jQuery('input[name=gender]').val(),
+                jQuery('input[name=maritalStatus]').val(),
+                jQuery('input[name=occupation]').val(),
+                "",   //  Religeon we do not collect
+                jQuery('input[name=education]').val(),
+                "",   //Country variable not collected
+                "",   //CountryOfBirth variable not collected
+                jQuery('input[name="personAddress.countyDistrict"]').val(),
+                jQuery('input[name="personAddress.stateProvince"]').val(),
+                jQuery('input[name="personAddress.address4"]').val(),
+                jQuery('input[name="personAddress.cityVillage"]').val(),
+                jQuery('input[name="personAddress.address2"]').val(),    //landmark
+                jQuery('input[name="personAddress.address1"]').val(),   //address
+                identifierType,
+                identifierValue,
+                jQuery('input[name="telephoneContact"]').val(),
+                jQuery('input[name="alternatePhoneContact"]').val(),
+                jQuery('input[name="emailAddress"]').val(),
+                jQuery('input[name="nameOfNextOfKin"]').val(),
+                jQuery('input[name="nextOfKinRelationship"]').val(),
+                "", //Next of kin residence not collected
+                jQuery('input[name="nextOfKinContact"]').val(),
+                "", //Next of kin secondary phone not collected
+                "", //Next of kin email address not collected
+                jQuery('input[name="dead"]').val()
+
+            ) });
+
+
 
         jQuery('#show-cr-info-dialog').hide();
         jQuery('#other-identifiers').click(otherIdentifiersChange);
@@ -880,7 +893,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
             kenyaui.openPanelDialog({ templateId: 'cr-dialog', width: 55, height: 80, scrolling: true });
     }
 
-    function postRegistrationDetailsToCR(firstName,middleName,lastName,dateOfBirth,gender,maritalStatus,occupation,religion,educationLevel,country,countyOfBirth,county,subCounty,ward,village,landMark,address,identificationType,identificationNumber,primaryPhone,secondaryPhone,emailAddress,name,relationship,residence,nokPrimaryPhone,nokSecondaryPhone,nokEmailAddress,isAlive) {
+    function postRegistrationDetailsToCR(firstName,middleName,lastName,dateOfBirth,gender,maritalStatus,occupation,religion,educationLevel,country,countyOfBirth,county,subCounty,ward,village,landMark,address,identificationType,identificationValue,primaryPhone,secondaryPhone,emailAddress,name,relationship,residence,nokPrimaryPhone,nokSecondaryPhone,nokEmailAddress,isAlive) {
         // connect to CR server
         var params = {"firstName":firstName,
                       "middleName":middleName,
@@ -903,7 +916,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
                           },
                       "identification": {
                           "identificationType": identificationType,
-                          "identificationNumber": identificationNumber
+                          "identificationNumber": identificationValue
                           },
                        "contact": {
                           "primaryPhone": primaryPhone,
@@ -923,40 +936,56 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
                            "isAlive":isAlive,
 
                        };
+        //Using fragment action to post
+        jQuery.getJSON('${ ui.actionLink("kenyaemr", "upi/upiDataExchange", "postUpiClientRegistrationInfoToCR")}',
+            {
+                'postParams': params.toString()
+            })
+            .success(function (data) {
+                console.log("Response from CR  ==> ");
+                console.log("Response from CR  ==> ");
+            })
+            .fail(function (err) {
+                    console.log(err)
+                }
+            )
+
         var authToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkU0MUU1QUM5RUIxNTlBMjc1NTY4NjM0MzIxMUJDQzAzMDMyMEUzMTZSUzI1NiIsIng1dCI6IjVCNWF5ZXNWbWlkVmFHTkRJUnZNQXdNZzR4WSIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJodHRwczovL2RocGlkZW50aXR5c3RhZ2luZ2FwaS5oZWFsdGguZ28ua2UiLCJuYmYiOjE2NTIxODUyMzQsImlhdCI6MTY1MjE4NTIzNCwiZXhwIjoxNjUyMjcxNjM0LCJhdWQiOlsiREhQLkdhdGV3YXkiLCJESFAuVmlzaXRhdGlvbiJdLCJzY29wZSI6WyJESFAuR2F0ZXdheSIsIkRIUC5WaXNpdGF0aW9uIl0sImNsaWVudF9pZCI6InBhcnRuZXIudGVzdC5jbGllbnQiLCJqdGkiOiJENjUyOTUwNDQ1RDYyMjg2NDc1OTE3NjkxQzMwMzM4MyJ9.tey01umz34GOZv1ewpafpyiuj3Y0-lUO0ufww5nPEQ89Gl3QG73j6AjuU-mvnupCEt5hrPePuwTXt2gQ6CSgP9C82gVsdboF8pwbcr3eBZQ8Q9jNxPzKSOFoI6FuThnig_YDg6uHEcykgMnGBcM1OJIJnEnJcvc01mcfHi6J2IRlfI_wlG5__oeKKbvt2DjGygjuwBVUb4nGyEmqhjg8VRB0LZsD83h1bB2Z0FCU7IKyqUMC5dzZxGpWLYCtABdxG_YvPAP2tkzFD7SXdJKu7GT4UMJwh5CvNmQ4BVSWfcLOEk4d_8YblHjVXDy110Zk-qmPl5vv7NNRX1lv69N-gQ";
         var idType = 'identification-number';
         var idValue = jQuery('input[name=nationalIdNumber]').val();
-        var getUrl = 'https://dhpstaging.health.go.ke/visit/registry/' + idType + '/' +  idValue;;
-        jq.ajax({
-            url: getUrl,
-            type: "POST",
-            headers: { Authorization: 'Bearer ' + authToken},
-            error: function(err) {
-                switch (err.status) {
-                    case "400":
-                        // bad request
-                        break;
-                    case "401":
-                        // expired or invalid token
-                        break;
-                    case "403":
-                        // forbidden
-                        break;
-                    default:
-                        //Something bad happened
-                        break;
-                }
-            },
-            data:params,
-            success: function(data) {
-                if(data.clientExists) {
-                    console.log("Client Number ==> "+data.client.clientNumber);
-
-                } else {
-                    jQuery('#msgBox').text('Unable to post successfully to CR ');
-                }
-            }
-        });
+        var postUrl = 'https://dhpstaging.health.go.ke/visit/registry';
+        console.log("Payload ==> "+JSON.stringify(params));
+//        jQuery.ajax({
+//            url: postUrl,
+//            crossDomain:true,
+//            type: "POST",
+//            headers: { Authorization: 'Bearer ' + authToken },
+//            error: function(err) {
+//                switch (err.status) {
+//                    case "400":
+//                        // bad request
+//                        break;
+//                    case "401":
+//                        // expired or invalid token
+//                        break;
+//                    case "403":
+//                        // forbidden
+//                        break;
+//                    default:
+//                        //Something bad happened
+//                        break;
+//                }
+//            },
+//            data:params,
+//            success: function(data) {
+//                if(data.clientExists) {
+//                    console.log("Client Number ==> "+data.client.clientNumber);
+//
+//                } else {
+//                    jQuery('#msgBox').text('Unable to post successfully to CR ');
+//                }
+//            }
+//        });
 
     }
 
