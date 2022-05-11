@@ -85,10 +85,10 @@
     <div class="ke-panel-content">
 
         <fieldset>
-        <legend>Client verification with Client Registry</legend>
+            <legend>Client verification with Client Registry</legend>
             <table>
                 <tr>
-                     <td colspan="4"><label id="msgBox"></label></td>
+                    <td colspan="4"><label id="msgBox"></label></td>
                 </tr>
                 <tr>
                     <td>Identifier Type</td>
@@ -96,7 +96,7 @@
                         <select id="idType" name="idtype">
                             <option>Select a valid identifier from the list</option>
                             <% idTypes.each {%>
-                                <option value="${it.patientIdentifierTypeId}">${it.name}</option>
+                            <option value="${it.patientIdentifierTypeId}">${it.name}</option>
                             <%}%>
                         </select>
                     </td>
@@ -185,94 +185,94 @@
                     </td>
                 </tr>
 
-            <tr>
-                <td id="unit" class="ke-field-label" style="width: 70px">Unit *</td>
-            </tr>
-              <tr>
-                  <td style="width: 200px" id="kdod-unit">
-                      <input name="kDoDUnit" class ="kDoDUnit" ${(command.kDoDUnit != null)? command.kDoDUnit : ""}/>
+                <tr>
+                    <td id="unit" class="ke-field-label" style="width: 70px">Unit *</td>
+                </tr>
+                <tr>
+                    <td style="width: 200px" id="kdod-unit">
+                        <input name="kDoDUnit" class ="kDoDUnit" ${(command.kDoDUnit != null)? command.kDoDUnit : ""}/>
 
-                </td>
-              </tr>
+                    </td>
+                </tr>
             </table>
 
             <% deathFieldRows.each { %>
             ${ui.includeFragment("kenyaui", "widget/rowOfFields", [fields: it])}
             <% } %>
 
-     </fieldset>
-    <fieldset id="identifiers">
-        <legend>ID Numbers</legend>
+        </fieldset>
+        <fieldset id="identifiers">
+            <legend>ID Numbers</legend>
 
-        <table>
-            <% if (command.inHivProgram && isKDoD==false) { %>
-            <tr>
-                <td class="ke-field-label">Unique Patient Number</td>
-                <td>${
-                        ui.includeFragment("kenyaui", "widget/field", [object: command, property: "uniquePatientNumber"])}</td>
-                <td class="ke-field-instructions">(HIV program<% if (!command.uniquePatientNumber) { %>, if assigned<%
-                        } %>)</td>
-            </tr>
+            <table>
+                <% if (command.inHivProgram && isKDoD==false) { %>
+                <tr>
+                    <td class="ke-field-label">Unique Patient Number</td>
+                    <td>${
+                            ui.includeFragment("kenyaui", "widget/field", [object: command, property: "uniquePatientNumber"])}</td>
+                    <td class="ke-field-instructions">(HIV program<% if (!command.uniquePatientNumber) { %>, if assigned<%
+                            } %>)</td>
+                </tr>
 
-            <% } %>
-            <% if(enableClientNumberField || command.clientNumber) { %>
-            <tr>
-                <td class="ke-field-label">${clientNumberLabel}</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "clientNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.clientNumber) { %>(This is a generic partner identification for clients. Please only provide if available)<%
+                <% } %>
+                <% if(enableClientNumberField || command.clientNumber) { %>
+                <tr>
+                    <td class="ke-field-label">${clientNumberLabel}</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "clientNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.clientNumber) { %>(This is a generic partner identification for clients. Please only provide if available)<%
+                            } %></td>
+                </tr>
+
+                <% } %>
+
+
+                <tr>
+                    <td class="ke-field-label">Patient Clinic Number</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "patientClinicNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.patientClinicNumber) { %>(if available)<%
                         } %></td>
-            </tr>
+                </tr>
+                <tr id="passport-no">
+                    <td class="ke-field-label">Passport Number</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "passPortNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.passPortNumber) { %>(if available)<% } %></td>
+                </tr>
+                <tr id="huduma-no">
+                    <td class="ke-field-label">Huduma Number</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "hudumaNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.hudumaNumber) { %>(if available)<% } %></td>
+                </tr>
+                <tr  id="birth-cert-no">
+                    <td class="ke-field-label">Birth Certificate Number</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "birthCertificateNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.birthCertificateNumber) { %>(if available or Birth Notification number)<% } %></td>
+                </tr>
+                <tr id="alien-no">
+                    <td class="ke-field-label">Alien ID Number</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "alienIdNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.alienIdNumber) { %>(if available)<% } %></td>
+                </tr>
+                <tr id="driving-license">
+                    <td class="ke-field-label">Driving License Number</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "drivingLicenseNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.drivingLicenseNumber) { %>(if available)<% } %></td>
+                </tr>
 
-            <% } %>
+                <tr id="kdod-service-no">
+                    <td class="ke-field-label">Service Number *</td>
+                    <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "kDoDServiceNumber"])}</td>
+                    <td class="ke-field-instructions"><% if (!command.kDoDServiceNumber) { %>(5-6 digits for service officer or 5-6 digits followed by / and 2 digits for dependant(eg.12345/01))<%} %></td>
+                </tr>
+                <tr>
+                    <td> <input type="checkbox" name="other-identifiers" value="Y"
+                                id="other-identifiers" /> More identifiers </td>
+                </tr>
+            </table>
 
+        </fieldset>
 
-            <tr>
-                <td class="ke-field-label">Patient Clinic Number</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "patientClinicNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.patientClinicNumber) { %>(if available)<%
-                    } %></td>
-            </tr>
-            <tr id="passport-no">
-                <td class="ke-field-label">Passport Number</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "passPortNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.passPortNumber) { %>(if available)<% } %></td>
-            </tr>
-            <tr id="huduma-no">
-                <td class="ke-field-label">Huduma Number</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "hudumaNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.hudumaNumber) { %>(if available)<% } %></td>
-            </tr>
-            <tr  id="birth-cert-no">
-                <td class="ke-field-label">Birth Certificate Number</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "birthCertificateNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.birthCertificateNumber) { %>(if available or Birth Notification number)<% } %></td>
-            </tr>
-            <tr id="alien-no">
-                <td class="ke-field-label">Alien ID Number</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "alienIdNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.alienIdNumber) { %>(if available)<% } %></td>
-            </tr>
-            <tr id="driving-license">
-                <td class="ke-field-label">Driving License Number</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "drivingLicenseNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.drivingLicenseNumber) { %>(if available)<% } %></td>
-            </tr>
-
-            <tr id="kdod-service-no">
-                <td class="ke-field-label">Service Number *</td>
-                <td>${ui.includeFragment("kenyaui", "widget/field", [object: command, property: "kDoDServiceNumber"])}</td>
-                <td class="ke-field-instructions"><% if (!command.kDoDServiceNumber) { %>(5-6 digits for service officer or 5-6 digits followed by / and 2 digits for dependant(eg.12345/01))<%} %></td>
-            </tr>
-            <tr>
-                <td> <input type="checkbox" name="other-identifiers" value="Y"
-                            id="other-identifiers" /> More identifiers </td>
-            </tr>
-        </table>
 
     </fieldset>
-
-
-</fieldset>
 
         <fieldset>
             <legend>Address</legend>
@@ -318,21 +318,21 @@
             <% } %>
         </fieldset>
 
-    <% if (peerEducator) { %>
+        <% if (peerEducator) { %>
         <fieldset>
-        <legend>CHT Details</legend>
-        <table>
-            <tr>
-                <td valign="top">
-                    <% chtDetailsFields.each { %>
-                    ${ui.includeFragment("kenyaui", "widget/rowOfFields", [fields: it])}
-                    <% } %>
-                </td>
-            </tr>
-        </table>
-        <%} %>
+            <legend>CHT Details</legend>
+            <table>
+                <tr>
+                    <td valign="top">
+                        <% chtDetailsFields.each { %>
+                        ${ui.includeFragment("kenyaui", "widget/rowOfFields", [fields: it])}
+                        <% } %>
+                    </td>
+                </tr>
+            </table>
+            <%} %>
 
-    </fieldset>
+        </fieldset>
         <fieldset>
             <legend>Next of Kin Details</legend>
             <table>
@@ -358,15 +358,15 @@
             <% } %>
 
         </fieldset>
-            <fieldset>
-                <table>
-                    <tr>
-                        <td>
-                            <button type="button" class="ke-verify-button" id="post-registrations">Post registration to CR</button>
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
+        <fieldset>
+            <table>
+                <tr>
+                    <td>
+                        <button type="button" class="ke-verify-button" id="post-registrations">Post registration to CR</button>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
 
     </div>
 
@@ -383,102 +383,102 @@
 </form>
 
 <div id="cr-dialog" title="Patient Overview" style="display: none; background-color: white; padding: 10px;">
-	<div id="client-registry-info">
+    <div id="client-registry-info">
 
-	<fieldset>
-	    <legend>Client name</legend>
-	    <table>
-	        <tr>
-	            <td width="250px">Full name</td>
-	            <td id="cr-full-name" width="100px"></td>
-                <td><button id="use-full-name" type="button">use in form</button></td>
-	        </tr>
-            <tr>
-                <td>Sex</td>
-                <td id="cr-sex"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Primary phone Number</td>
-                <td id="cr-primary-contact"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Secondary phone</td>
-                <td id="cr-secondary-contact"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Email address</td>
-                <td id="cr-email"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-	    </table>
-	</fieldset>
-    <fieldset>
-    <legend>Client identifiers</legend>
-        <table>
-            <tr>
-                <td width="250px">UPI</td>
-                <td id="cr-upi" width="100px"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>National ID</td>
-                <td id="cr-national-id"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Passport Number</td>
-                <td id="cr-passport"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-        </table>
-    </fieldset>
-    <fieldset>
-    <legend>Address</legend>
-        <table>
-            <tr>
-                <td width="250px">County</td>
-                <td id="cr-county" width="100px"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Sub county</td>
-                <td id="cr-sub-county"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Ward</td>
-                <td id="cr-ward"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-        </table>
-    </fieldset>
-    <fieldset>
-    <legend>Next of kin</legend>
-        <table>
-            <tr>
-                <td width="250px">Name</td>
-                <td id="cr-kin-name" width="100px"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Relationship</td>
-                <td id="cr-kin-relation"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-            <tr>
-                <td>Phone number</td>
-                <td id="cr-kin-contact"></td>
-                <td><button type="button">use in form</button></td>
-            </tr>
-        </table>
-    </fieldset>
-	</div>
-	<div align="center">
-		<button type="button" onclick="kenyaui.closeDialog();"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Close</button>
-	</div>
+        <fieldset>
+            <legend>Client name</legend>
+            <table>
+                <tr>
+                    <td width="250px">Full name</td>
+                    <td id="cr-full-name" width="100px"></td>
+                    <td><button id="use-full-name" type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Sex</td>
+                    <td id="cr-sex"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Primary phone Number</td>
+                    <td id="cr-primary-contact"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Secondary phone</td>
+                    <td id="cr-secondary-contact"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Email address</td>
+                    <td id="cr-email"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend>Client identifiers</legend>
+            <table>
+                <tr>
+                    <td width="250px">UPI</td>
+                    <td id="cr-upi" width="100px"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>National ID</td>
+                    <td id="cr-national-id"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Passport Number</td>
+                    <td id="cr-passport"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend>Address</legend>
+            <table>
+                <tr>
+                    <td width="250px">County</td>
+                    <td id="cr-county" width="100px"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Sub county</td>
+                    <td id="cr-sub-county"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Ward</td>
+                    <td id="cr-ward"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend>Next of kin</legend>
+            <table>
+                <tr>
+                    <td width="250px">Name</td>
+                    <td id="cr-kin-name" width="100px"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Relationship</td>
+                    <td id="cr-kin-relation"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+                <tr>
+                    <td>Phone number</td>
+                    <td id="cr-kin-contact"></td>
+                    <td><button type="button">use in form</button></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+    <div align="center">
+        <button type="button" onclick="kenyaui.closeDialog();"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Close</button>
+    </div>
 </div>
 
 <!-- You can't nest forms in HTML, so keep the dialog box form down here -->
@@ -509,7 +509,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
     font-weight: 200;
 }
 
-   .ke-cr-client-not-found {
+.ke-cr-client-not-found {
     padding: 10px 20px;
     background-color: darkred;
     color: #ffffff;
@@ -528,7 +528,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
 
 .ke-verify-button:hover {
     background-color:#002ead;
-      transition: 0.7s;
+    transition: 0.7s;
 }
 </style>
 <script type="text/javascript">
@@ -605,28 +605,28 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
             var idValue = jQuery('input[name=idValue]').val();
             var getUrl = 'https://dhpstagingapi.health.go.ke/visit/registry/search/' + idType + '/' +  idValue;
             jq.ajax({
-                 url: getUrl,
-                 type: "GET",
-                 headers: { Authorization: 'Bearer ' + authToken},
-                 error: function(err) {
-                   switch (err.status) {
-                     case "400":
-                       // bad request
-                       break;
-                     case "401":
-                       // expired or invalid token
-                       break;
-                     case "403":
-                       // forbidden
-                       break;
-                     default:
-                       //Something bad happened
-                       break;
-                   }
-                 },
-                 success: function(data) {
-                   crResponseData = data;
-                   if(data.clientExists) {
+                url: getUrl,
+                type: "GET",
+                headers: { Authorization: 'Bearer ' + authToken},
+                error: function(err) {
+                    switch (err.status) {
+                        case "400":
+                            // bad request
+                            break;
+                        case "401":
+                            // expired or invalid token
+                            break;
+                        case "403":
+                            // forbidden
+                            break;
+                        default:
+                            //Something bad happened
+                            break;
+                    }
+                },
+                success: function(data) {
+                    crResponseData = data;
+                    if(data.clientExists) {
                         var className = jQuery('#msgBox').attr("class");
                         jQuery('#msgBox').removeClass(className);
                         jQuery('#msgBox').addClass('ke-cr-client-exists');
@@ -663,36 +663,36 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
 
                         // next of kin
 
-                          if(data.client.nextOfKins.length > 0) {
+                        if(data.client.nextOfKins.length > 0) {
                             var nextOfKin = data.client.nextOfKins[0];
                             jQuery('#cr-kin-name').text(nextOfKin.name);
                             jQuery('#cr-kin-relation').text(nextOfKin.relationship);
                             jQuery('#cr-kin-contact').text(nextOfKin.contact.primaryPhone);
 
-                          }
+                        }
 
-                         // identifiers
-                         jQuery('#cr-upi').text(data.client.clientNumber); // update UPI field
-                         if (data.client.identifications.length > 0) {
+                        // identifiers
+                        jQuery('#cr-upi').text(data.client.clientNumber); // update UPI field
+                        if (data.client.identifications.length > 0) {
                             for (i = 0; i < data.client.identifications.length; i++) {
                                 var identifierObj = data.client.identifications[i];
                                 if (identifierObj.identificationType == 'Identification Number') {
                                     jQuery('#cr-national-id').text(identifierObj.identificationNumber);
                                 }
                             }
-                         }
+                        }
 
-                         jQuery('#show-cr-info-dialog').show();
+                        jQuery('#show-cr-info-dialog').show();
 
-                   } else {
+                    } else {
                         jQuery('#show-cr-info-dialog').hide();
                         var className = jQuery('#msgBox').attr("class");
                         jQuery('#msgBox').removeClass(className);
                         jQuery('#msgBox').addClass('ke-cr-client-not-found');
                         jQuery('#msgBox').text('Client not found in the registry. Please enter registration data and post to CR ');
-                   }
-                 }
-               });
+                    }
+                }
+            });
 
             //
         });
@@ -700,7 +700,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
         //On Edit prepopulate patient Identifiers
         var savedAge = jQuery('#patient-birthdate').val();
         var patientAge = Math.floor((new Date() - new Date(savedAge)) / 1000 / 60 / 60 / 24 / 365.25);
-         if(savedAge !="") {
+        if(savedAge !="") {
             jQuery('#identifiers').show();
             // Validate identifiers according to age
             // Hide Natioanl ID for less than 18 years old
@@ -857,11 +857,11 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
             // Validate identifiers according to age
             // Hide Natioanl ID for less than 18 years old
             var age = Math.floor((new Date() - new Date(selectedDob)) / 1000 / 60 / 60 / 24 / 365.25);
-           if(age > 17){
-               jQuery('#national-id').show();
-           }else{
-               jQuery('#national-id').hide();
-           }
+            if(age > 17){
+                jQuery('#national-id').show();
+            }else{
+                jQuery('#national-id').hide();
+            }
         }
     }
     //Ckeckbox to populate the other identifiers
@@ -890,52 +890,52 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
     }
 
     function showDataFromCR() {
-            kenyaui.openPanelDialog({ templateId: 'cr-dialog', width: 55, height: 80, scrolling: true });
+        kenyaui.openPanelDialog({ templateId: 'cr-dialog', width: 55, height: 80, scrolling: true });
     }
 
     function postRegistrationDetailsToCR(firstName,middleName,lastName,dateOfBirth,gender,maritalStatus,occupation,religion,educationLevel,country,countyOfBirth,county,subCounty,ward,village,landMark,address,identificationType,identificationValue,primaryPhone,secondaryPhone,emailAddress,name,relationship,residence,nokPrimaryPhone,nokSecondaryPhone,nokEmailAddress,isAlive) {
         // connect to CR server
         var params = {"firstName":firstName,
-                      "middleName":middleName,
-                      "lastName":lastName,
-                      "dateOfBirth":dateOfBirth,
-                      "gender":gender,
-                      "maritalStatus":maritalStatus,
-                      "occupation":occupation,
-                      "religion":religion,
-                      "educationLevel":educationLevel,
-                      "residence": {
-                          "country": country,
-                          "countyOfBirth": countyOfBirth,
-                          "county": county,
-                          "subCounty": subCounty,
-                          "ward": ward,
-                          "village": village,
-                          "landMark": landMark,
-                          "address": address
-                          },
-                      "identification": {
-                          "identificationType": identificationType,
-                          "identificationNumber": identificationValue
-                          },
-                       "contact": {
-                          "primaryPhone": primaryPhone,
-                          "secondaryPhone": secondaryPhone,
-                          "emailAddress": emailAddress,
-                           },
-                        "nextOfKins": [{
-                                        "name": name,
-                                        "relationship": relationship,
-                                        "residence": residence,
-                                        "contact": {
-                                            "primaryPhone": nokPrimaryPhone,
-                                            "secondaryPhone": nokSecondaryPhone,
-                                            "emailAddress": nokEmailAddress,
-                                            }
-                                        }],
-                           "isAlive":isAlive,
+            "middleName":middleName,
+            "lastName":lastName,
+            "dateOfBirth":dateOfBirth,
+            "gender":gender,
+            "maritalStatus":maritalStatus,
+            "occupation":occupation,
+            "religion":religion,
+            "educationLevel":educationLevel,
+            "residence": {
+                "country": country,
+                "countyOfBirth": countyOfBirth,
+                "county": county,
+                "subCounty": subCounty,
+                "ward": ward,
+                "village": village,
+                "landMark": landMark,
+                "address": address
+            },
+            "identification": {
+                "identificationType": identificationType,
+                "identificationNumber": identificationValue
+            },
+            "contact": {
+                "primaryPhone": primaryPhone,
+                "secondaryPhone": secondaryPhone,
+                "emailAddress": emailAddress,
+            },
+            "nextOfKins": [{
+                "name": name,
+                "relationship": relationship,
+                "residence": residence,
+                "contact": {
+                    "primaryPhone": nokPrimaryPhone,
+                    "secondaryPhone": nokSecondaryPhone,
+                    "emailAddress": nokEmailAddress,
+                }
+            }],
+            "isAlive":isAlive,
 
-                       };
+        };
         //Using fragment action to post
         jQuery.getJSON('${ ui.actionLink("kenyaemr", "upi/upiDataExchange", "postUpiClientRegistrationInfoToCR")}',
             {
@@ -990,17 +990,17 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
     }
 
     function useFullName(){
-            if (crResponseData.client.firstName != '') {
-                jQuery('input[name="personName.givenName"]').val(crResponseData.client.firstName);
-            }
+        if (crResponseData.client.firstName != '') {
+            jQuery('input[name="personName.givenName"]').val(crResponseData.client.firstName);
+        }
 
-            if (crResponseData.client.middleName != '') {
-                jQuery('input[name="personName.middleName"]').val(crResponseData.client.middleName);
-            }
+        if (crResponseData.client.middleName != '') {
+            jQuery('input[name="personName.middleName"]').val(crResponseData.client.middleName);
+        }
 
-            if (crResponseData.client.lastName != '') {
-                jQuery('input[name="personName.familyName"]').val(crResponseData.client.lastName);
-            }
+        if (crResponseData.client.lastName != '') {
+            jQuery('input[name="personName.familyName"]').val(crResponseData.client.lastName);
+        }
 
     }
 
