@@ -871,7 +871,7 @@ ${ui.includeFragment("kenyaui", "widget/dialogForm", [
                     console.log("Client Number ==> "+data.client.clientNumber);
 
                 } else {
-                    jQuery('#msgBox').text('Unable to post to CR ');
+                    jQuery('#msgBox').text('Unable to post successfully to CR ');
                 }
             }
         });
