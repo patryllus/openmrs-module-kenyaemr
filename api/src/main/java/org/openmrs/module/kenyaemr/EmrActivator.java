@@ -48,6 +48,9 @@ public class EmrActivator implements ModuleActivator {
 		log.info("KenyaEMR context refreshing...");
 		//TODO: Investigate what causes reports page to load slowly. This behavior started with platform 2.x upgrade
 		Context.getAdministrationService().executeSQL("delete from reporting_report_request", false);
+
+		//TODO: Investigate what causes max_allowed_packet to exceed the defaults hence causing max_allowed_packet error
+		Context.getAdministrationService().executeSQL("set global max_allowed_packet = 1024*1024*10", false);
 	}
 
 	/**
