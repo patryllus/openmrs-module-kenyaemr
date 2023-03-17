@@ -292,12 +292,30 @@ Green Card follow-up visit form
             var staging = "";
             jq("#whoStage-adult select ").change(function (e) {
                 jq("#whoStage-adult select option:selected").each(function () {
-                    staging += jq(this).val();
+                    staging = jq(this).val();
                 });
+                console.log("Who staging ==>"+staging);
                 e.preventDefault();
-                jq("#whoModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true });
-                jq("#btnCloseWhoStageOne").click(closeWhoStaging);
-
+                if (staging == 1204) {       //on family planning
+                    jq("#whoAdultStage_1_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
+                    jq("#btnCloseWhoAdultStageOne").click(closeWhoAdultStageOne);
+                    e.preventDefault();
+                }
+                if(staging == 1205){
+                    jq("#whoAdultStage_2_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
+                    jq("#btnCloseWhoAdultStageTwo").click(closeWhoAdultStageTwo);
+                    e.preventDefault();
+                }
+                if(staging == 1206){
+                    jq("#whoAdultStage_3_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
+                    jq("#btnCloseWhoAdultStageThree").click(closeWhoAdultStageThree);
+                    e.preventDefault();
+                }
+                if(staging == 1207){
+                    jq("#whoAdultStage_4_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
+                    jq("#btnCloseWhoAdultStageFour").click(closeWhoAdultStageFour);
+                    e.preventDefault();
+                }
                 strtext = "";
             });
 
@@ -1863,8 +1881,20 @@ Green Card follow-up visit form
             var x = jq("#modalContents");
             x.dialog('close');
         }
-        var closeWhoStaging  = function () {
-            var x = jq("#whoModalContents");
+        var closeWhoAdultStageOne  = function () {
+            var x = jq("#whoAdultStage_1_ModalContents");
+            x.dialog('close');
+        }
+        var closeWhoAdultStageTwo  = function () {
+            var x = jq("#whoAdultStage_2_ModalContents");
+            x.dialog('close');
+        }
+        var closeWhoAdultStageThree  = function () {
+            var x = jq("#whoAdultStage_3_ModalContents");
+            x.dialog('close');
+        }
+        var closeWhoAdultStageFour  = function () {
+            var x = jq("#whoAdultStage_4_ModalContents");
             x.dialog('close');
         }
         //stability selected
@@ -3966,9 +3996,22 @@ Management<br />
                     <table class = "who-stage-1">
                         <!--Adherence Modal  -->
                         <tr>
-                            <div id="whoModalContents" style="display:none;" title="WHO stage 1 OIs" footer="OK">
+                            <div id="whoAdultStage_1_ModalContents" style="display:none;" title="WHO stage 1 OIs" footer="OK">
                                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                                <div id="stage-1">
+                                <div id="stage-1-adult">
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5006" answerLabel="Asymptomatic" style="checkbox" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130364" answerLabel="Persistent generalized lymphadenopathy (PGL)" style="checkbox" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="825" answerLabel="Unexplained, asymptomatic hepatosplenomegaly" style="checkbox" /><br />
+                                </div>
+                                <hr/>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnCloseWhoAdultStageOne" class="ke-program-followup-button" >Save</button>
+                                </div>
+                            </div>
+
+                            <div id="whoAdultStage_2_ModalContents" style="display:none;" title="WHO stage 2 OIs" footer="OK">
+                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
+                                <div id="stage-2-adult">
                                     1. Do you ever forget to take your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                     &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                     &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -3991,7 +4034,65 @@ Management<br />
                                 </div>
                                 <hr/>
                                 <div class="modal-footer">
-                                    <button type="button" id="btnCloseWhoStageOne" class="ke-program-followup-button" >Save</button>
+                                    <button type="button" id="btnCloseWhoAdultStageTwo" class="ke-program-followup-button" >Save</button>
+                                </div>
+                            </div>
+
+                            <div id="whoAdultStage_3_ModalContents" style="display:none;" title="WHO stage 3 OIs" footer="OK">
+                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
+                                <div id="stage-3-adult">
+                                    1. Do you ever forget to take your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-1" class="question-1" value="1065"/> Yes
+                                    <input type="radio" name="question-1" class="question-1" value="1066"/> No    <br/><br/>
+
+                                    2. Are you careless at times about taking your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-2" class="question-2" value="1065"/> Yes
+                                    <input type="radio" name="question-2" class="question-2" value="1066"/> No <br/><br/>
+
+                                    3.Sometimes if you feel worse when you take the medicine, do you stop taking it? &#160;&#160;
+                                    <input type="radio" name="question-3" class="question-3" value="1065"/> Yes
+                                    <input type="radio" name="question-3" class="question-3" value="1066"/> No <br/><br/>
+
+                                    4.When you feel better do you sometimes stop taking your medicine?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-4" class="question-4" value="1065"/> Yes
+                                    <input type="radio" name="question-4" class="question-4" value="1066"/> No <br/><br/>
+                                </div>
+                                <hr/>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnCloseWhoAdultStageThree" class="ke-program-followup-button" >Save</button>
+                                </div>
+                            </div>
+
+                            <div id="whoAdultStage_4_ModalContents" style="display:none;" title="WHO stage 4 OIs" footer="OK">
+                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
+                                <div id="stage-4-adult">
+                                    1. Do you ever forget to take your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-1" class="question-1" value="1065"/> Yes
+                                    <input type="radio" name="question-1" class="question-1" value="1066"/> No    <br/><br/>
+
+                                    2. Are you careless at times about taking your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-2" class="question-2" value="1065"/> Yes
+                                    <input type="radio" name="question-2" class="question-2" value="1066"/> No <br/><br/>
+
+                                    3.Sometimes if you feel worse when you take the medicine, do you stop taking it? &#160;&#160;
+                                    <input type="radio" name="question-3" class="question-3" value="1065"/> Yes
+                                    <input type="radio" name="question-3" class="question-3" value="1066"/> No <br/><br/>
+
+                                    4.When you feel better do you sometimes stop taking your medicine?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-4" class="question-4" value="1065"/> Yes
+                                    <input type="radio" name="question-4" class="question-4" value="1066"/> No <br/><br/>
+                                </div>
+                                <hr/>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnCloseWhoAdultStageFour" class="ke-program-followup-button" >Save</button>
                                 </div>
                             </div>
                         </tr>      <!--.Modal   -->
