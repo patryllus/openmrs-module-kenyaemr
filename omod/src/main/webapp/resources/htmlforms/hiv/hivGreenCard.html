@@ -287,8 +287,21 @@ Green Card follow-up visit form
                 jq("#btnCloseARVAssessment").click(closeAdherenceAssessment);
                 jq("#adherence-1").change(adherenceAssessment);
             });
-
             jq('#arv-adherence input[type=radio]').attr("style", "pointer-events:none;");
+// WHO staging Modal
+            var staging = "";
+            jq("#whoStage-adult select ").change(function (e) {
+                jq("#whoStage-adult select option:selected").each(function () {
+                    staging += jq(this).val();
+                });
+                e.preventDefault();
+                jq("#whoModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true });
+                jq("#btnCloseWhoStageOne").click(closeWhoStaging);
+
+                strtext = "";
+            });
+
+   // End WHO staging modal
             var strtext = "";
             var familyPlanningOption = getValue('fplanning.value');
             var pregnancyOption = getValue('pregnancyOption.value');
@@ -1036,6 +1049,7 @@ Green Card follow-up visit form
                 }
                 jq(".on-art").hide();
                 jq('#dlgAdherenceScreening').hide();
+                jq('#who-stage-1').hide();
 //jq("#tbl-phdp").hide();
                 jq("#tbl-ctx-adherence").hide();
                 jq("#tbl-dap-adherence").hide();
@@ -1849,6 +1863,10 @@ Green Card follow-up visit form
             var x = jq("#modalContents");
             x.dialog('close');
         }
+        var closeWhoStaging  = function () {
+            var x = jq("#whoModalContents");
+            x.dialog('close');
+        }
         //stability selected
         var stabilitySelected = function() {
             var stabilityStatus = getValue('stability.value');
@@ -1922,14 +1940,11 @@ Green Card follow-up visit form
             }
         }
         function step1Validation(){    //Step 1 validations
-            var recentWHO = "<lookup expression="fn.latestObs(5356).getValueCoded()"/>";
             var personPresent =getValue('person-present.value');
             var visit_scheduled =getValue('visit-scheduled.value');
             var patientWeight =getValue('weight.value');
             var patientHeight =getValue('height.value');
             var populationType =getValue('population-type.value');
-            var adultWhoStage =getField('whoStage-adult.value').val();
-            var childWhoStage =getField('whoStage-child.value').val();
 
             if (visit_scheduled == false) {
                 jq('#greencard').smartWizard('setError', {stepnum: 1, iserror: true});
@@ -1962,20 +1977,6 @@ Green Card follow-up visit form
             if (populationType == false &amp;&amp; personPresent == SELF) {
                 jq('#greencard').smartWizard('setError', {stepnum: 1, iserror: true});
                 getField('population-type.error').html('Please specify population type').show();
-                return false;
-            }else{
-                getField('population-type.error').html('Please specify population type').hide();
-            }
-            if (recentWHO =="" &amp;&amp; pAge &gt; 15 &amp;&amp; adultWhoStage == false &amp;&amp; personPresent == SELF ) {
-                jq('#greencard').smartWizard('setError', {stepnum: 1, iserror: true});
-                getField('whoStage-adult.error').html('Please specify adult WHO stage').show();
-                return false;
-            }else{
-                getField('whoStage-adult.error').html('Please specify adult WHO stage').hide();
-            }
-            if (recentWHO =="" &amp;&amp; pAge &lt; 16 &amp;&amp; childWhoStage == false &amp;&amp; personPresent == SELF) {
-                jq('#greencard').smartWizard('setError',{stepnum:1,iserror:true});
-                getField('whoStage-child.error').html('Please specify child WHO stage').show();
                 return false;
             }
             else {
@@ -2238,6 +2239,9 @@ Green Card follow-up visit form
             var systemsReview = getValue('systems-review.value');    //boolean
             var generalExamsChecked = jq("#general-exam-findings input:checkbox:checked");
             var personPresent =getValue('person-present.value');
+            var recentWHO = "<lookup expression="fn.latestObs(5356).getValueCoded()"/>";
+            var adultWhoStage =getField('whoStage-adult.value').val();
+            var childWhoStage =getField('whoStage-child.value').val();
 
 //Validate general examinations findings
             if (generalExamsChecked.length == 0 &amp;&amp; personPresent == SELF) {
@@ -2250,6 +2254,18 @@ Green Card follow-up visit form
             if (systemsReview == false &amp;&amp; personPresent == SELF) {
                 jq('#greencard').smartWizard('setError', {stepnum: 3, iserror: true});
                 getField('systems-review.error').html('Please specify if patient has any findings on systems review.').show();
+                return false;
+            }
+            if (recentWHO =="" &amp;&amp; pAge &gt; 15 &amp;&amp; adultWhoStage == false &amp;&amp; personPresent == SELF ) {
+                jq('#greencard').smartWizard('setError', {stepnum: 1, iserror: true});
+                getField('whoStage-adult.error').html('Please specify adult WHO stage').show();
+                return false;
+            }else{
+                getField('whoStage-adult.error').html('Please specify adult WHO stage').hide();
+            }
+            if (recentWHO =="" &amp;&amp; pAge &lt; 16 &amp;&amp; childWhoStage == false &amp;&amp; personPresent == SELF) {
+                jq('#greencard').smartWizard('setError',{stepnum:1,iserror:true});
+                getField('whoStage-child.error').html('Please specify child WHO stage').show();
                 return false;
             }
             else {
@@ -2861,37 +2877,6 @@ Management<br />
                     </td>
                    </tr>
                    </table>
-                </fieldset>
-                <!-- WHO staging -->
-                <fieldset class="patient-details">
-                    <legend>WHO Staging</legend>
-                    <table cellspacing="10" >
-                        <tr>
-                            <th  style="color: #888" >Current Stage </th>
-                            <th  style="color: #888" >Recent </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div id="whoAdult">
-                                    <table>
-                                        <tr>
-                                            <td><strong>Adult</strong></td><td><obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1205AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1207AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="WHO Stage1,WHO Stage2,WHO Stage3,WHO Stage4" id="whoStage-adult"/></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div id="whoChild">
-                                    <table>
-                                        <tr>
-                                            <td><strong>Child</strong></td><td><obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1220AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1221AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1222AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="WHO Stage1,WHO Stage2,WHO Stage3,WHO Stage4" id="whoStage-child" /></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="value"><recentObs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
-                            </td>
-                        </tr>
-                    </table>
                 </fieldset>
             </div>    <!--.step 1-->
             <!--.step 2-->
@@ -3948,6 +3933,71 @@ Management<br />
                         </tr>
                     </table>
                 </fieldset>
+                <!-- WHO staging -->
+                <fieldset class="patient-details">
+                    <legend>WHO Staging</legend>
+                    <table cellspacing="10" >
+                        <tr>
+                            <th  style="color: #888" >Current Stage </th>
+                            <th  style="color: #888" >Recent </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="whoAdult">
+                                    <table>
+                                        <tr>
+                                            <td><strong>Adult</strong></td><td><obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1205AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1207AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="WHO Stage1,WHO Stage2,WHO Stage3,WHO Stage4" id="whoStage-adult"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="whoChild">
+                                    <table>
+                                        <tr>
+                                            <td><strong>Child</strong></td><td><obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1220AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1221AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1222AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="WHO Stage1,WHO Stage2,WHO Stage3,WHO Stage4" id="whoStage-child" /></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="value"><recentObs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class = "who-stage-1">
+                        <!--Adherence Modal  -->
+                        <tr>
+                            <div id="whoModalContents" style="display:none;" title="WHO stage 1 OIs" footer="OK">
+                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
+                                <div id="stage-1">
+                                    1. Do you ever forget to take your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-1" class="question-1" value="1065"/> Yes
+                                    <input type="radio" name="question-1" class="question-1" value="1066"/> No    <br/><br/>
+
+                                    2. Are you careless at times about taking your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-2" class="question-2" value="1065"/> Yes
+                                    <input type="radio" name="question-2" class="question-2" value="1066"/> No <br/><br/>
+
+                                    3.Sometimes if you feel worse when you take the medicine, do you stop taking it? &#160;&#160;
+                                    <input type="radio" name="question-3" class="question-3" value="1065"/> Yes
+                                    <input type="radio" name="question-3" class="question-3" value="1066"/> No <br/><br/>
+
+                                    4.When you feel better do you sometimes stop taking your medicine?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                    <input type="radio" name="question-4" class="question-4" value="1065"/> Yes
+                                    <input type="radio" name="question-4" class="question-4" value="1066"/> No <br/><br/>
+                                </div>
+                                <hr/>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnCloseWhoStageOne" class="ke-program-followup-button" >Save</button>
+                                </div>
+                            </div>
+                        </tr>      <!--.Modal   -->
+                    </table>
+                </fieldset>
+
                 <fieldset class="patient-details">
                     <legend>Treatment/Management Plan</legend>
                     <table style="width: 70%;" border="0">
