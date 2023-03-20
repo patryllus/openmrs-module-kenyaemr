@@ -1882,13 +1882,8 @@ Green Card follow-up visit form
             x.dialog('close');
         }
         var saveWhoAdultStageOne  = function () {
-
-            var val = getValue('good-health.value');
-
             var stageOneAdultSymptom_1 = getValue('stageAdultOne_1.value');
             var stageOneAdultSymptom_2 =  getValue('stageAdultOne_2.value');
-            console.log("Who staging about to process smypt-1==>"+stageOneAdultSymptom_1);
-            console.log("Who staging about to process smypt-2 ==>"+stageOneAdultSymptom_2);
 
             var patientId = <lookup expression="patient.patientId"/>;
             var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
@@ -1897,17 +1892,309 @@ Green Card follow-up visit form
                 encDate = new Date();
             }
             if(stageOneAdultSymptom_1 !="" || stageOneAdultSymptom_1 != null ) {
-                console.log("Patient ID ==>"+patientId);
-                console.log("USer ID ==>"+userId);
-                console.log("Encounter Date ==>"+encDate);
-                console.log("Who staging start to process ==>"+stageOneAdultSymptom_1);
-
                 recordWhoStageOi(patientId,userId,encDate,stageOneAdultSymptom_1);
             }
             if(stageOneAdultSymptom_2 !="" || stageOneAdultSymptom_2 != null ) {
                 recordWhoStageOi(patientId,userId,encDate,stageOneAdultSymptom_2);
             }
+            var x = jq("#whoAdultStage_1_ModalContents");
+            x.dialog('close');
         }
+
+        var saveWhoAdultStageTwo  = function () {
+            var stageTwoAdultSymptom_1 =  getValue('stageTwoOi_1.value');
+            var stageTwoAdultSymptom_2 =  getValue('stageTwoOi_2.value');
+            var stageTwoAdultSymptom_3 =  getValue('stageTwoOi_3.value');
+            var stageTwoAdultSymptom_4 =  getValue('stageTwoOi_4.value');
+
+            var patientId = <lookup expression="patient.patientId"/>;
+            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
+            var encDate = getValue('encounter-date.value');
+            if(encDate == null) {
+                encDate = new Date();
+            }
+            if(stageTwoAdultSymptom_1 !="" || stageTwoAdultSymptom_1 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_1);
+            }
+            if(stageTwoAdultSymptom_2 !="" || stageTwoAdultSymptom_2 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_2);
+            }
+            if(stageTwoAdultSymptom_3 !="" || stageTwoAdultSymptom_3 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_3);
+            }
+            if(stageTwoAdultSymptom_4 !="" || stageTwoAdultSymptom_4 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_4);
+            }
+            var x = jq("#whoAdultStage_2_ModalContents");
+            x.dialog('close');
+        }
+
+        var saveWhoAdultStageTwo  = function () {
+            var stageTwoAdultSymptom_1 =  getValue('stageTwoOi_1.value');
+            var stageTwoAdultSymptom_2 =  getValue('stageTwoOi_2.value');
+            var stageTwoAdultSymptom_3 =  getValue('stageTwoOi_3.value');
+            var stageTwoAdultSymptom_4 =  getValue('stageTwoOi_4.value');
+
+            var patientId = <lookup expression="patient.patientId"/>;
+            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
+            var encDate = getValue('encounter-date.value');
+            if(encDate == null) {
+                encDate = new Date();
+            }
+            if(stageTwoAdultSymptom_1 !="" || stageTwoAdultSymptom_1 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_1);
+            }
+            if(stageTwoAdultSymptom_2 !="" || stageTwoAdultSymptom_2 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_2);
+            }
+            if(stageTwoAdultSymptom_3 !="" || stageTwoAdultSymptom_3 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_3);
+            }
+            if(stageTwoAdultSymptom_4 !="" || stageTwoAdultSymptom_4 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_4);
+            }
+            var x = jq("#whoAdultStage_2_ModalContents");
+            x.dialog('close');
+        }
+
+               var saveWhoAdultStageThree  = function () {
+            var stageThreeAdultSymptom_1 =  getValue('stageThreeOi_1.value');
+            var stageThreeAdultSymptom_2 =  getValue('stageThreeOi_2.value');
+            var stageThreeAdultSymptom_3 =  getValue('stageThreeOi_3.value');
+            var stageThreeAdultSymptom_4 =  getValue('stageThreeOi_4.value');
+            var stageThreeAdultSymptom_5 =  getValue('stageThreeOi_5.value');
+            var stageThreeAdultSymptom_6 =  getValue('stageThreeOi_6.value');
+            var stageThreeAdultSymptom_7 =  getValue('stageThreeOi_7.value');
+            var stageThreeAdultSymptom_8 =  getValue('stageThreeOi_8.value');
+            var stageThreeAdultSymptom_9 =  getValue('stageThreeOi_9.value');
+            var stageThreeAdultSymptom_10 =  getValue('stageThreeOi_10.value');
+            var stageThreeAdultSymptom_11 =  getValue('stageThreeOi_11.value');
+            var stageThreeAdultSymptom_12 =  getValue('stageThreeOi_12.value');
+            var stageThreeAdultSymptom_13 =  getValue('stageThreeOi_13.value');
+            var stageThreeAdultSymptom_14 =  getValue('stageThreeOi_14.value');
+            var stageThreeAdultSymptom_15 =  getValue('stageThreeOi_15.value');
+            var stageThreeAdultSymptom_16 =  getValue('stageThreeOi_16.value');
+            var stageThreeAdultSymptom_17 =  getValue('stageThreeOi_17.value');
+            var stageThreeAdultSymptom_18 =  getValue('stageThreeOi_18.value');
+            var stageThreeAdultSymptom_19 =  getValue('stageThreeOi_19.value');
+            var stageThreeAdultSymptom_20 =  getValue('stageThreeOi_20.value');
+            var stageThreeAdultSymptom_21 =  getValue('stageThreeOi_21.value');
+            var stageThreeAdultSymptom_22 =  getValue('stageThreeOi_22.value');
+            var stageThreeAdultSymptom_23 =  getValue('stageThreeOi_23.value');
+            var stageThreeAdultSymptom_24 =  getValue('stageThreeOi_24.value');
+            var stageThreeAdultSymptom_25 =  getValue('stageThreeOi_25.value');
+            var stageThreeAdultSymptom_26 =  getValue('stageThreeOi_26.value');
+            var stageThreeAdultSymptom_27 =  getValue('stageThreeOi_27.value');
+            var stageThreeAdultSymptom_28 =  getValue('stageThreeOi_28.value');
+            var stageThreeAdultSymptom_29 =  getValue('stageThreeOi_29.value');
+            var stageThreeAdultSymptom_30 =  getValue('stageThreeOi_30.value');
+            var stageThreeAdultSymptom_31 =  getValue('stageThreeOi_31.value');
+
+            var patientId = <lookup expression="patient.patientId"/>;
+            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
+            var encDate = getValue('encounter-date.value');
+            if(encDate == null) {
+                encDate = new Date();
+            }
+            if(stageThreeAdultSymptom_1 !="" || stageThreeAdultSymptom_1 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_1);
+            }
+            if(stageThreeAdultSymptom_2 !="" || stageThreeAdultSymptom_2 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_2);
+            }
+            if(stageThreeAdultSymptom_3 !="" || stageThreeAdultSymptom_3 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_3);
+            }
+            if(stageThreeAdultSymptom_4 !="" || stageThreeAdultSymptom_4 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_4);
+            }
+            if(stageThreeAdultSymptom_5 !="" || stageThreeAdultSymptom_5 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_5);
+            }
+            if(stageThreeAdultSymptom_6 !="" || stageThreeAdultSymptom_6 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_6);
+            }
+            if(stageThreeAdultSymptom_7 !="" || stageThreeAdultSymptom_7 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_7);
+            }
+            if(stageThreeAdultSymptom_8 !="" || stageThreeAdultSymptom_8 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_8);
+            }
+            if(stageThreeAdultSymptom_9 !="" || stageThreeAdultSymptom_9 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_9);
+            }
+            if(stageThreeAdultSymptom_10 !="" || stageThreeAdultSymptom_10 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_10);
+            }
+            if(stageThreeAdultSymptom_11 !="" || stageThreeAdultSymptom_11 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_11);
+            }
+            if(stageThreeAdultSymptom_12 !="" || stageThreeAdultSymptom_12 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_12);
+            }
+            if(stageThreeAdultSymptom_13 !="" || stageThreeAdultSymptom_13 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_13);
+            }
+            if(stageThreeAdultSymptom_14 !="" || stageThreeAdultSymptom_14 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_14);
+            }
+            if(stageThreeAdultSymptom_15 !="" || stageThreeAdultSymptom_15 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_15);
+            }
+            if(stageThreeAdultSymptom_16 !="" || stageThreeAdultSymptom_16 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_16);
+            }
+            if(stageThreeAdultSymptom_17 !="" || stageThreeAdultSymptom_17 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_17);
+            }
+            if(stageThreeAdultSymptom_18 !="" || stageThreeAdultSymptom_18 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_18);
+            }
+            if(stageThreeAdultSymptom_19 !="" || stageThreeAdultSymptom_19 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_19);
+            }
+            if(stageThreeAdultSymptom_20 !="" || stageThreeAdultSymptom_20 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_20);
+            }
+            if(stageThreeAdultSymptom_21 !="" || stageThreeAdultSymptom_21 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_21);
+            }
+            if(stageThreeAdultSymptom_22 !="" || stageThreeAdultSymptom_22 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_22);
+            }
+            if(stageThreeAdultSymptom_23 !="" || stageThreeAdultSymptom_23 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_23);
+            }
+            if(stageThreeAdultSymptom_24 !="" || stageThreeAdultSymptom_24 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_24);
+            }
+            if(stageThreeAdultSymptom_25 !="" || stageThreeAdultSymptom_25 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_25);
+            }
+            if(stageThreeAdultSymptom_26 !="" || stageThreeAdultSymptom_26 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_26);
+            }
+            if(stageThreeAdultSymptom_27 !="" || stageThreeAdultSymptom_27 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_27);
+            }
+            if(stageThreeAdultSymptom_28 !="" || stageThreeAdultSymptom_28 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_28);
+            }
+            if(stageThreeAdultSymptom_29 !="" || stageThreeAdultSymptom_29 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_29);
+            }
+            if(stageThreeAdultSymptom_30 !="" || stageThreeAdultSymptom_30 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_30);
+            }
+            if(stageThreeAdultSymptom_31 !="" || stageThreeAdultSymptom_31 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_31);
+            }
+
+            var x = jq("#whoAdultStage_3_ModalContents");
+            x.dialog('close');
+        }
+
+        var saveWhoAdultStageFour  = function () {
+            var stageFourAdultSymptom_1 =  getValue('stageFourOi_1.value');
+            var stageFourAdultSymptom_2 =  getValue('stageFourOi_2.value');
+            var stageFourAdultSymptom_3 =  getValue('stageFourOi_3.value');
+            var stageFourAdultSymptom_4 =  getValue('stageFourOi_4.value');
+            var stageFourAdultSymptom_5 =  getValue('stageFourOi_5.value');
+            var stageFourAdultSymptom_6 =  getValue('stageFourOi_6.value');
+            var stageFourAdultSymptom_7 =  getValue('stageFourOi_7.value');
+            var stageFourAdultSymptom_8 =  getValue('stageFourOi_8.value');
+            var stageFourAdultSymptom_9 =  getValue('stageFourOi_9.value');
+            var stageFourAdultSymptom_10 =  getValue('stageFourOi_10.value');
+            var stageFourAdultSymptom_11 =  getValue('stageFourOi_11.value');
+            var stageFourAdultSymptom_12 =  getValue('stageFourOi_12.value');
+            var stageFourAdultSymptom_13 =  getValue('stageFourOi_13.value');
+            var stageFourAdultSymptom_14 =  getValue('stageFourOi_14.value');
+            var stageFourAdultSymptom_15 =  getValue('stageFourOi_15.value');
+            var stageFourAdultSymptom_16 =  getValue('stageFourOi_16.value');
+            var stageFourAdultSymptom_17 =  getValue('stageFourOi_17.value');
+            var stageFourAdultSymptom_18 =  getValue('stageFourOi_18.value');
+            var stageFourAdultSymptom_19 =  getValue('stageFourOi_19.value');
+            var stageFourAdultSymptom_20 =  getValue('stageFourOi_20.value');
+            var stageFourAdultSymptom_21 =  getValue('stageFourOi_21.value');
+            var stageFourAdultSymptom_22 =  getValue('stageFourOi_22.value');
+
+            var patientId = <lookup expression="patient.patientId"/>;
+            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
+            var encDate = getValue('encounter-date.value');
+            if(encDate == null) {
+                encDate = new Date();
+            }
+            if(stageFourAdultSymptom_1 !="" || stageFourAdultSymptom_1 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_1);
+            }
+            if(stageFourAdultSymptom_2 !="" || stageFourAdultSymptom_2 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_1);
+            }
+            if(stageFourAdultSymptom_3 !="" || stageFourAdultSymptom_3 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_3);
+            }
+            if(stageFourAdultSymptom_4 !="" || stageFourAdultSymptom_4 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_4);
+            }
+            if(stageFourAdultSymptom_5 !="" || stageFourAdultSymptom_5 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_5);
+            }
+            if(stageFourAdultSymptom_6 !="" || stageFourAdultSymptom_6 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_6);
+            }
+            if(stageFourAdultSymptom_7 !="" || stageFourAdultSymptom_7 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_7);
+            }
+            if(stageFourAdultSymptom_8 !="" || stageFourAdultSymptom_8 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_8);
+            }
+            if(stageFourAdultSymptom_9 !="" || stageFourAdultSymptom_9 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_9);
+            }
+            if(stageFourAdultSymptom_10 !="" || stageFourAdultSymptom_10 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_10);
+            }
+            if(stageFourAdultSymptom_11 !="" || stageFourAdultSymptom_11 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_11);
+            }
+            if(stageFourAdultSymptom_12 !="" || stageFourAdultSymptom_12 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_12);
+            }
+            if(stageFourAdultSymptom_13 !="" || stageFourAdultSymptom_13 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_13);
+            }
+            if(stageFourAdultSymptom_14 !="" || stageFourAdultSymptom_14 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_14);
+            }
+            if(stageFourAdultSymptom_15 !="" || stageFourAdultSymptom_15 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_15);
+            }
+            if(stageFourAdultSymptom_16 !="" || stageFourAdultSymptom_16 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_16);
+            }
+            if(stageFourAdultSymptom_17 !="" || stageFourAdultSymptom_17 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_17);
+            }
+            if(stageFourAdultSymptom_18 !="" || stageFourAdultSymptom_18 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_18);
+            }
+            if(stageFourAdultSymptom_19 !="" || stageFourAdultSymptom_19 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_19);
+            }
+            if(stageFourAdultSymptom_20 !="" || stageFourAdultSymptom_20 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_20);
+            }
+            if(stageFourAdultSymptom_21 !="" || stageFourAdultSymptom_21 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_21);
+            }
+            if(stageFourAdultSymptom_22 !="" || stageFourAdultSymptom_22 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_22);
+            }
+
+            var x = jq("#whoAdultStage_4_ModalContents");
+            x.dialog('close');
+        }
+
 
         function recordWhoStageOi(patientId,userId,encDate,whoStagingOi) {
             console.log("Who staging  processing ==>");
@@ -1917,33 +2204,15 @@ Green Card follow-up visit form
                 userId: userId,
                 whoStagingOi: whoStagingOi
             }, function (data) {
-
                 if (data.status == "Success") {
                     console.log("Who staging processed success ==>");
-                    var x = jq("#whoAdultStage_1_ModalContents");
-                    x.dialog('close');
                 } else {
                     console.log("Who staging Failed processing");
-                    jq("#whoAdultStage_1_ModalContents").text(data.message).addClass("ke-error-label");
-                    var x = jq("#whoAdultStage_1_ModalContents");
-                    x.dialog('close');
                 }
 
             });
         }
 
-        var saveWhoAdultStageTwo  = function () {
-            var x = jq("#whoAdultStage_2_ModalContents");
-            x.dialog('close');
-        }
-        var saveWhoAdultStageThree  = function () {
-            var x = jq("#whoAdultStage_3_ModalContents");
-            x.dialog('close');
-        }
-        var saveWhoAdultStageFour  = function () {
-            var x = jq("#whoAdultStage_4_ModalContents");
-            x.dialog('close');
-        }
         //stability selected
         var stabilitySelected = function() {
             var stabilityStatus = getValue('stability.value');
@@ -4058,12 +4327,12 @@ Management<br />
                             <div id="whoAdultStage_2_ModalContents" style="display:none;" title="WHO stage 2 OIs" footer="OK">
                                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
                                 <div id="stage-2-adult">
-                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214" answerLabel="Moderate unexplained weight loss (Less than 10% of presumed or measured body weight)" style="checkbox" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214" answerLabel="Moderate unexplained weight loss (Less than 10% of presumed or measured body weight)" style="checkbox" id="stageTwoOi_1" /><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5330" answerLabel="Minor mucocutaneous manifestations (seborrheic dermatitis, papular pruritic eruptions,
-fungal nail infections, recurrent oral ulcerations, angular cheilitis)" style="checkbox" /><br />
-                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="117543" answerLabel="Herpes zoster" style="checkbox" /><br />
+                                                                                                                               fungal nail infections, recurrent oral ulcerations, angular cheilitis)" style="checkbox" id="stageTwoOi_2" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="117543" answerLabel="Herpes zoster" style="checkbox" id="stageTwoOi_3" /><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5012" answerLabel="Recurrent upper respiratory tract infections(sinusitis, tonsillitis, bronchitis, otitis media,
- pharyngitis)" style="checkbox" /><br />
+                                                                                                                                pharyngitis)" style="checkbox" id="stageTwoOi_4" /><br />
 
                                 </div>
                                 <hr/>
@@ -4075,26 +4344,18 @@ fungal nail infections, recurrent oral ulcerations, angular cheilitis)" style="c
                             <div id="whoAdultStage_3_ModalContents" style="display:none;" title="WHO stage 3 OIs" footer="OK">
                                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
                                 <div id="stage-3-adult">
-                                    1. Do you ever forget to take your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-1" class="question-1" value="1065"/> Yes
-                                    <input type="radio" name="question-1" class="question-1" value="1066"/> No    <br/><br/>
-
-                                    2. Are you careless at times about taking your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-2" class="question-2" value="1065"/> Yes
-                                    <input type="radio" name="question-2" class="question-2" value="1066"/> No <br/><br/>
-
-                                    3.Sometimes if you feel worse when you take the medicine, do you stop taking it? &#160;&#160;
-                                    <input type="radio" name="question-3" class="question-3" value="1065"/> Yes
-                                    <input type="radio" name="question-3" class="question-3" value="1066"/> No <br/><br/>
-
-                                    4.When you feel better do you sometimes stop taking your medicine?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-4" class="question-4" value="1065"/> Yes
-                                    <input type="radio" name="question-4" class="question-4" value="1066"/> No <br/><br/>
-                                </div>
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214" answerLabel="Unexplained severe weight loss (over 10% of presumed or measured body weight)" style="checkbox" id="stageThreeOi_1" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5018" answerLabel="Unexplained chronic diarrhoea for longer than one month" style="checkbox" id="stageThreeOi_2" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5027" answerLabel="Unexplained persistent fever (intermittent or constant for longer than one month)" style="checkbox" id="stageThreeOi_3" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5334" answerLabel="Persistent oral candidiasis" style="checkbox" id="stageThreeOi_4" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5337" answerLabel="Oral hairy leukoplakia" style="checkbox" id="stageThreeOi_5" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="42" answerLabel="Pulmonary tuberculosis" style="checkbox" id="stageThreeOi_6" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5333" answerLabel="Severe bacterial infections (e.g. pneumonia, empyema, pyomyositis, bone or joint infection,
+                                                                                                                             meningitis, bacteraemia)" style="checkbox" id="stageThreeOi_7" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="133440" answerLabel="Acute necrotizing ulcerative stomatitis, gingivitis or periodontitis" style="checkbox" id="stageThreeOi_8" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="148849" answerLabel="Unexplained anaemia (below 8 g/dl),neutropenia(below 0.5 x 109/l) and/orchronic
+                                                                                                                             thrombocytopenia(below 50 x109/l)" style="checkbox" id="stageThreeOi_9" /><br />
+                                  </div>
                                 <hr/>
                                 <div class="modal-footer">
                                     <button type="button" id="btnsaveWhoAdultStageThree" class="ke-program-followup-button" >Save</button>
@@ -4104,25 +4365,31 @@ fungal nail infections, recurrent oral ulcerations, angular cheilitis)" style="c
                             <div id="whoAdultStage_4_ModalContents" style="display:none;" title="WHO stage 4 OIs" footer="OK">
                                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
                                 <div id="stage-4-adult">
-                                    1. Do you ever forget to take your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-1" class="question-1" value="1065"/> Yes
-                                    <input type="radio" name="question-1" class="question-1" value="1066"/> No    <br/><br/>
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="823" answerLabel="HIV wasting syndrome" style="checkbox" id="stageFourOi_1" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="137375" answerLabel="Pneumocystis jirovecipneumonia (PCP)" style="checkbox" id="stageFourOi_2" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1215" answerLabel="Recurrent severe bacterial pneumonia (Equal or more than 2 episodes within 1 year)" style="checkbox" id="stageFourOi_3" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1294" answerLabel="Cryptococcal meningitis" style="checkbox" id="stageFourOi_4" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="990" answerLabel="Toxoplasmosis of the brain" style="checkbox" id="stageFourOi_5" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="143929" answerLabel="Chronic orolabial, genital or ano-rectal herpes simplex infection for more than 1 month" style="checkbox" id="stageFourOi_6" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="110915" answerLabel="Kaposi’s sarcoma (KS)" style="checkbox" id="stageFourOi_7" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160442" answerLabel="HIV encephalopathy" style="checkbox" id="stageFourOi_8" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5042" answerLabel="Extra pulmonary tuberculosis (EPTB) Conditions where confirmatory diagnostic testing is
+                                                                                                                              necessary" style="checkbox" id="stageFourOi_9" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="143110" answerLabel="Cryptosporidiosis, with diarrhoea for more than 1 month" style="checkbox" id="stageFourOi_10" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="136458" answerLabel="Isosporiasis" style="checkbox" id="stageFourOi_11" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5033" answerLabel="Cryptococcosis (extra pulmonary)" style="checkbox" id="stageFourOi_12" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160745" answerLabel="Disseminated non-tuberculous mycobacterial infection" style="checkbox" id="stageFourOi_13" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="154119" answerLabel="Cytomegalovirus (CMV) retinitis or infection of the organs (other than liver, spleen,
+                                                                                                                                 or lymph nodes)" style="checkbox" id="stageFourOi_14" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5046" answerLabel="Progressive multifocal leucoencephalopathy (PML)" style="checkbox" id="stageFourOi_15" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="131357" answerLabel="Any disseminated mycosis (e.g. histoplasmosis, coccidiomycosis)" style="checkbox" id="stageFourOi_16" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="146513" answerLabel="Candidiasis of the oesophagus or airways" style="checkbox" id="stageFourOi_17" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160851" answerLabel="Non-typhoid salmonella (NTS) septicaemia" style="checkbox" id="stageFourOi_18" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="155941" answerLabel="Lymphoma cerebral or B cell Non-Hodgkin’s Lymphoma" style="checkbox" id="stageFourOi_19" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="116023" answerLabel="Invasive cervical cancer" style="checkbox" id="stageFourOi_20" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="123084" answerLabel="Visceral leishmaniasis" style="checkbox" id="stageFourOi_21" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="153701" answerLabel="Symptomatic HIV-associated nephropathy or HIV associated cardiomyopathy" style="checkbox" id="stageFourOi_22" /><br />
 
-                                    2. Are you careless at times about taking your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-2" class="question-2" value="1065"/> Yes
-                                    <input type="radio" name="question-2" class="question-2" value="1066"/> No <br/><br/>
-
-                                    3.Sometimes if you feel worse when you take the medicine, do you stop taking it? &#160;&#160;
-                                    <input type="radio" name="question-3" class="question-3" value="1065"/> Yes
-                                    <input type="radio" name="question-3" class="question-3" value="1066"/> No <br/><br/>
-
-                                    4.When you feel better do you sometimes stop taking your medicine?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-4" class="question-4" value="1065"/> Yes
-                                    <input type="radio" name="question-4" class="question-4" value="1066"/> No <br/><br/>
                                 </div>
                                 <hr/>
                                 <div class="modal-footer">
