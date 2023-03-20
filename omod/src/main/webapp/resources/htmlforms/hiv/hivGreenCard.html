@@ -290,7 +290,7 @@ Green Card follow-up visit form
             jq('#arv-adherence input[type=radio]').attr("style", "pointer-events:none;");
 // WHO staging Modal
             var staging = "";
-            jq("#whoStage-adult select ").change(function (e) {
+            jq("#whoStage-adult select").change(function (e) {
                 jq("#whoStage-adult select option:selected").each(function () {
                     staging = jq(this).val();
                 });
@@ -298,22 +298,22 @@ Green Card follow-up visit form
                 e.preventDefault();
                 if (staging == 1204) {       //on family planning
                     jq("#whoAdultStage_1_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnCloseWhoAdultStageOne").click(closeWhoAdultStageOne);
+                    jq("#btnSaveWhoAdultStageOne").click(saveWhoAdultStageOne);
                     e.preventDefault();
                 }
                 if(staging == 1205){
                     jq("#whoAdultStage_2_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnCloseWhoAdultStageTwo").click(closeWhoAdultStageTwo);
+                    jq("#btnsaveWhoAdultStageTwo").click(saveWhoAdultStageTwo);
                     e.preventDefault();
                 }
                 if(staging == 1206){
                     jq("#whoAdultStage_3_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnCloseWhoAdultStageThree").click(closeWhoAdultStageThree);
+                    jq("#btnsaveWhoAdultStageThree").click(saveWhoAdultStageThree);
                     e.preventDefault();
                 }
                 if(staging == 1207){
                     jq("#whoAdultStage_4_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnCloseWhoAdultStageFour").click(closeWhoAdultStageFour);
+                    jq("#btnsaveWhoAdultStageFour").click(saveWhoAdultStageFour);
                     e.preventDefault();
                 }
                 strtext = "";
@@ -1881,19 +1881,66 @@ Green Card follow-up visit form
             var x = jq("#modalContents");
             x.dialog('close');
         }
-        var closeWhoAdultStageOne  = function () {
-            var x = jq("#whoAdultStage_1_ModalContents");
-            x.dialog('close');
+        var saveWhoAdultStageOne  = function () {
+
+            var val = getValue('good-health.value');
+
+            var stageOneAdultSymptom_1 = getValue('stageAdultOne_1.value');
+            var stageOneAdultSymptom_2 =  getValue('stageAdultOne_2.value');
+            console.log("Who staging about to process smypt-1==>"+stageOneAdultSymptom_1);
+            console.log("Who staging about to process smypt-2 ==>"+stageOneAdultSymptom_2);
+
+            var patientId = <lookup expression="patient.patientId"/>;
+            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
+            var encDate = getValue('encounter-date.value');
+            if(encDate == null) {
+                encDate = new Date();
+            }
+            if(stageOneAdultSymptom_1 !="" || stageOneAdultSymptom_1 != null ) {
+                console.log("Patient ID ==>"+patientId);
+                console.log("USer ID ==>"+userId);
+                console.log("Encounter Date ==>"+encDate);
+                console.log("Who staging start to process ==>"+stageOneAdultSymptom_1);
+
+                recordWhoStageOi(patientId,userId,encDate,stageOneAdultSymptom_1);
+            }
+            if(stageOneAdultSymptom_2 !="" || stageOneAdultSymptom_2 != null ) {
+                recordWhoStageOi(patientId,userId,encDate,stageOneAdultSymptom_2);
+            }
         }
-        var closeWhoAdultStageTwo  = function () {
+
+        function recordWhoStageOi(patientId,userId,encDate,whoStagingOi) {
+            console.log("Who staging  processing ==>");
+            jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/addWhoStagingOi.action', {
+                encounterDate: encDate,
+                patientId: patientId,
+                userId: userId,
+                whoStagingOi: whoStagingOi
+            }, function (data) {
+
+                if (data.status == "Success") {
+                    console.log("Who staging processed success ==>");
+                    var x = jq("#whoAdultStage_1_ModalContents");
+                    x.dialog('close');
+                } else {
+                    console.log("Who staging Failed processing");
+                    jq("#whoAdultStage_1_ModalContents").text(data.message).addClass("ke-error-label");
+                    var x = jq("#whoAdultStage_1_ModalContents");
+                    x.dialog('close');
+                }
+
+            });
+        }
+
+        var saveWhoAdultStageTwo  = function () {
             var x = jq("#whoAdultStage_2_ModalContents");
             x.dialog('close');
         }
-        var closeWhoAdultStageThree  = function () {
+        var saveWhoAdultStageThree  = function () {
             var x = jq("#whoAdultStage_3_ModalContents");
             x.dialog('close');
         }
-        var closeWhoAdultStageFour  = function () {
+        var saveWhoAdultStageFour  = function () {
             var x = jq("#whoAdultStage_4_ModalContents");
             x.dialog('close');
         }
@@ -3999,42 +4046,29 @@ Management<br />
                             <div id="whoAdultStage_1_ModalContents" style="display:none;" title="WHO stage 1 OIs" footer="OK">
                                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
                                 <div id="stage-1-adult">
-                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5006" answerLabel="Asymptomatic" style="checkbox" /><br />
-                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130364" answerLabel="Persistent generalized lymphadenopathy (PGL)" style="checkbox" /><br />
-                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="825" answerLabel="Unexplained, asymptomatic hepatosplenomegaly" style="checkbox" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5006" answerLabel="Asymptomatic" style="checkbox" id="stageAdultOne_1"/><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130364" answerLabel="Persistent generalized lymphadenopathy (PGL)" style="checkbox" id="stageAdultOne_2" /><br />
                                 </div>
                                 <hr/>
                                 <div class="modal-footer">
-                                    <button type="button" id="btnCloseWhoAdultStageOne" class="ke-program-followup-button" >Save</button>
+                                    <button type="button" id="btnSaveWhoAdultStageOne" class="ke-program-followup-button" >Save</button>
                                 </div>
                             </div>
 
                             <div id="whoAdultStage_2_ModalContents" style="display:none;" title="WHO stage 2 OIs" footer="OK">
                                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
                                 <div id="stage-2-adult">
-                                    1. Do you ever forget to take your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-1" class="question-1" value="1065"/> Yes
-                                    <input type="radio" name="question-1" class="question-1" value="1066"/> No    <br/><br/>
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214" answerLabel="Moderate unexplained weight loss (Less than 10% of presumed or measured body weight)" style="checkbox" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5330" answerLabel="Minor mucocutaneous manifestations (seborrheic dermatitis, papular pruritic eruptions,
+fungal nail infections, recurrent oral ulcerations, angular cheilitis)" style="checkbox" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="117543" answerLabel="Herpes zoster" style="checkbox" /><br />
+                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5012" answerLabel="Recurrent upper respiratory tract infections(sinusitis, tonsillitis, bronchitis, otitis media,
+ pharyngitis)" style="checkbox" /><br />
 
-                                    2. Are you careless at times about taking your medicine? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-2" class="question-2" value="1065"/> Yes
-                                    <input type="radio" name="question-2" class="question-2" value="1066"/> No <br/><br/>
-
-                                    3.Sometimes if you feel worse when you take the medicine, do you stop taking it? &#160;&#160;
-                                    <input type="radio" name="question-3" class="question-3" value="1065"/> Yes
-                                    <input type="radio" name="question-3" class="question-3" value="1066"/> No <br/><br/>
-
-                                    4.When you feel better do you sometimes stop taking your medicine?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                    <input type="radio" name="question-4" class="question-4" value="1065"/> Yes
-                                    <input type="radio" name="question-4" class="question-4" value="1066"/> No <br/><br/>
                                 </div>
                                 <hr/>
                                 <div class="modal-footer">
-                                    <button type="button" id="btnCloseWhoAdultStageTwo" class="ke-program-followup-button" >Save</button>
+                                    <button type="button" id="btnsaveWhoAdultStageTwo" class="ke-program-followup-button" >Save</button>
                                 </div>
                             </div>
 
@@ -4063,7 +4097,7 @@ Management<br />
                                 </div>
                                 <hr/>
                                 <div class="modal-footer">
-                                    <button type="button" id="btnCloseWhoAdultStageThree" class="ke-program-followup-button" >Save</button>
+                                    <button type="button" id="btnsaveWhoAdultStageThree" class="ke-program-followup-button" >Save</button>
                                 </div>
                             </div>
 
@@ -4092,7 +4126,7 @@ Management<br />
                                 </div>
                                 <hr/>
                                 <div class="modal-footer">
-                                    <button type="button" id="btnCloseWhoAdultStageFour" class="ke-program-followup-button" >Save</button>
+                                    <button type="button" id="btnsaveWhoAdultStageFour" class="ke-program-followup-button" >Save</button>
                                 </div>
                             </div>
                         </tr>      <!--.Modal   -->

@@ -857,4 +857,50 @@ public SimpleObject lastLotNumberUsedForHTSTesting(@RequestParam(value = "kitNam
 			visit.addEncounter(encounter);
 		}
 	}
+
+	/**
+	 * Adds OIs added together with WHO staging in Greencard
+	 * @param patient
+	 * @param whoStagingOI
+	 * @return
+	 */
+	public SimpleObject addWhoStagingOi(@RequestParam("patientId") Patient patient,
+									   @RequestParam("userId") User loggedInUser,
+									   @RequestParam("encounterDate") Date encounterDate,
+									   @RequestParam("whoStagingOi") Concept whoStagingOi){
+
+		String opportunisticInfectionConcept = "167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		ConceptService conceptService = Context.getConceptService();
+
+		Encounter enc = new Encounter();
+		enc.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+		EncounterService encounterService = Context.getEncounterService();
+		enc.setEncounterType(encounterService.getEncounterTypeByUuid(HivMetadata._EncounterType.HIV_CONSULTATION));
+		enc.setEncounterDatetime(encounterDate);
+		enc.setPatient(patient);
+		enc.setForm(Context.getFormService().getFormByUuid(HivMetadata._Form.HIV_GREEN_CARD));
+		enc.setCreator(loggedInUser);
+
+		// set obs
+
+		if (whoStagingOi != null) {
+			Obs whoStagingOiObs = new Obs(); // build OI obs
+			whoStagingOiObs.setConcept(conceptService.getConceptByUuid(opportunisticInfectionConcept));
+			whoStagingOiObs.setDateCreated(new Date());
+			whoStagingOiObs.setCreator(loggedInUser);
+			whoStagingOiObs.setLocation(enc.getLocation());
+			whoStagingOiObs.setObsDatetime(enc.getEncounterDatetime());
+			whoStagingOiObs.setPerson(patient);
+			whoStagingOiObs.setValueCoded(whoStagingOi);
+			enc.addObs(whoStagingOiObs);
+		}
+
+		assignToVisit(enc, Context.getVisitService().getVisitTypeByUuid(CommonMetadata._VisitType.OUTPATIENT));
+		try{
+			encounterService.saveEncounter(enc);
+			return SimpleObject.create("status", "Success","message","WHO staging OIs saved successfully");
+		} catch (Exception e) {
+			return SimpleObject.create("status", "Error","message","There was an error saving WHO staging OIs");
+		}
+	}
 }
