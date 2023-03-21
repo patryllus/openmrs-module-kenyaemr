@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Form;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Location;
@@ -871,33 +872,29 @@ public SimpleObject lastLotNumberUsedForHTSTesting(@RequestParam(value = "kitNam
 
 		String opportunisticInfectionConcept = "167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 		ConceptService conceptService = Context.getConceptService();
-
-		Encounter enc = new Encounter();
-		enc.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
 		EncounterService encounterService = Context.getEncounterService();
-		enc.setEncounterType(encounterService.getEncounterTypeByUuid(HivMetadata._EncounterType.HIV_CONSULTATION));
-		enc.setEncounterDatetime(encounterDate);
-		enc.setPatient(patient);
-		enc.setForm(Context.getFormService().getFormByUuid(HivMetadata._Form.HIV_GREEN_CARD));
-		enc.setCreator(loggedInUser);
 
+		//Encounter enc = new Encounter();
+		//With Greencard Encounter
+		EncounterType greenCardEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_CONSULTATION);
+		Form pocHivFollowup = MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_GREEN_CARD);
+		Form rdeHivFollowup = MetadataUtils.existing(Form.class, HivMetadata._Form.MOH_257_VISIT_SUMMARY);
+		Encounter lastFollowUpEncounter = EmrUtils.lastEncounter(patient, greenCardEncType, Arrays.asList(pocHivFollowup, rdeHivFollowup));  //last hiv followup encounter
 		// set obs
-
 		if (whoStagingOi != null) {
 			Obs whoStagingOiObs = new Obs(); // build OI obs
 			whoStagingOiObs.setConcept(conceptService.getConceptByUuid(opportunisticInfectionConcept));
 			whoStagingOiObs.setDateCreated(new Date());
 			whoStagingOiObs.setCreator(loggedInUser);
-			whoStagingOiObs.setLocation(enc.getLocation());
-			whoStagingOiObs.setObsDatetime(enc.getEncounterDatetime());
+			whoStagingOiObs.setLocation(lastFollowUpEncounter.getLocation());
+			whoStagingOiObs.setObsDatetime(lastFollowUpEncounter.getEncounterDatetime());
 			whoStagingOiObs.setPerson(patient);
 			whoStagingOiObs.setValueCoded(whoStagingOi);
-			enc.addObs(whoStagingOiObs);
+			lastFollowUpEncounter.addObs(whoStagingOiObs);
 		}
 
-		assignToVisit(enc, Context.getVisitService().getVisitTypeByUuid(CommonMetadata._VisitType.OUTPATIENT));
 		try{
-			encounterService.saveEncounter(enc);
+			encounterService.saveEncounter(lastFollowUpEncounter);
 			return SimpleObject.create("status", "Success","message","WHO staging OIs saved successfully");
 		} catch (Exception e) {
 			return SimpleObject.create("status", "Error","message","There was an error saving WHO staging OIs");
