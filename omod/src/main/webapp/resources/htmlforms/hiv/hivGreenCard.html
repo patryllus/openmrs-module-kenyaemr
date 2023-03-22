@@ -225,6 +225,16 @@ Green Card follow-up visit form
             iptInitiationTab.hide();
             iptEnrollmentTab.hide();
             ageGroup();
+            //WHO staging OIs defaults
+            jq("#tr-whoStageAdult-1").hide();
+            jq("#tr-whoStageAdult-2").hide();
+            jq("#tr-whoStageAdult-3").hide();
+            jq("#tr-whoStageAdult-4").hide();
+            jq("#tr-whoStagePead-1").hide();
+            jq("#tr-whoStagePead-2").hide();
+            jq("#tr-whoStagePead-3").hide();
+            jq("#tr-whoStagePead-4").hide();
+
             displayRecentBmi();
 //Prophylaxis section
             jq("#ctx-part").hide();
@@ -294,61 +304,92 @@ Green Card follow-up visit form
                 jq("#whoStage-adult select option:selected").each(function () {
                     staging = jq(this).val();
                 });
-                console.log("Who staging ==>"+staging);
+                var whoStage1Adult = jq("#tr-whoStageAdult-1").show();
+                var whoStage2Adult = jq("#tr-whoStageAdult-2").hide();
+                var whoStage3Adult = jq("#tr-whoStageAdult-3").hide();
+                var whoStage4Adult = jq("#tr-whoStageAdult-4").hide();
+
                 e.preventDefault();
                 if (staging == 1204) {
-                    jq("#whoAdultStage_1_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnSaveWhoAdultStageOne").click(saveWhoAdultStageOne);
+                    jq("#tr-whoStageAdult-1").show();
+                    jq("#tr-whoStageAdult-2").hide();
+                    jq("#tr-whoStageAdult-3").hide();
+                    jq("#tr-whoStageAdult-4").hide();
                     e.preventDefault();
+                    clearHiddenSections([whoStage2Adult,whoStage3Adult,whoStage4Adult]);
                 }
                 if(staging == 1205){
-                    jq("#whoAdultStage_2_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnsaveWhoAdultStageTwo").click(saveWhoAdultStageTwo);
+                    jq("#tr-whoStageAdult-1").hide();
+                    jq("#tr-whoStageAdult-2").show();
+                    jq("#tr-whoStageAdult-3").hide();
+                    jq("#tr-whoStageAdult-4").hide();
                     e.preventDefault();
+                    clearHiddenSections([whoStage1Adult,whoStage3Adult,whoStage4Adult]);
                 }
                 if(staging == 1206){
-                    jq("#whoAdultStage_3_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnsaveWhoAdultStageThree").click(saveWhoAdultStageThree);
+                    jq("#tr-whoStageAdult-1").hide();
+                    jq("#tr-whoStageAdult-2").hide();
+                    jq("#tr-whoStageAdult-3").show();
+                    jq("#tr-whoStageAdult-4").hide();
                     e.preventDefault();
+                    clearHiddenSections([whoStage1Adult,whoStage2Adult,whoStage4Adult]);
                 }
                 if(staging == 1207){
-                    jq("#whoAdultStage_4_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnsaveWhoAdultStageFour").click(saveWhoAdultStageFour);
+                    jq("#tr-whoStageAdult-1").hide();
+                    jq("#tr-whoStageAdult-2").hide();
+                    jq("#tr-whoStageAdult-3").hide();
+                    jq("#tr-whoStageAdult-4").show();
+
                     e.preventDefault();
+                    clearHiddenSections([whoStage1Adult,whoStage2Adult,whoStage3Adult]);
                 }
-                strtext = "";
             });
 
             jq("#whoStage-child select").change(function (e) {
                 jq("#whoStage-child select option:selected").each(function () {
                     staging = jq(this).val();
                 });
-                console.log("Who staging ==>"+staging);
+                var whoStage1Pead =  jq("#tr-whoStagePead-1").hide();
+                var whoStage2Pead = jq("#tr-whoStagePead-2").hide();
+                var whoStage3Pead = jq("#tr-whoStagePead-3").hide();
+                var whoStage4Pead = jq("#tr-whoStagePead-4").hide();
+
                 e.preventDefault();
                 if (staging == 1220) {
-                    jq("#whoPeadStage_1_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnSaveWhoPeadStageOne").click(saveWhoPeadStageOne);
+                    jq("#tr-whoStagePead-1").show();
+                    jq("#tr-whoStagePead-2").hide();
+                    jq("#tr-whoStagePead-3").hide();
+                    jq("#tr-whoStagePead-4").hide();
                     e.preventDefault();
+                    clearHiddenSections([whoStage2Pead,whoStage3Pead,whoStage4Pead]);
                 }
                 if(staging == 1221){
-                    jq("#whoPeadStage_2_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnSaveWhoPeadStageTwo").click(saveWhoPeadStageTwo);
+                    jq("#tr-whoStagePead-1").hide();
+                    jq("#tr-whoStagePead-2").show();
+                    jq("#tr-whoStagePead-3").hide();
+                    jq("#tr-whoStagePead-4").hide();
                     e.preventDefault();
+                    clearHiddenSections([whoStage1Pead,whoStage3Pead,whoStage4Pead]);
                 }
                 if(staging == 1222){
-                    jq("#whoPeadStage_3_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnSaveWhoPeadStageThree").click(saveWhoPeadStageThree);
+                    jq("#tr-whoStagePead-1").hide();
+                    jq("#tr-whoStagePead-2").hide();
+                    jq("#tr-whoStagePead-3").show();
+                    jq("#tr-whoStagePead-4").hide();
                     e.preventDefault();
+                    clearHiddenSections([whoStage1Pead,whoStage2Pead,whoStage4Pead]);
                 }
                 if(staging == 1223){
-                    jq("#whoPeadStage_4_ModalContents").dialog({bgiframe: true, height: 425, width: 900, modal: true});
-                    jq("#btnSaveWhoPeadStageFour").click(saveWhoPeadStageFour);
+                    jq("#tr-whoStagePead-1").hide();
+                    jq("#tr-whoStagePead-2").hide();
+                    jq("#tr-whoStagePead-3").hide();
+                    jq("#tr-whoStagePead-4").show();
                     e.preventDefault();
+                    clearHiddenSections([whoStage1Pead,whoStage2Pead,whoStage3Pead]);
                 }
-                strtext = "";
             });
 
-   // End WHO staging modal
+
             var strtext = "";
             var familyPlanningOption = getValue('fplanning.value');
             var pregnancyOption = getValue('pregnancyOption.value');
@@ -1096,7 +1137,6 @@ Green Card follow-up visit form
                 }
                 jq(".on-art").hide();
                 jq('#dlgAdherenceScreening').hide();
-                jq('#who-stage-1').hide();
 //jq("#tbl-phdp").hide();
                 jq("#tbl-ctx-adherence").hide();
                 jq("#tbl-dap-adherence").hide();
@@ -1909,562 +1949,6 @@ Green Card follow-up visit form
         var closeAdherenceAssessment  = function () {
             var x = jq("#modalContents");
             x.dialog('close');
-        }
-        var saveWhoAdultStageOne  = function () {
-            var stageOneAdultSymptom_1 = getValue('stageAdultOne_1.value');
-            var stageOneAdultSymptom_2 =  getValue('stageAdultOne_2.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageOneAdultSymptom_1 !="" || stageOneAdultSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageOneAdultSymptom_1);
-            }
-            if(stageOneAdultSymptom_2 !="" || stageOneAdultSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageOneAdultSymptom_2);
-            }
-            var x = jq("#whoAdultStage_1_ModalContents");
-            x.dialog('close');
-        }
-
-        var saveWhoAdultStageTwo  = function () {
-            var stageTwoAdultSymptom_1 =  getValue('stageTwoOi_1.value');
-            var stageTwoAdultSymptom_2 =  getValue('stageTwoOi_2.value');
-            var stageTwoAdultSymptom_3 =  getValue('stageTwoOi_3.value');
-            var stageTwoAdultSymptom_4 =  getValue('stageTwoOi_4.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageTwoAdultSymptom_1 !="" || stageTwoAdultSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_1);
-            }
-            if(stageTwoAdultSymptom_2 !="" || stageTwoAdultSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_2);
-            }
-            if(stageTwoAdultSymptom_3 !="" || stageTwoAdultSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_3);
-            }
-            if(stageTwoAdultSymptom_4 !="" || stageTwoAdultSymptom_4 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_4);
-            }
-            var x = jq("#whoAdultStage_2_ModalContents");
-            x.dialog('close');
-        }
-
-        var saveWhoAdultStageTwo  = function () {
-            var stageTwoAdultSymptom_1 =  getValue('stageTwoOi_1.value');
-            var stageTwoAdultSymptom_2 =  getValue('stageTwoOi_2.value');
-            var stageTwoAdultSymptom_3 =  getValue('stageTwoOi_3.value');
-            var stageTwoAdultSymptom_4 =  getValue('stageTwoOi_4.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageTwoAdultSymptom_1 !="" || stageTwoAdultSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_1);
-            }
-            if(stageTwoAdultSymptom_2 !="" || stageTwoAdultSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_2);
-            }
-            if(stageTwoAdultSymptom_3 !="" || stageTwoAdultSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_3);
-            }
-            if(stageTwoAdultSymptom_4 !="" || stageTwoAdultSymptom_4 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoAdultSymptom_4);
-            }
-            var x = jq("#whoAdultStage_2_ModalContents");
-            x.dialog('close');
-        }
-
-               var saveWhoAdultStageThree  = function () {
-            var stageThreeAdultSymptom_1 =  getValue('stageThreeOi_1.value');
-            var stageThreeAdultSymptom_2 =  getValue('stageThreeOi_2.value');
-            var stageThreeAdultSymptom_3 =  getValue('stageThreeOi_3.value');
-            var stageThreeAdultSymptom_4 =  getValue('stageThreeOi_4.value');
-            var stageThreeAdultSymptom_5 =  getValue('stageThreeOi_5.value');
-            var stageThreeAdultSymptom_6 =  getValue('stageThreeOi_6.value');
-            var stageThreeAdultSymptom_7 =  getValue('stageThreeOi_7.value');
-            var stageThreeAdultSymptom_8 =  getValue('stageThreeOi_8.value');
-            var stageThreeAdultSymptom_9 =  getValue('stageThreeOi_9.value');
-            var stageThreeAdultSymptom_10 =  getValue('stageThreeOi_10.value');
-            var stageThreeAdultSymptom_11 =  getValue('stageThreeOi_11.value');
-            var stageThreeAdultSymptom_12 =  getValue('stageThreeOi_12.value');
-            var stageThreeAdultSymptom_13 =  getValue('stageThreeOi_13.value');
-            var stageThreeAdultSymptom_14 =  getValue('stageThreeOi_14.value');
-            var stageThreeAdultSymptom_15 =  getValue('stageThreeOi_15.value');
-            var stageThreeAdultSymptom_16 =  getValue('stageThreeOi_16.value');
-            var stageThreeAdultSymptom_17 =  getValue('stageThreeOi_17.value');
-            var stageThreeAdultSymptom_18 =  getValue('stageThreeOi_18.value');
-            var stageThreeAdultSymptom_19 =  getValue('stageThreeOi_19.value');
-            var stageThreeAdultSymptom_20 =  getValue('stageThreeOi_20.value');
-            var stageThreeAdultSymptom_21 =  getValue('stageThreeOi_21.value');
-            var stageThreeAdultSymptom_22 =  getValue('stageThreeOi_22.value');
-            var stageThreeAdultSymptom_23 =  getValue('stageThreeOi_23.value');
-            var stageThreeAdultSymptom_24 =  getValue('stageThreeOi_24.value');
-            var stageThreeAdultSymptom_25 =  getValue('stageThreeOi_25.value');
-            var stageThreeAdultSymptom_26 =  getValue('stageThreeOi_26.value');
-            var stageThreeAdultSymptom_27 =  getValue('stageThreeOi_27.value');
-            var stageThreeAdultSymptom_28 =  getValue('stageThreeOi_28.value');
-            var stageThreeAdultSymptom_29 =  getValue('stageThreeOi_29.value');
-            var stageThreeAdultSymptom_30 =  getValue('stageThreeOi_30.value');
-            var stageThreeAdultSymptom_31 =  getValue('stageThreeOi_31.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageThreeAdultSymptom_1 !="" || stageThreeAdultSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_1);
-            }
-            if(stageThreeAdultSymptom_2 !="" || stageThreeAdultSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_2);
-            }
-            if(stageThreeAdultSymptom_3 !="" || stageThreeAdultSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_3);
-            }
-            if(stageThreeAdultSymptom_4 !="" || stageThreeAdultSymptom_4 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_4);
-            }
-            if(stageThreeAdultSymptom_5 !="" || stageThreeAdultSymptom_5 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_5);
-            }
-            if(stageThreeAdultSymptom_6 !="" || stageThreeAdultSymptom_6 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_6);
-            }
-            if(stageThreeAdultSymptom_7 !="" || stageThreeAdultSymptom_7 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_7);
-            }
-            if(stageThreeAdultSymptom_8 !="" || stageThreeAdultSymptom_8 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_8);
-            }
-            if(stageThreeAdultSymptom_9 !="" || stageThreeAdultSymptom_9 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_9);
-            }
-            if(stageThreeAdultSymptom_10 !="" || stageThreeAdultSymptom_10 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_10);
-            }
-            if(stageThreeAdultSymptom_11 !="" || stageThreeAdultSymptom_11 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_11);
-            }
-            if(stageThreeAdultSymptom_12 !="" || stageThreeAdultSymptom_12 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_12);
-            }
-            if(stageThreeAdultSymptom_13 !="" || stageThreeAdultSymptom_13 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_13);
-            }
-            if(stageThreeAdultSymptom_14 !="" || stageThreeAdultSymptom_14 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_14);
-            }
-            if(stageThreeAdultSymptom_15 !="" || stageThreeAdultSymptom_15 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_15);
-            }
-            if(stageThreeAdultSymptom_16 !="" || stageThreeAdultSymptom_16 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_16);
-            }
-            if(stageThreeAdultSymptom_17 !="" || stageThreeAdultSymptom_17 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_17);
-            }
-            if(stageThreeAdultSymptom_18 !="" || stageThreeAdultSymptom_18 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_18);
-            }
-            if(stageThreeAdultSymptom_19 !="" || stageThreeAdultSymptom_19 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_19);
-            }
-            if(stageThreeAdultSymptom_20 !="" || stageThreeAdultSymptom_20 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_20);
-            }
-            if(stageThreeAdultSymptom_21 !="" || stageThreeAdultSymptom_21 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_21);
-            }
-            if(stageThreeAdultSymptom_22 !="" || stageThreeAdultSymptom_22 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_22);
-            }
-            if(stageThreeAdultSymptom_23 !="" || stageThreeAdultSymptom_23 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_23);
-            }
-            if(stageThreeAdultSymptom_24 !="" || stageThreeAdultSymptom_24 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_24);
-            }
-            if(stageThreeAdultSymptom_25 !="" || stageThreeAdultSymptom_25 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_25);
-            }
-            if(stageThreeAdultSymptom_26 !="" || stageThreeAdultSymptom_26 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_26);
-            }
-            if(stageThreeAdultSymptom_27 !="" || stageThreeAdultSymptom_27 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_27);
-            }
-            if(stageThreeAdultSymptom_28 !="" || stageThreeAdultSymptom_28 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_28);
-            }
-            if(stageThreeAdultSymptom_29 !="" || stageThreeAdultSymptom_29 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_29);
-            }
-            if(stageThreeAdultSymptom_30 !="" || stageThreeAdultSymptom_30 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_30);
-            }
-            if(stageThreeAdultSymptom_31 !="" || stageThreeAdultSymptom_31 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreeAdultSymptom_31);
-            }
-
-            var x = jq("#whoAdultStage_3_ModalContents");
-            x.dialog('close');
-        }
-
-        var saveWhoAdultStageFour  = function () {
-            var stageFourAdultSymptom_1 =  getValue('stageFourOi_1.value');
-            var stageFourAdultSymptom_2 =  getValue('stageFourOi_2.value');
-            var stageFourAdultSymptom_3 =  getValue('stageFourOi_3.value');
-            var stageFourAdultSymptom_4 =  getValue('stageFourOi_4.value');
-            var stageFourAdultSymptom_5 =  getValue('stageFourOi_5.value');
-            var stageFourAdultSymptom_6 =  getValue('stageFourOi_6.value');
-            var stageFourAdultSymptom_7 =  getValue('stageFourOi_7.value');
-            var stageFourAdultSymptom_8 =  getValue('stageFourOi_8.value');
-            var stageFourAdultSymptom_9 =  getValue('stageFourOi_9.value');
-            var stageFourAdultSymptom_10 =  getValue('stageFourOi_10.value');
-            var stageFourAdultSymptom_11 =  getValue('stageFourOi_11.value');
-            var stageFourAdultSymptom_12 =  getValue('stageFourOi_12.value');
-            var stageFourAdultSymptom_13 =  getValue('stageFourOi_13.value');
-            var stageFourAdultSymptom_14 =  getValue('stageFourOi_14.value');
-            var stageFourAdultSymptom_15 =  getValue('stageFourOi_15.value');
-            var stageFourAdultSymptom_16 =  getValue('stageFourOi_16.value');
-            var stageFourAdultSymptom_17 =  getValue('stageFourOi_17.value');
-            var stageFourAdultSymptom_18 =  getValue('stageFourOi_18.value');
-            var stageFourAdultSymptom_19 =  getValue('stageFourOi_19.value');
-            var stageFourAdultSymptom_20 =  getValue('stageFourOi_20.value');
-            var stageFourAdultSymptom_21 =  getValue('stageFourOi_21.value');
-            var stageFourAdultSymptom_22 =  getValue('stageFourOi_22.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageFourAdultSymptom_1 !="" || stageFourAdultSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_1);
-            }
-            if(stageFourAdultSymptom_2 !="" || stageFourAdultSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_1);
-            }
-            if(stageFourAdultSymptom_3 !="" || stageFourAdultSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_3);
-            }
-            if(stageFourAdultSymptom_4 !="" || stageFourAdultSymptom_4 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_4);
-            }
-            if(stageFourAdultSymptom_5 !="" || stageFourAdultSymptom_5 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_5);
-            }
-            if(stageFourAdultSymptom_6 !="" || stageFourAdultSymptom_6 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_6);
-            }
-            if(stageFourAdultSymptom_7 !="" || stageFourAdultSymptom_7 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_7);
-            }
-            if(stageFourAdultSymptom_8 !="" || stageFourAdultSymptom_8 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_8);
-            }
-            if(stageFourAdultSymptom_9 !="" || stageFourAdultSymptom_9 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_9);
-            }
-            if(stageFourAdultSymptom_10 !="" || stageFourAdultSymptom_10 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_10);
-            }
-            if(stageFourAdultSymptom_11 !="" || stageFourAdultSymptom_11 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_11);
-            }
-            if(stageFourAdultSymptom_12 !="" || stageFourAdultSymptom_12 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_12);
-            }
-            if(stageFourAdultSymptom_13 !="" || stageFourAdultSymptom_13 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_13);
-            }
-            if(stageFourAdultSymptom_14 !="" || stageFourAdultSymptom_14 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_14);
-            }
-            if(stageFourAdultSymptom_15 !="" || stageFourAdultSymptom_15 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_15);
-            }
-            if(stageFourAdultSymptom_16 !="" || stageFourAdultSymptom_16 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_16);
-            }
-            if(stageFourAdultSymptom_17 !="" || stageFourAdultSymptom_17 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_17);
-            }
-            if(stageFourAdultSymptom_18 !="" || stageFourAdultSymptom_18 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_18);
-            }
-            if(stageFourAdultSymptom_19 !="" || stageFourAdultSymptom_19 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_19);
-            }
-            if(stageFourAdultSymptom_20 !="" || stageFourAdultSymptom_20 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_20);
-            }
-            if(stageFourAdultSymptom_21 !="" || stageFourAdultSymptom_21 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_21);
-            }
-            if(stageFourAdultSymptom_22 !="" || stageFourAdultSymptom_22 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourAdultSymptom_22);
-            }
-
-            var x = jq("#whoAdultStage_4_ModalContents");
-            x.dialog('close');
-        }
-        //Peads
-        var saveWhoPeadStageOne  = function () {
-            var stageOnePeadSymptom_1 =  getValue('stageOnePeadOi_1.value');
-            var stageOnePeadSymptom_2 =  getValue('stageOnePeadOi_2.value');
-            var stageOnePeadSymptom_3 =  getValue('stageOnePeadOi_3.value');
-
-
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageOnePeadSymptom_1 !="" || stageOnePeadSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageOnePeadSymptom_1);
-            }
-            if(stageOnePeadSymptom_2 !="" || stageOnePeadSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageOnePeadSymptom_2);
-            }
-            if(stageOnePeadSymptom_3 !="" || stageOnePeadSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageOnePeadSymptom_3);
-            }
-
-            var x = jq("#whoPeadStage_1_ModalContents");
-            x.dialog('close');
-        }
-        var saveWhoPeadStageTwo  = function () {
-            var stageTwoPeadSymptom_1 =  getValue('stageTwoPeadOi_1.value');
-            var stageTwoPeadSymptom_2 =  getValue('stageTwoPeadOi_2.value');
-            var stageTwoPeadSymptom_3 =  getValue('stageTwoPeadOi_3.value');
-            var stageTwoPeadSymptom_4 =  getValue('stageTwoPeadOi_4.value');
-            var stageTwoPeadSymptom_5 =  getValue('stageTwoPeadOi_5.value');
-            var stageTwoPeadSymptom_6 =  getValue('stageTwoPeadOi_6.value');
-            var stageTwoPeadSymptom_7 =  getValue('stageTwoPeadOi_7.value');
-            var stageTwoPeadSymptom_8 =  getValue('stageTwoPeadOi_8.value');
-            var stageTwoPeadSymptom_9 =  getValue('stageTwoPeadOi_9.value');
-            var stageTwoPeadSymptom_10 =  getValue('stageTwoPeadOi_10.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageTwoPeadSymptom_1 !="" || stageTwoPeadSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_1);
-            }
-            if(stageTwoPeadSymptom_2 !="" || stageTwoPeadSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_2);
-            }
-            if(stageTwoPeadSymptom_3 !="" || stageTwoPeadSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_3);
-            }
-            if(stageTwoPeadSymptom_4 !="" || stageTwoPeadSymptom_4 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_4);
-            }
-            if(stageTwoPeadSymptom_5 !="" || stageTwoPeadSymptom_5 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_5);
-            }
-            if(stageTwoPeadSymptom_6 !="" || stageTwoPeadSymptom_6 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_6);
-            }
-            if(stageTwoPeadSymptom_7 !="" || stageTwoPeadSymptom_7 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_7);
-            }
-            if(stageTwoPeadSymptom_8 !="" || stageTwoPeadSymptom_8 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_8);
-            }
-            if(stageTwoPeadSymptom_9 !="" || stageTwoPeadSymptom_9 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_9);
-            }
-            if(stageTwoPeadSymptom_10 !="" || stageTwoPeadSymptom_10 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageTwoPeadSymptom_10);
-            }
-
-            var x = jq("#whoPeadStage_2_ModalContents");
-            x.dialog('close');
-        }
-
-        var saveWhoPeadStageThree  = function () {
-            var stageThreePeadSymptom_1 =  getValue('stageThreePeadOi_1.value');
-            var stageThreePeadSymptom_2 =  getValue('stageThreePeadOi_2.value');
-            var stageThreePeadSymptom_3 =  getValue('stageThreePeadOi_3.value');
-            var stageThreePeadSymptom_4 =  getValue('stageThreePeadOi_4.value');
-            var stageThreePeadSymptom_5 =  getValue('stageThreePeadOi_5.value');
-            var stageThreePeadSymptom_6 =  getValue('stageThreePeadOi_6.value');
-            var stageThreePeadSymptom_7 =  getValue('stageThreePeadOi_7.value');
-            var stageThreePeadSymptom_8 =  getValue('stageThreePeadOi_8.value');
-            var stageThreePeadSymptom_9 =  getValue('stageThreePeadOi_9.value');
-            var stageThreePeadSymptom_10 =  getValue('stageThreePeadOi_10.value');
-            var stageThreePeadSymptom_11 =  getValue('stageThreePeadOi_11.value');
-            var stageThreePeadSymptom_12 =  getValue('stageThreePeadOi_12.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageThreePeadSymptom_1 !="" || stageThreePeadSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_1);
-            }
-            if(stageThreePeadSymptom_2 !="" || stageThreePeadSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_2);
-            }
-            if(stageThreePeadSymptom_3 !="" || stageThreePeadSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_3);
-            }
-            if(stageThreePeadSymptom_4 !="" || stageThreePeadSymptom_4 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_4);
-            }
-            if(stageThreePeadSymptom_5 !="" || stageThreePeadSymptom_5 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_5);
-            }
-            if(stageThreePeadSymptom_6 !="" || stageThreePeadSymptom_6 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_6);
-            }
-            if(stageThreePeadSymptom_7 !="" || stageThreePeadSymptom_7 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_7);
-            }
-            if(stageThreePeadSymptom_8 !="" || stageThreePeadSymptom_8 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_8);
-            }
-            if(stageThreePeadSymptom_9 !="" || stageThreePeadSymptom_9 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_9);
-            }
-            if(stageThreePeadSymptom_10 !="" || stageThreePeadSymptom_10 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_10);
-            }
-            if(stageThreePeadSymptom_11 !="" || stageThreePeadSymptom_11 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_11);
-            }
-            if(stageThreePeadSymptom_12 !="" || stageThreePeadSymptom_12 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageThreePeadSymptom_12);
-            }
-
-            var x = jq("#whoPeadStage_3_ModalContents");
-            x.dialog('close');
-        }
-
-        var saveWhoPeadStageFour  = function () {
-            var stageFourPeadSymptom_1 =  getValue('stageFourPeadOi_1.value');
-            var stageFourPeadSymptom_2 =  getValue('stageFourPeadOi_2.value');
-            var stageFourPeadSymptom_3 =  getValue('stageFourPeadOi_3.value');
-            var stageFourPeadSymptom_4 =  getValue('stageFourPeadOi_4.value');
-            var stageFourPeadSymptom_5 =  getValue('stageFourPeadOi_5.value');
-            var stageFourPeadSymptom_6 =  getValue('stageFourPeadOi_6.value');
-            var stageFourPeadSymptom_7 =  getValue('stageFourPeadOi_7.value');
-            var stageFourPeadSymptom_8 =  getValue('stageFourPeadOi_8.value');
-            var stageFourPeadSymptom_9 =  getValue('stageFourPeadOi_9.value');
-            var stageFourPeadSymptom_10 =  getValue('stageFourPeadOi_10.value');
-            var stageFourPeadSymptom_11 =  getValue('stageFourPeadOi_11.value');
-            var stageFourPeadSymptom_12 =  getValue('stageFourPeadOi_12.value');
-            var stageFourPeadSymptom_13 =  getValue('stageFourPeadOi_13.value');
-            var stageFourPeadSymptom_14 =  getValue('stageFourPeadOi_14.value');
-            var stageFourPeadSymptom_15 =  getValue('stageFourPeadOi_15.value');
-            var stageFourPeadSymptom_16 =  getValue('stageFourPeadOi_16.value');
-            var stageFourPeadSymptom_17 =  getValue('stageFourPeadOi_17.value');
-            var stageFourPeadSymptom_18 =  getValue('stageFourPeadOi_18.value');
-
-            var patientId = <lookup expression="patient.patientId"/>;
-            var userId = <lookup expression="user.userId"/>; // get logged in user. the discontinueIptProgram method doesn't seem to get access to Context.authenticatedUser()
-            var encDate = getValue('encounter-date.value');
-            if(encDate == null) {
-                encDate = new Date();
-            }
-            if(stageFourPeadSymptom_1 !="" || stageFourPeadSymptom_1 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_1);
-            }
-            if(stageFourPeadSymptom_2 !="" || stageFourPeadSymptom_2 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_2);
-            }
-            if(stageFourPeadSymptom_3 !="" || stageFourPeadSymptom_3 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_3);
-            }
-            if(stageFourPeadSymptom_4 !="" || stageFourPeadSymptom_4 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_4);
-            }
-            if(stageFourPeadSymptom_5 !="" || stageFourPeadSymptom_5 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_5);
-            }
-            if(stageFourPeadSymptom_6 !="" || stageFourPeadSymptom_6 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_6);
-            }
-            if(stageFourPeadSymptom_7 !="" || stageFourPeadSymptom_7 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_7);
-            }
-            if(stageFourPeadSymptom_8 !="" || stageFourPeadSymptom_8 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_8);
-            }
-            if(stageFourPeadSymptom_9 !="" || stageFourPeadSymptom_9 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_9);
-            }
-            if(stageFourPeadSymptom_10 !="" || stageFourPeadSymptom_10 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_10);
-            }
-            if(stageFourPeadSymptom_11 !="" || stageFourPeadSymptom_11 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_11);
-            }
-            if(stageFourPeadSymptom_12 !="" || stageFourPeadSymptom_12 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_12);
-            }
-            if(stageFourPeadSymptom_13 !="" || stageFourPeadSymptom_13 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_13);
-            }
-            if(stageFourPeadSymptom_14 !="" || stageFourPeadSymptom_14 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_14);
-            }
-            if(stageFourPeadSymptom_15 !="" || stageFourPeadSymptom_15 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_15);
-            }
-            if(stageFourPeadSymptom_16 !="" || stageFourPeadSymptom_16 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_16);
-            }
-            if(stageFourPeadSymptom_17 !="" || stageFourPeadSymptom_17 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_17);
-            }
-            if(stageFourPeadSymptom_18 !="" || stageFourPeadSymptom_18 != null ) {
-                recordWhoStageOi(patientId,userId,encDate,stageFourPeadSymptom_18);
-            }
-
-            var x = jq("#whoPeadStage_4_ModalContents");
-            x.dialog('close');
-        }
-
-
-        function recordWhoStageOi(patientId,userId,encDate,whoStagingOi) {
-            console.log("Who staging  processing ==>");
-            jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/addWhoStagingOi.action', {
-                encounterDate: encDate,
-                patientId: patientId,
-                userId: userId,
-                whoStagingOi: whoStagingOi
-            }, function (data) {
-                if (data.status == "Success") {
-                    console.log("Who staging processed success ==>");
-                } else {
-                    console.log("Who staging Failed processing");
-                }
-
-            });
         }
 
         //stability selected
@@ -3292,6 +2776,59 @@ Management<br />
                                 jq("#tbl-start-antiTb").show();
                             }else{
                                 jq("#tbl-start-antiTb").hide();
+                            }
+
+      //WHO staging OIs
+                            var staging = getField('whoStage-adult.value').val();
+                            console.log("Adult WHO ==>"+staging)
+                            if (staging == 1204) {
+                                jq("#tr-whoStageAdult-1").show();
+                                jq("#tr-whoStageAdult-2").hide();
+                                jq("#tr-whoStageAdult-3").hide();
+                                jq("#tr-whoStageAdult-4").hide();
+                            }
+                            if(staging == 1205){
+                                jq("#tr-whoStageAdult-1").hide();
+                                jq("#tr-whoStageAdult-2").show();
+                                jq("#tr-whoStageAdult-3").hide();
+                                jq("#tr-whoStageAdult-4").hide();
+                            }
+                            if(staging == 1206){
+                                jq("#tr-whoStageAdult-1").hide();
+                                jq("#tr-whoStageAdult-2").hide();
+                                jq("#tr-whoStageAdult-3").show();
+                                jq("#tr-whoStageAdult-4").hide();
+                            }
+                            if(staging == 1207){
+                                jq("#tr-whoStageAdult-1").hide();
+                                jq("#tr-whoStageAdult-2").hide();
+                                jq("#tr-whoStageAdult-3").hide();
+                                jq("#tr-whoStageAdult-4").show();
+                            }
+
+                           if (staging == 1220) {
+                                jq("#tr-whoStagePead-1").show();
+                                jq("#tr-whoStagePead-2").hide();
+                                jq("#tr-whoStagePead-3").hide();
+                                jq("#tr-whoStagePead-4").hide();
+                            }
+                            if(staging == 1221){
+                                jq("#tr-whoStagePead-1").hide();
+                                jq("#tr-whoStagePead-2").show();
+                                jq("#tr-whoStagePead-3").hide();
+                                jq("#tr-whoStagePead-4").hide();
+                            }
+                            if(staging == 1222){
+                                jq("#tr-whoStagePead-1").hide();
+                                jq("#tr-whoStagePead-2").hide();
+                                jq("#tr-whoStagePead-3").show();
+                                jq("#tr-whoStagePead-4").hide();
+                            }
+                            if(staging == 1223){
+                                jq("#tr-whoStagePead-1").hide();
+                                jq("#tr-whoStagePead-2").hide();
+                                jq("#tr-whoStagePead-3").hide();
+                                jq("#tr-whoStagePead-4").show();
                             }
 
                         });
@@ -4563,42 +4100,25 @@ Management<br />
                             </td>
                         </tr>
                     </table>
-                    <table class = "who-stage-1">
-                        <!--Adherence Modal  -->
-                        <tr>
-                            <!-- Adult WHO staging  -->
-                           <div id="whoAdultStage_1_ModalContents" style="display:none;" title="WHO stage 1 OIs" footer="OK">
-                               <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                               <div id="stage-1-adult">
+                    <table id="tbl-who-stage">
+                        <tr id="tr-whoStageAdult-1">
+                            <td>
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5006" answerLabel="Asymptomatic" style="checkbox" id="stageAdultOne_1"/><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130364" answerLabel="Persistent generalized lymphadenopathy (PGL)" style="checkbox" id="stageAdultOne_2" /><br />
-                               </div>
-                               <hr/>
-                               <div class="modal-footer">
-                                   <button type="button" id="btnSaveWhoAdultStageOne" class="ke-program-followup-button" >Save</button>
-                               </div>
-                           </div>
-
-                           <div id="whoAdultStage_2_ModalContents" style="display:none;" title="WHO stage 2 OIs" footer="OK">
-                               <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                               <div id="stage-2-adult">
+                            </td>
+                        </tr>
+                        <tr id="tr-whoStageAdult-2">
+                            <td>
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214" answerLabel="Moderate unexplained weight loss (Less than 10% of presumed or measured body weight)" style="checkbox" id="stageTwoOi_1" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5330" answerLabel="Minor mucocutaneous manifestations (seborrheic dermatitis, papular pruritic eruptions,
                                                                                                                               fungal nail infections, recurrent oral ulcerations, angular cheilitis)" style="checkbox" id="stageTwoOi_2" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="117543" answerLabel="Herpes zoster" style="checkbox" id="stageTwoOi_3" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5012" answerLabel="Recurrent upper respiratory tract infections(sinusitis, tonsillitis, bronchitis, otitis media,
-                                                                                                                               pharyngitis)" style="checkbox" id="stageTwoOi_4" /><br />
-
-                               </div>
-                               <hr/>
-                               <div class="modal-footer">
-                                   <button type="button" id="btnsaveWhoAdultStageTwo" class="ke-program-followup-button" >Save</button>
-                               </div>
-                           </div>
-
-                           <div id="whoAdultStage_3_ModalContents" style="display:none;" title="WHO stage 3 OIs" footer="OK">
-                               <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                               <div id="stage-3-adult">
+                                                                                                                            pharyngitis)" style="checkbox" id="stageTwoOi_4" /><br />
+                            </td>
+                        </tr>
+                        <tr id="tr-whoStageAdult-3">
+                          <td>
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214" answerLabel="Unexplained severe weight loss (over 10% of presumed or measured body weight)" style="checkbox" id="stageThreeOi_1" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5018" answerLabel="Unexplained chronic diarrhoea for longer than one month" style="checkbox" id="stageThreeOi_2" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5027" answerLabel="Unexplained persistent fever (intermittent or constant for longer than one month)" style="checkbox" id="stageThreeOi_3" /><br />
@@ -4610,16 +4130,10 @@ Management<br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="133440" answerLabel="Acute necrotizing ulcerative stomatitis, gingivitis or periodontitis" style="checkbox" id="stageThreeOi_8" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="148849" answerLabel="Unexplained anaemia (below 8 g/dl),neutropenia(below 0.5 x 109/l) and/orchronic
                                                                                                                             thrombocytopenia(below 50 x109/l)" style="checkbox" id="stageThreeOi_9" /><br />
-                                 </div>
-                               <hr/>
-                               <div class="modal-footer">
-                                   <button type="button" id="btnsaveWhoAdultStageThree" class="ke-program-followup-button" >Save</button>
-                               </div>
-                           </div>
-
-                           <div id="whoAdultStage_4_ModalContents" style="display:none;" title="WHO stage 4 OIs" footer="OK">
-                               <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                               <div id="stage-4-adult">
+                          </td>
+                        </tr>
+                        <tr id="tr-whoStageAdult-4">
+                            <td>
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="823" answerLabel="HIV wasting syndrome" style="checkbox" id="stageFourOi_1" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="137375" answerLabel="Pneumocystis jirovecipneumonia (PCP)" style="checkbox" id="stageFourOi_2" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1215" answerLabel="Recurrent severe bacterial pneumonia (Equal or more than 2 episodes within 1 year)" style="checkbox" id="stageFourOi_3" /><br />
@@ -4633,6 +4147,7 @@ Management<br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="143110" answerLabel="Cryptosporidiosis, with diarrhoea for more than 1 month" style="checkbox" id="stageFourOi_10" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="136458" answerLabel="Isosporiasis" style="checkbox" id="stageFourOi_11" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5033" answerLabel="Cryptococcosis (extra pulmonary)" style="checkbox" id="stageFourOi_12" /><br />
+                            </td><td>
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160745" answerLabel="Disseminated non-tuberculous mycobacterial infection" style="checkbox" id="stageFourOi_13" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="154119" answerLabel="Cytomegalovirus (CMV) retinitis or infection of the organs (other than liver, spleen,
                                                                                                                                 or lymph nodes)" style="checkbox" id="stageFourOi_14" /><br />
@@ -4645,28 +4160,17 @@ Management<br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="123084" answerLabel="Visceral leishmaniasis" style="checkbox" id="stageFourOi_21" /><br />
                                    <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="153701" answerLabel="Symptomatic HIV-associated nephropathy or HIV associated cardiomyopathy" style="checkbox" id="stageFourOi_22" /><br />
 
-                               </div>
-                               <hr/>
-                               <div class="modal-footer">
-                                   <button type="button" id="btnsaveWhoAdultStageFour" class="ke-program-followup-button" >Save</button>
-                               </div>
-                           </div>
-                            <!-- Pead WHO staging  -->
-                            <div id="whoPeadStage_1_ModalContents" style="display:none;" title="WHO stage 1 OIs" footer="OK">
-                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                                <div id="stage-1-pead">
+                            </td>
+                        </tr>
+                        <tr id="tr-whoStagePead-1">
+                            <td>
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5006" answerLabel="Asymptomatic" style="checkbox" id="stageOnePeadOi_1"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130364" answerLabel="Persistent generalized lymphadenopathy (PGL)" style="checkbox" id="stageOnePeadOi_2" /><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="825" answerLabel="Unexplained, asymptomatic hepatosplenomegaly" style="checkbox" id="stageOnePeadOi_3" /><br />
-                                </div>
-                                <hr/>
-                                <div class="modal-footer">
-                                    <button type="button" id="btnSaveWhoPeadStageOne" class="ke-program-followup-button" >Save</button>
-                                </div>
-                            </div>
-                            <div id="whoPeadStage_2_ModalContents" style="display:none;" title="WHO stage 2 OIs" footer="OK">
-                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                                <div id="stage-2-pead">
+                            </td>
+                        </tr>
+                        <tr id="tr-whoStagePead-2">
+                            <td>
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1249" answerLabel="Papular pruritic eruptions (PPE)" style="checkbox" id="stageTwoPeadOi_1"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="113116" answerLabel="Seborrheic dermatitis" style="checkbox" id="stageTwoPeadOi_2" /><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="132387" answerLabel="Fungal nail infections" style="checkbox" id="stageTwoPeadOi_3" /><br />
@@ -4677,15 +4181,10 @@ Management<br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1210" answerLabel="Parotid enlargement" style="checkbox" id="stageTwoPeadOi_8" /><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="117543" answerLabel="Herpes zoster (More than 1 episode in 12 months)" style="checkbox" id="stageTwoPeadOi_9" /><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="127784" answerLabel="Recurrent or chronic upper respiratory infection(URI): otitis media, otorrhoea, sinusitis (More than 2 episodes in 6months)" style="checkbox" id="stageTwoPeadOi_10" /><br />
-                                </div>
-                                <hr/>
-                                <div class="modal-footer">
-                                    <button type="button" id="btnSaveWhoPeadStageTwo" class="ke-program-followup-button" >Save</button>
-                                </div>
-                            </div>
-                            <div id="whoPeadStage_3_ModalContents" style="display:none;" title="WHO stage 3 OIs" footer="OK">
-                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                                <div id="stage-3-pead">
+                            </td>
+                        </tr>
+                        <tr id="tr-whoStagePead-3">
+                            <td>
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="134722" answerLabel="Unexplained moderate malnutrition (- 2SD or Z score) not responding to standard therapy" style="checkbox" id="stageThreePeadOi_1"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5018" answerLabel="Unexplained persistent diarrhoea (More than 14 days)" style="checkbox" id="stageThreePeadOi_2"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="163282" answerLabel="Unexplained persistent fever (intermittent or constant more than 1 month)" style="checkbox" id="stageThreePeadOi_3"/><br />
@@ -4698,16 +4197,11 @@ Management<br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="148849" answerLabel="Unexplained anaemia (More than 8g/dL), neutropenia (Less than 1,000/mm ) or thrombocytopenia (More than 30,000 per mm 31 for more than 1 month" style="checkbox" id="stageThreePeadOi_10"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="163712" answerLabel="HIV-related cardiomyopathy" style="checkbox" id="stageThreePeadOi_11"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="153701" answerLabel="HIV-related nephropathy" style="checkbox" id="stageThreePeadOi_12"/><br />
-
-                                </div>
-                                <hr/>
-                                <div class="modal-footer">
-                                    <button type="button" id="btnSaveWhoPeadStageThree" class="ke-program-followup-button" >Save</button>
-                                </div>
-                            </div>
-                            <div id="whoPeadStage_4_ModalContents" style="display:none;" title="WHO stage 4 OIs" footer="OK">
-                                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-                                <div id="stage-4-pead">
+                                <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="127784" answerLabel="Recurrent or chronic upper respiratory infection(URI): otitis media, otorrhoea, sinusitis (More than 2 episodes in 6months)" style="checkbox" id="stageTwoPeadOi_10" /><br />
+                            </td>
+                        </tr>
+                        <tr id="tr-whoStagePead-4">
+                            <td>
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162331" answerLabel="Unexplained severe wasting or severe malnutrition (-3 SD or Z score) not responding to standard therapy" style="checkbox" id="stageFourPeadOi_1"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130021" answerLabel="Pneumocystis pneumonia" style="checkbox" id="stageFourPeadOi_2"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160515" answerLabel="Recurrent severe bacterial infections (More than 2 episodes in 12 months, excluding pneumonia)" style="checkbox" id="stageFourPeadOi_3"/><br />
@@ -4717,6 +4211,7 @@ Management<br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="146513" answerLabel="Oesophageal candidiasis" style="checkbox" id="stageFourPeadOi_7"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="990" answerLabel="CNS toxoplasmosis" style="checkbox" id="stageFourPeadOi_8"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1294" answerLabel="Cryptococcal meningitis" style="checkbox" id="stageFourPeadOi_9"/><br />
+                            </td><td>
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="131357" answerLabel="Any disseminated endemic mycosis" style="checkbox" id="stageFourPeadOi_10"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="143110" answerLabel="Cryptosporidiosis or Isosporiasis (with diarrhoea for more than 1 month)" style="checkbox" id="stageFourPeadOi_11"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="154119" answerLabel="CMV infection of organ other than liver, spleen, lymph nodes (and onset age more than l month)" style="checkbox" id="stageFourPeadOi_12"/><br />
@@ -4726,16 +4221,8 @@ Management<br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="155941" answerLabel="Cerebral or B-cell non-Hodgkin's lymphoma" style="checkbox" id="stageFourPeadOi_16"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5046" answerLabel="Progressive multifocal leucoencephalopathy (PML)" style="checkbox" id="stageFourPeadOi_17"/><br />
                                     <obs conceptId="167394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160442" answerLabel="HIV encephalopathy" style="checkbox" id="stageFourPeadOi_18"/><br />
-                                </div>
-                                <hr/>
-                                <div class="modal-footer">
-                                    <button type="button" id="btnSaveWhoPeadStageFour" class="ke-program-followup-button" >Save</button>
-                                </div>
-                            </div>
-
-
-
-                        </tr>      <!--.Modal   -->
+                            </td>
+                        </tr>
                     </table>
                 </fieldset>
 
