@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.kenyaemr.calculation.library;
+package org.openmrs.module.kenyaemr.calculation.library.surveillance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
@@ -19,7 +19,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.kenyacore.calculation.*;
-import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
@@ -30,15 +29,15 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Calculates the eligibility for SARI screening flag for  patients
+ * Calculates the eligibility for ILI screening flag for  patients
  *
  * @should calculate cough for <= 10 days
  * @should calculate fever for <= 10 days
  * @should calculate temperature  for >= 38.0 same day
- * @should calculate admitted
+ * @should calculate not admitted
  */
-public class EligibleForSariScreeningCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
-    protected static final Log log = LogFactory.getLog(EligibleForSariScreeningCalculation.class);
+public class EligibleForIliScreeningCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+    protected static final Log log = LogFactory.getLog(EligibleForIliScreeningCalculation.class);
     public static final EncounterType triageEncType = MetadataUtils.existing(EncounterType.class, CommonMetadata._EncounterType.TRIAGE);
     public static final Form triageScreeningForm = MetadataUtils.existing(Form.class, CommonMetadata._Form.TRIAGE);
     public static final EncounterType consultationEncType = MetadataUtils.existing(EncounterType.class, CommonMetadata._EncounterType.CONSULTATION);
@@ -46,9 +45,9 @@ public class EligibleForSariScreeningCalculation extends AbstractPatientCalculat
     public static final EncounterType greenCardEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_CONSULTATION);
     public static final Form greenCardForm = MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_GREEN_CARD);
 
-    @Override
+     @Override
     public String getFlagMessage() {
-         return "Suspected SARI Case";
+        return "Suspected ILI Case";
     }
     Integer MEASURE_FEVER = 140238;
     Integer COUGH_PRESENCE = 143264;
@@ -101,7 +100,7 @@ public class EligibleForSariScreeningCalculation extends AbstractPatientCalculat
             boolean patientCoughResultGreenCard = lastFollowUpEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastFollowUpEncounter, screeningQuestion, coughPresenceResult) : false;
             boolean patientFeverResultClinical = lastClinicalEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastClinicalEncounter, screeningQuestion, measureFeverResult) : false;
             boolean patientCoughResultClinical = lastClinicalEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastClinicalEncounter, screeningQuestion, coughPresenceResult) : false;
-            //Check admission status : Only found in clinical encounter
+               //Check admission status : Only found in clinical encounter
             boolean patientAdmissionStatus = lastClinicalEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastClinicalEncounter, adminQuestion, admissionAnswer) : false;
 
             Obs lastTempObs = EmrCalculationUtils.obsResultForPatient(tempMap, ptId);
@@ -121,7 +120,7 @@ public class EligibleForSariScreeningCalculation extends AbstractPatientCalculat
                             String createdDate = dateFormat.format(dateCreated);
                             if (triageDateDifference <= 10 && tempValue != null && tempValue >= 38.0) {
                                 if (createdDate != null && createdDate.equals(todayDate)) {
-                                    if (patientAdmissionStatus) {
+                                    if (!patientAdmissionStatus) {
                                         eligible = true;
                                     }
                                     break;
@@ -144,7 +143,7 @@ public class EligibleForSariScreeningCalculation extends AbstractPatientCalculat
                             String createdDate = dateFormat.format(dateCreated);
                             if (greenCardDateDifference <= 10 && tempValue != null && tempValue >= 38.0) {
                                 if (createdDate != null && createdDate.equals(todayDate)) {
-                                    if (patientAdmissionStatus) {
+                                    if (!patientAdmissionStatus) {
                                         eligible = true;
                                     }
                                     break;
@@ -166,7 +165,7 @@ public class EligibleForSariScreeningCalculation extends AbstractPatientCalculat
                             String createdDate = dateFormat.format(dateCreated);
                             if (clinicalEncounterDateDifference <= 10 && tempValue != null && tempValue >= 38.0) {
                                 if (createdDate != null && createdDate.equals(todayDate)) {
-                                    if (patientAdmissionStatus) {
+                                    if (!patientAdmissionStatus) {
                                         eligible = true;
                                     }
                                     break;

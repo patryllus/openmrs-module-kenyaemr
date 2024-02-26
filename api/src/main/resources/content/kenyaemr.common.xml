@@ -509,7 +509,7 @@
 				<ref bean="kenyaemr.app.prep" />
 			</set>
 		</property>
-		<property name="showIfCalculation" value="org.openmrs.module.kenyaemr.calculation.library.EligibleForIliScreeningCalculation" />
+		<property name="showIfCalculation" value="org.openmrs.module.kenyaemr.calculation.library.surveillance.EligibleForIliScreeningCalculation" />
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:mat/formDoesNotExistOn2x.html" />
 		<property name="order" value="201097" />
@@ -527,7 +527,7 @@
 				<ref bean="kenyaemr.app.prep" />
 			</set>
 		</property>
-		<property name="showIfCalculation" value="org.openmrs.module.kenyaemr.calculation.library.EligibleForSariScreeningCalculation" />
+		<property name="showIfCalculation" value="org.openmrs.module.kenyaemr.calculation.library.surveillance.EligibleForSariScreeningCalculation" />
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:mat/formDoesNotExistOn2x.html" />
 		<property name="order" value="201099" />
