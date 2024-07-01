@@ -31,14 +31,15 @@ import java.util.*;
 
 /**
  * Calculates the eligibility for ILI screening flag for  patients
+ *
  * @should calculate Active visit
  * @should calculate cough for <= 10 days
  * @should calculate fever for <= 10 days
  * @should calculate temperature  for >= 38.0 same day
  * @should calculate duration < 10 days
- *
+ * <p>
  * SARI
- *  * @should calculate admitted
+ * * @should calculate admitted
  */
 public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
 	protected static final Log log = LogFactory.getLog(EligibleForIDSRFlagsCalculation.class);
@@ -57,7 +58,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 	Integer FEVER = 140238;
 	Integer COUGH_PRESENCE = 143264;
 	Integer DURATION = 159368;
-	;
+
 	Integer TEMPERATURE = 5088;
 	Integer PATIENT_OUTCOME = 160433;
 	Integer INPATIENT_ADMISSION = 1654;
@@ -228,18 +229,18 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if ((duration > 0.0 && duration < 10) && tempValue != null && tempValue >= 38.0) {
 									if (createdDate.equals(todayDate)) {
-										if (!patientAdmissionStatus || !currentVisit.getVisitType().equals("Inpatient")) {
+										if (patientAdmissionStatus || currentVisit.getVisitType().equals("Inpatient")) {
 											eligible = true;
-											idsrMessage.append("Suspected ILI Case");
+											idsrMessage.append(" Suspected SARI Case");
 											break;
 										} else {
 											eligible = true;
-											idsrMessage.append("Suspected SARI Case");
+											idsrMessage.append(" Suspected ILI Case");
 											break;
 										}
 									}
 								}
-							}
+							}							
 						}
 					}
 					//2. CHIKUNGUNYA
@@ -254,26 +255,26 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2 && tempValue != null && tempValue > 38.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Chikungunya case");
+										idsrMessage.append(" Suspected Chikungunya case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//3. CHOLERA
-					if (patient.getAge() > 2) {
-						if (patientVomitTriageEncResult && patientWateryDiarrheaTriageEncResult) {
+					if (patientVomitTriageEncResult && patientWateryDiarrheaTriageEncResult) {
+						if (patient.getAge() > 2) {
 							for (Obs obs : lastTriageEncounter.getObs()) {
 								dateCreated = obs.getDateCreated();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Cholera case");
+										idsrMessage.append(" Suspected Cholera case");
 										break;
 									}
-								}
+								}								
 							}
 						}
 					}
@@ -285,10 +286,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.append("Suspected Dysentery case");
+									idsrMessage.append(" Suspected Dysentery case");
 									break;
 								}
-							}
+							}							
 						}
 					}
 					//5. Viral Haemorrhagic fever
@@ -299,10 +300,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.append("Suspected Haemorrhagic Fever");
+									idsrMessage.append(" Suspected Haemorrhagic Fever");
 									break;
 								}
-							}
+							}							
 						}
 					}
 					//6. Malaria
@@ -317,11 +318,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 1 && tempValue != null && tempValue >= 37.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Malaria case");
+										idsrMessage.append(" Suspected Malaria case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//7.Measles				
@@ -336,10 +337,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Measles case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 
@@ -355,29 +357,32 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2 && tempValue != null && tempValue > 37.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Rift Valley Fever case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
-
 					//9.Poliomyelitis
-					if (patient.getAge() < 15) {
-						if (patientWeakLimbsResultTriage) {
+					if (patientWeakLimbsResultTriage) {
+						if (patient.getAge() < 15) {
 							for (Obs obs : lastTriageEncounter.getObs()) {
 								dateCreated = obs.getDateCreated();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Poliomyelitis case");
 										break;
 									}
-								}
+								}								
 							}
 						}
+
 					}
 				}
+
 				//Hiv followup encounter
 				if (lastHivFollowUpEncounter != null) {
 					//1. SARI and ILI
@@ -393,16 +398,16 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									if (createdDate.equals(todayDate)) {
 										if (!patientAdmissionStatus || !currentVisit.getVisitType().equals("Inpatient")) {
 											eligible = true;
-											idsrMessage.append("Suspected ILI Case");
+											idsrMessage.append(" Suspected ILI Case");
 											break;
 										} else {
 											eligible = true;
-											idsrMessage.append("Suspected SARI Case");
+											idsrMessage.append(" Suspected SARI Case");
 											break;
 										}
 									}
 								}
-							}
+							}							
 						}
 					}
 					//2. CHIKUNGUNYA
@@ -417,29 +422,30 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2 && tempValue != null && tempValue > 38.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Chikungunya case");
+										idsrMessage.append(" Suspected Chikungunya case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//3. CHOLERA
-					if (patient.getAge() > 2) {
-						if (patientVomitGreenCardResult && patientWateryDiarrheaGreenCardResult) {
+					if (patientVomitGreenCardResult && patientWateryDiarrheaGreenCardResult) {
+						if (patient.getAge() > 2) {
 							for (Obs obs : lastHivFollowUpEncounter.getObs()) {
 								dateCreated = obs.getDateCreated();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Cholera case");
+										idsrMessage.append(" Suspected Cholera case");
 										break;
 									}
-								}
-							}
+								}	break;
+							}							
 						}
 					}
+
 					//4.Dysentry
 					if (patientBloodyStoolGreenCardResult && patientDiarrheaGreenCardResult) {
 						for (Obs obs : lastHivFollowUpEncounter.getObs()) {
@@ -448,10 +454,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.append("Suspected Dysentery case");
+									idsrMessage.append(" Suspected Dysentery case");
 									break;
 								}
-							}
+							}							
 						}
 					}
 					//5. Viral Haemorrhagic fever
@@ -462,10 +468,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.append("Suspected Haemorrhagic Fever");
+									idsrMessage.append(" Suspected Haemorrhagic Fever");
 									break;
 								}
-							}
+							}							
 						}
 					}
 					//6. Malaria
@@ -480,11 +486,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 1 && tempValue != null && tempValue >= 37.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Malaria case");
+										idsrMessage.append(" Suspected Malaria case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//7.Measles
@@ -499,10 +505,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Measles case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//8.Rift Valley Fever
@@ -517,27 +524,31 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2 && tempValue != null && tempValue > 37.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Rift Valley Fever case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//9.Poliomyelitis
-					if (patient.getAge() < 15) {
-						if (patientWeakLimbsResultGreenCard) {
+					if (patientWeakLimbsResultGreenCard) {
+						if (patient.getAge() < 15) {
 							for (Obs obs : lastHivFollowUpEncounter.getObs()) {
 								dateCreated = obs.getDateCreated();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Poliomyelitis case");
 										break;
 									}
-								}
+								}							
 							}
+
 						}
 					}
+
 				}
 				//Clinical Encounter
 				if (lastClinicalEncounter != null) {
@@ -547,23 +558,23 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 							dateCreated = obs.getDateCreated();
 							if (obs.getConcept().getConceptId().equals(DURATION)) {
 								duration = obs.getValueNumeric();
-							}
-							if (dateCreated != null) {
-								String createdDate = dateFormat.format(dateCreated);
-								if ((duration > 0.0 && duration < 10) && tempValue != null && tempValue >= 38.0) {
-									if (createdDate.equals(todayDate)) {
-										if (!patientAdmissionStatus || !currentVisit.getVisitType().equals("Inpatient")) {
-											eligible = true;
-											idsrMessage.append("Suspected ILI Case");
-											break;
-										} else {
-											eligible = true;
-											idsrMessage.append("Suspected SARI Case");
-											break;
+								if (dateCreated != null) {
+									String createdDate = dateFormat.format(dateCreated);
+									if ((duration > 0.0 && duration < 10) && tempValue != null && tempValue >= 38.0) {
+										if (createdDate.equals(todayDate)) {
+											if (!patientAdmissionStatus || !currentVisit.getVisitType().equals("Inpatient")) {
+												eligible = true;
+												idsrMessage.append(" Suspected ILI Case");
+												break;
+											} else {
+												eligible = true;
+												idsrMessage.append(" Suspected SARI Case");
+												break;
+											}
 										}
 									}
 								}
-							}
+							}							
 						}
 					}
 					//2. CHIKUNGUNYA
@@ -578,27 +589,28 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2 && tempValue != null && tempValue > 38.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Chikungunya case");
+										idsrMessage.append(" Suspected Chikungunya case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//3. CHOLERA
-					if (patient.getAge() > 2) {
-						if (patientVomitClinicalEncResult && patientWateryDiarrheaClinicalEncResult) {
+					if (patientVomitClinicalEncResult && patientWateryDiarrheaClinicalEncResult) {
+						if (patient.getAge() > 2) {
 							for (Obs obs : lastClinicalEncounter.getObs()) {
 								dateCreated = obs.getDateCreated();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Cholera case");
+										idsrMessage.append(" uspected Cholera case");
 										break;
 									}
-								}
+								}								
 							}
+							
 						}
 					}
 					//4.DYSENTRY
@@ -609,10 +621,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.append("Suspected Dysentery case");
+									idsrMessage.append(" Suspected Dysentery case");
 									break;
 								}
-							}
+							}							
 						}
 					}
 					//5. Viral Haemorrhagic fever
@@ -623,10 +635,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.append("Suspected Haemorrhagic Fever");
+									idsrMessage.append(" Suspected Haemorrhagic Fever");
 									break;
 								}
-							}
+							}							
 						}
 					}
 					//6. Malaria
@@ -641,11 +653,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 1 && tempValue != null && tempValue >= 37.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append("Suspected Malaria case");
+										idsrMessage.append(" Suspected Malaria case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//7.Measles					
@@ -660,10 +672,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Measles case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//8.Rift Valley Fever
@@ -678,39 +691,39 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2 && tempValue != null && tempValue > 37.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Rift Valley Fever case");
 										break;
 									}
 								}
-							}
+							}							
 						}
 					}
 					//9.Poliomyelitis
-					if (patient.getAge() < 15) {
-						if (patientWeakLimbsResultClinical) {
+					if (patientWeakLimbsResultClinical) {
+						if (patient.getAge() < 15) {
 							for (Obs obs : lastClinicalEncounter.getObs()) {
 								dateCreated = obs.getDateCreated();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
+										idsrMessage.append(" Suspected Poliomyelitis case");
 										break;
 									}
-								}
+								}								
 							}
 						}
 					}
-
 				}
-
-				ret.put(ptId, new BooleanResult(eligible, this));
 			}
+			ret.put(ptId, new BooleanResult(eligible, this));
 		}
-
 		return ret;
 	}
 
 	@Override
 	public String getFlagMessage() {
 		return idsrMessage.toString();
+
 	}
 }
