@@ -605,7 +605,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.append(" uspected Cholera case");
+										idsrMessage.append(" Suspected Cholera case");
 										break;
 									}
 								}								
