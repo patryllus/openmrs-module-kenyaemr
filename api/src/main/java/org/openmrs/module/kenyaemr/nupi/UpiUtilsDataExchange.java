@@ -20,6 +20,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -43,6 +44,13 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
@@ -64,6 +72,8 @@ import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.wrapper.PatientWrapper;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.ui.framework.SimpleObject;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 public class UpiUtilsDataExchange {
@@ -291,23 +301,99 @@ public class UpiUtilsDataExchange {
 	 * @return String the token or empty on failure
 	 */
 	public String getToken() {
-		//check if current token is valid
-		if(isValidToken()) {
-			return(Context.getAdministrationService().getGlobalProperty(CommonMetadata.GP_CLIENT_VERIFICATION_API_TOKEN));
-		} else {
-			// Init the auth vars
-			boolean varsOk = initAuthVars();
-			if (varsOk) {
-				//Get the OAuth Token
-				String credentials = getClientCredentials();
-				//Save on global and return token
-				if (credentials != null) {
-					Context.getAdministrationService().setGlobalProperty(CommonMetadata.GP_CLIENT_VERIFICATION_API_TOKEN, credentials);
-					return(credentials);
-				}
+		String auth = strClientId + ":" + strClientSecret;
+		String authentication = Base64.getEncoder().encodeToString(auth.getBytes());
+		BufferedReader reader = null;
+		HttpsURLConnection connection = null;
+		String returnValue = "";
+		try {
+			StringBuilder parameters = new StringBuilder();
+			parameters.append("grant_type=" + URLEncoder.encode("client_credentials", "UTF-8"));
+			parameters.append("&");
+			parameters.append("scope=" + URLEncoder.encode(strScope, "UTF-8"));
+			URL url = new URL(strTokenUrl);
+			connection = (HttpsURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+			connection.setRequestProperty("Authorization", "Basic " + authentication);
+			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			connection.setRequestProperty("Accept", "application/json");
+			connection.setConnectTimeout(10000); // set timeout to 10 seconds
+			PrintStream os = new PrintStream(connection.getOutputStream());
+			os.print(parameters);
+			os.close();
+			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line = null;
+			StringWriter out = new StringWriter(connection.getContentLength() > 0 ? connection.getContentLength() : 2048);
+			while ((line = reader.readLine()) != null) {
+				out.append(line);
 			}
+			String response = out.toString();
+			Matcher matcher = pat.matcher(response);
+			if (matcher.matches() && matcher.groupCount() > 0) {
+				returnValue = matcher.group(1);
+			} else {
+				System.err.println("OAUTH2 Error : Token pattern mismatch");
+			}
+
 		}
-		return(null);
+		catch (Exception e) {
+			System.err.println("OAUTH2 - Error : " + e.getMessage());
+		}
+		finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				}
+				catch (IOException e) {}
+			}
+			connection.disconnect();
+		}
+		return returnValue;
+	}
+
+	/**
+	 * Gets Cr Jwt Token
+	 *
+	 * @return String the token or empty on failure
+	 */
+	public String getCrJwtToken() throws IOException {
+		 String responseValue = "";
+		 String strCrJwtKey = "kenya_emr";
+		 String strCrJwtSecret = "ERTGTHrtfgjuytrr4236768uyhegrgfvhTRTRED5756rerdfR4564576GFGhnjgtuytgh";
+		 String strCrJwtUsername = "kenya_emr";
+		 String strCrJwtPassword = "wrert45SWRFGTrt6yhde4";
+		 String strCrJwtUrl = "https://api.dha.go.ke/v1/hie-auth";
+		HttpGet request = new HttpGet("https://api.dha.go.ke/v1/hie-auth?key=kenya_emr");
+
+// Combine the user and password pair into the right format
+		String auth = "kenya_emr" + ":" + "wrert45SWRFGTrt6yhde4";
+
+// Encode the user-password pair string in Base64
+		byte[] encodedAuth = Base64.getEncoder().encode(
+			auth.getBytes(StandardCharsets.ISO_8859_1));
+
+// Build the header String "Basic [Base64 encoded String]"
+		String authHeader = "Basic " + new String(encodedAuth);
+
+// Set the created header string as actual header in your request
+		request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpResponse response = client.execute(request);
+
+		HttpEntity entity = response.getEntity();
+		String responseString = EntityUtils.toString(entity, "UTF-8");
+		System.out.println(responseString);
+
+		int statusCode = response.getStatusLine().getStatusCode();		
+		
+		System.out.println("Token: " + responseString);
+		System.out.println("Status:  " + statusCode);
+		if(statusCode == 200) {
+			responseValue = responseString;
+		}
+		return responseValue;
 	}
 
 	/**
