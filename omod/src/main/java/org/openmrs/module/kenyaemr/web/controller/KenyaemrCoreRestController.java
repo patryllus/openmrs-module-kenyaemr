@@ -3233,93 +3233,35 @@ public class KenyaemrCoreRestController extends BaseRestController {
 	 */
 	@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.OPTIONS})
 	@RequestMapping(method = RequestMethod.GET, value = "/practitionersearch")
-	public ResponseEntity<String> getSHAPractitioner(@RequestParam Map<String, String> allParams) {
-		String strUserName = "";
-		String strPassword = "";
-		String errorResponse = "{\"status\": \"Error\"}";
-
-		try {
-			// Retrieve base URL from global properties
-			GlobalProperty globalGetUrl = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_HEALTH_WORKER_VERIFICATION_GET_END_POINT);
-			String baseURL = globalGetUrl.getPropertyValue();
-			if (baseURL == null || baseURL.trim().isEmpty()) {
-				baseURL = "https://sandbox.tiberbu.health/api/v4";
-			}
-
-			// Get Auth credentials
-			GlobalProperty globalGetUsername = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_HEALTH_WORKER_VERIFICATION_GET_API_USER);
-			strUserName = globalGetUsername.getPropertyValue();
-
-			GlobalProperty globalGetPassword = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_HEALTH_WORKER_VERIFICATION_GET_API_SECRET);
-			strPassword = globalGetPassword.getPropertyValue();
-
-			// Check if credentials are available
-			if (strUserName == null || strUserName.isEmpty() || strPassword == null || strPassword.isEmpty()) {
-				log.error("SHA practitioner search: API credentials are missing or empty");
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-					.contentType(MediaType.APPLICATION_JSON)
-					.body("{\"status\": \"Error\", \"message\": \"API credentials are missing or empty\"}");
-			}
-
+	public ResponseEntity<String> getSHAPractitioner(@RequestParam Map<String, String> allParams) throws IOException {
+		System.out.println("Parameters : "+allParams.toString());
+		
 			if (allParams.size() != 1) {
 				return ResponseEntity.badRequest()
 					.contentType(MediaType.APPLICATION_JSON)
 					.body("{\"status\": \"Error\", \"message\": \"Exactly one identifier must be provided for the search at a time\"}");
 			}
-
-			Map.Entry<String, String> entry = allParams.entrySet().iterator().next();
-			String identifier = entry.getKey();
-			String value = entry.getValue();
-
-			String completeURL = baseURL + "/Practitioner?" +
-				URLEncoder.encode(identifier, StandardCharsets.UTF_8.toString()) +
-				"=" +
-				URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-
-			log.info("SHA practitioner search: Using SHA GET URL: " + completeURL);
-
-			// Set up SSL connection
-			SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-				SSLContexts.createDefault(),
-				new String[]{"TLSv1.2"},
-				null,
-				SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-
-			try (CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
-				HttpGet request = new HttpGet(completeURL);
-
-				// Set up Basic Authentication
-				String auth = strUserName + ":" + strPassword;
-				String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
-				request.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuth);
-				request.setHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
-				request.setHeader(HttpHeaders.ACCEPT, "application/json");
-
-				// Execute the request
-				try (CloseableHttpResponse response = httpClient.execute(request)) {
-					int statusCode = response.getStatusLine().getStatusCode();
-					log.info("SHA practitioner search: Response Code: " + statusCode);
-
-					String responseBody = EntityUtils.toString(response.getEntity());
-
-					if (statusCode == 200) {
-						return ResponseEntity.ok()
-							.contentType(MediaType.APPLICATION_JSON)
-							.body(responseBody);
-					} else {
-						log.error("SHA practitioner search: ERROR: HTTP " + statusCode + " - " + responseBody);
-						return ResponseEntity.status(statusCode)
-							.contentType(MediaType.APPLICATION_JSON)
-							.body("{\"status\": \"Error\", \"message\": \"HTTP " + statusCode + " - " + responseBody + "\"}");
-					}
-				}
-			}
-		} catch (Exception ex) {
-			log.error("SHA practitioner search: ERROR: " + ex.getMessage(), ex);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.contentType(MediaType.APPLICATION_JSON)
-				.body("{\"status\": \"Error\", \"message\": \"" + ex.getMessage() + "\"}");
+		System.out.println("Parameters greater than 1: "+allParams.size());
+		PatientService patientService = Context.getPatientService();
+		Map.Entry<String, String> entry = allParams.entrySet().iterator().next();
+			String identifierTypeUuid = entry.getKey();
+			String identifier = entry.getValue();
+		String identifierType = "";
+		//TODO:include more verification identifiers 
+		if(identifierTypeUuid.equals("49af6cdc-7968-4abb-bf46-de10d7f4859f")){
+			identifierType = "national-id";
 		}
+		
+		System.out.println("Identifier Type :"+identifierType);
+		System.out.println("Parameters key :"+identifierType);
+		System.out.println("Parameters value:"+identifier);
+		
+		String toReturn = getHwStatus(identifier, identifierType);
+
+		return ResponseEntity.ok()
+			.contentType(MediaType.APPLICATION_JSON)
+			.body(toReturn);			
+		
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/send-kenyaemr-sms")
@@ -3331,16 +3273,32 @@ public class KenyaemrCoreRestController extends BaseRestController {
 	public static String getAuthToken() throws IOException {
 		// Utility function to get auth token
 		OkHttpClient client = new OkHttpClient();
-		String username = "kenya_emr";
-		String password = "wrert45SWRFGTrt6yhde4";
-		String key = "kenya_emr";
+		GlobalProperty globalGetJwtTokenUrl = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_JWT_TOKEN_GET_END_POINT);
+		String shaJwtTokenUrl = globalGetJwtTokenUrl.getPropertyValue();
+		if (shaJwtTokenUrl == null || shaJwtTokenUrl.trim().isEmpty()) {
+			shaJwtTokenUrl = "https://api.dha.go.ke/v1/hie-auth";
+		}
+		GlobalProperty globalGetJwtUsername = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_JWT_TOKEN_USERNAME);
+		String shaJwtUsername = globalGetJwtUsername.getPropertyValue();
+		if (shaJwtUsername == null || shaJwtUsername.trim().isEmpty()) {
+			shaJwtUsername = "kenya_emr";
+		}		
+		GlobalProperty globalGetJwtPassword = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_JWT_TOKEN_PASSWORD);
+		String shaJwtPassword = globalGetJwtPassword.getPropertyValue();
+		if (shaJwtPassword == null || shaJwtPassword.trim().isEmpty()) {
+			shaJwtPassword = "wrert45SWRFGTrt6yhde4";
+		}		
+		
+//		String username = "kenya_emr";
+//		String password = "wrert45SWRFGTrt6yhde4";
+//		String key = "kenya_emr";
 
 		// Encode username and password for Basic Auth
-		String auth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+		String auth = Base64.getEncoder().encodeToString((shaJwtUsername + ":" + shaJwtPassword).getBytes());
 
 		// Build the GET request
 		Request request = new Request.Builder()
-			.url("https://api.dha.go.ke/v1/hie-auth?key=" + key)
+			.url(shaJwtTokenUrl)
 			.header("Authorization", "Basic " + auth)
 			.build();
 
@@ -3355,12 +3313,18 @@ public class KenyaemrCoreRestController extends BaseRestController {
 		return response.body().string();
 	}
 	public static String getCrStatus(String identifier, String identifierType ) throws IOException {
+		GlobalProperty globalGetCRUrl = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_CLIENT_VERIFICATION_JWT_GET_END_POINT);
+		String baseURL = globalGetCRUrl.getPropertyValue();
+		if (baseURL == null || baseURL.trim().isEmpty()) {
+			baseURL = "https://api.dha.go.ke/v4/custom/Patient";
+		}
+		
 		String token = getAuthToken();
 		System.out.println("token" + token);
 		OkHttpClient client = new OkHttpClient().newBuilder()
 			.build();
 		Request request = new Request.Builder()
-			.url("https://api.dha.go.ke/v4/custom/Patient?" + identifierType + "=" + identifier)
+			.url(baseURL + "?"+ identifierType + "=" + identifier)
 			.addHeader("Referer", "")
 			.addHeader("Authorization", "Bearer " + token)
 			.build();
@@ -3369,8 +3333,34 @@ public class KenyaemrCoreRestController extends BaseRestController {
 		String respo = response.body().string();
 		//convert response to json
 		return   respo;
+	}
+
+	public static String getHwStatus(String identifier, String identifierType ) throws IOException {
+		GlobalProperty globalGetHRUrl = Context.getAdministrationService().getGlobalPropertyObject(CommonMetadata.GP_SHA_HEALTH_WORKER_VERIFICATION_JWT_GET_END_POINT);
+		String baseURL = globalGetHRUrl.getPropertyValue();
+		if (baseURL == null || baseURL.trim().isEmpty()) {
+			baseURL = "https://api.dha.go.ke/v4/custom/Practitioner";
+		}
+		String token = getAuthToken();
+		System.out.println("Token here ===> " + token);
+		System.out.println("Run request");
+		
+		OkHttpClient client = new OkHttpClient().newBuilder()
+			.build();
+		Request request = new Request.Builder()
+			.url(baseURL + "?" + identifierType + "=" + identifier)
+			.addHeader("Referer", "")
+			.addHeader("Authorization", "Bearer " + token)
+			.build();
+
+		Response response = client.newCall(request).execute();
+		System.out.println("Response ==>"+response);
+		String respo = response.body().string();
+		System.out.println("Convert to json ==>"+respo);
+		return   respo;
 
 
 	}
+
 
 }
