@@ -3233,15 +3233,12 @@ public class KenyaemrCoreRestController extends BaseRestController {
 	 */
 	@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.OPTIONS})
 	@RequestMapping(method = RequestMethod.GET, value = "/practitionersearch")
-	public ResponseEntity<String> getSHAPractitioner(@RequestParam Map<String, String> allParams) throws IOException {
-		System.out.println("Parameters : "+allParams.toString());
-		
+	public ResponseEntity<String> getSHAPractitioner(@RequestParam Map<String, String> allParams) throws IOException {		
 			if (allParams.size() != 1) {
 				return ResponseEntity.badRequest()
 					.contentType(MediaType.APPLICATION_JSON)
 					.body("{\"status\": \"Error\", \"message\": \"Exactly one identifier must be provided for the search at a time\"}");
-			}
-		System.out.println("Parameters greater than 1: "+allParams.size());
+			}		
 		PatientService patientService = Context.getPatientService();
 		Map.Entry<String, String> entry = allParams.entrySet().iterator().next();
 			String identifierTypeUuid = entry.getKey();
@@ -3250,11 +3247,7 @@ public class KenyaemrCoreRestController extends BaseRestController {
 		//TODO:include more verification identifiers 
 		if(identifierTypeUuid.equals("49af6cdc-7968-4abb-bf46-de10d7f4859f")){
 			identifierType = "national-id";
-		}
-		
-		System.out.println("Identifier Type :"+identifierType);
-		System.out.println("Parameters key :"+identifierType);
-		System.out.println("Parameters value:"+identifier);
+		}	
 		
 		String toReturn = getHwStatus(identifier, identifierType);
 
@@ -3288,10 +3281,6 @@ public class KenyaemrCoreRestController extends BaseRestController {
 		if (shaJwtPassword == null || shaJwtPassword.trim().isEmpty()) {
 			shaJwtPassword = "wrert45SWRFGTrt6yhde4";
 		}		
-		
-//		String username = "kenya_emr";
-//		String password = "wrert45SWRFGTrt6yhde4";
-//		String key = "kenya_emr";
 
 		// Encode username and password for Basic Auth
 		String auth = Base64.getEncoder().encodeToString((shaJwtUsername + ":" + shaJwtPassword).getBytes());
@@ -3319,8 +3308,7 @@ public class KenyaemrCoreRestController extends BaseRestController {
 			baseURL = "https://api.dha.go.ke/v4/custom/Patient";
 		}
 		
-		String token = getAuthToken();
-		System.out.println("token" + token);
+		String token = getAuthToken();		
 		OkHttpClient client = new OkHttpClient().newBuilder()
 			.build();
 		Request request = new Request.Builder()
@@ -3341,10 +3329,7 @@ public class KenyaemrCoreRestController extends BaseRestController {
 		if (baseURL == null || baseURL.trim().isEmpty()) {
 			baseURL = "https://api.dha.go.ke/v4/custom/Practitioner";
 		}
-		String token = getAuthToken();
-		System.out.println("Token here ===> " + token);
-		System.out.println("Run request");
-		
+		String token = getAuthToken();		
 		OkHttpClient client = new OkHttpClient().newBuilder()
 			.build();
 		Request request = new Request.Builder()
@@ -3352,14 +3337,9 @@ public class KenyaemrCoreRestController extends BaseRestController {
 			.addHeader("Referer", "")
 			.addHeader("Authorization", "Bearer " + token)
 			.build();
-
-		Response response = client.newCall(request).execute();
-		System.out.println("Response ==>"+response);
-		String respo = response.body().string();
-		System.out.println("Convert to json ==>"+respo);
+		Response response = client.newCall(request).execute();		
+		String respo = response.body().string();		
 		return   respo;
-
-
 	}
 
 
