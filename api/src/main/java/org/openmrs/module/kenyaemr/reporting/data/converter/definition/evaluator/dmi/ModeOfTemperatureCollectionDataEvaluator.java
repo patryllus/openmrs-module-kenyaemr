@@ -48,9 +48,9 @@ public class ModeOfTemperatureCollectionDataEvaluator implements PersonDataEvalu
                 "        and c.complaint_duration < 10\n" +
                 "        and date(c.visit_date) between date(:startDate) and date(:endDate)\n" +
                 "      group by patient_id) a\n" +
-                "         join kenyaemr_etl.etl_clinical_encounter v\n" +
+                "         left join kenyaemr_etl.etl_clinical_encounter v\n" +
                 "              on a.patient_id = v.patient_id and date(a.visit_date) = date(v.visit_date)\n" +
-                "         join kenyaemr_etl.etl_patient_triage t\n" +
+                "         left join kenyaemr_etl.etl_patient_triage t\n" +
                 "              on a.patient_id = t.patient_id and date(t.visit_date) = date(v.visit_date) and t.temperature >= 38;";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();

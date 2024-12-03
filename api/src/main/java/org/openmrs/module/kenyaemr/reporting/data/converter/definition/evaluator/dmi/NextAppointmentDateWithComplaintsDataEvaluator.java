@@ -10,7 +10,8 @@
 package org.openmrs.module.kenyaemr.reporting.data.converter.definition.evaluator.dmi;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.kenyaemr.reporting.data.converter.definition.dmi.VisitTypeWithComplaintsDataDefinition;
+import org.openmrs.module.kenyaemr.reporting.data.converter.definition.dmi.NextAppointmentDateWithComplaintsDataDefinition;
+import org.openmrs.module.kenyaemr.reporting.data.converter.definition.dmi.VisitDateWithComplaintsDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -24,10 +25,10 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Evaluates Visit type Data Definition
+ * Evaluates a NextAppointmentDateDataDefinition
  */
-@Handler(supports= VisitTypeWithComplaintsDataDefinition.class, order=50)
-public class VisitTypeWithComplaintsDataEvaluator implements PersonDataEvaluator {
+@Handler(supports= NextAppointmentDateWithComplaintsDataDefinition.class, order=50)
+public class NextAppointmentDateWithComplaintsDataEvaluator implements PersonDataEvaluator {
 
     @Autowired
     private EvaluationService evaluationService;
@@ -35,18 +36,15 @@ public class VisitTypeWithComplaintsDataEvaluator implements PersonDataEvaluator
     public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context) throws EvaluationException {
         EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 
-        String qry = "select a.patient_id, if(\n" +
-                "e.patient_outcome in (1693,160429) or v.visit_type_id = 1, 'OPD', if(e.patient_outcome = 1654 or v.visit_type_id = 2, 'IPD','N/A')) as visit_type\n" +
-                "from (select patient_id, c.complaint as complaint, DATE_SUB(c.visit_date, INTERVAL c.complaint_duration DAY) as complaint_date, c.visit_date\n" +
-                "      from kenyaemr_etl.etl_allergy_chronic_illness c\n" +
-                "      where date(c.visit_date) between date(:startDate) and date(:endDate)\n" +
-                "      group by patient_id) a\n" +
-                "         join openmrs.visit v\n" +
-                "              on a.patient_id = v.patient_id and date(a.visit_date) = date(v.date_started)\n" +
-                "         left join kenyaemr_etl.etl_patient_triage t\n" +
-                "              on a.patient_id = t.patient_id and date(t.visit_date) = date(v.date_started)\n" +
-                "left join kenyaemr_etl.etl_clinical_encounter e\n" +
-                "on a.patient_id = e.patient_id and date(a.visit_date) = date(e.visit_date);";
+        String qry = "select a.patient_id, a.next_appointment_date\n" +
+			"        from (select\n" +
+			"                  pp.patient_id,\n" +
+			"                  date(mid(max(concat(pp.date_created,pp.start_date_time, '' )),20)) as next_appointment_date\n" +
+			"              from openmrs.patient_appointment pp where  date(pp.date_created) <= date(:endDate)\n" +
+			"              group by pp.patient_id,pp.start_date_time) a\n" +
+			"              inner join kenyaemr_etl.etl_allergy_chronic_illness c on a.patient_id=c.patient_id\n" +
+			"                where date(c.visit_date) between date(:startDate) and date(:endDate)\n" +
+			"group by patient_id;";
 
         SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
         queryBuilder.append(qry);
@@ -54,7 +52,6 @@ public class VisitTypeWithComplaintsDataEvaluator implements PersonDataEvaluator
         Date endDate = (Date)context.getParameterValue("endDate");
         queryBuilder.addParameter("endDate", endDate);
         queryBuilder.addParameter("startDate", startDate);
-
         Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
         c.setData(data);
         return c;

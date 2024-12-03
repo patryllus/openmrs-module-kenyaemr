@@ -141,9 +141,9 @@ public class IDSRSuspectedCaseListReportBuilder extends AbstractReportBuilder {
         AgeAtReportingDataDefinition ageAtReportingDataDefinition = new AgeAtReportingDataDefinition();
         ageAtReportingDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 
-        ETLNextAppointmentDateDataDefinition lastAppointmentDateDataDefinition = new ETLNextAppointmentDateDataDefinition();
-        lastAppointmentDateDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
-        lastAppointmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		NextAppointmentDateWithComplaintsDataDefinition nextAppointmentDateDataDefinition = new NextAppointmentDateWithComplaintsDataDefinition();
+		nextAppointmentDateDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		nextAppointmentDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
 
         VisitTypeWithComplaintsDataDefinition visitTypeDataDefinition = new VisitTypeWithComplaintsDataDefinition();
         visitTypeDataDefinition.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -173,7 +173,7 @@ public class IDSRSuspectedCaseListReportBuilder extends AbstractReportBuilder {
         dsd.addColumn("Age", ageAtReportingDataDefinition, "endDate=${endDate}");
         dsd.addColumn("Visit Date", visitDateWithComplaintsDataDefinition, paramMapping);
         dsd.addColumn("Attended By", attendedByDataDefinition, paramMapping);
-        dsd.addColumn("Next Visit", lastAppointmentDateDataDefinition, paramMapping);
+        dsd.addColumn("Next Visit", nextAppointmentDateDataDefinition, paramMapping);
         dsd.addColumn("Disease", diseaseDataDefinition, paramMapping);
 
         IDSRSuspectedCasesCohortDefinition cd = new IDSRSuspectedCasesCohortDefinition();

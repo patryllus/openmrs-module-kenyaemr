@@ -103,7 +103,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 		CalculationResultMap ret = new CalculationResultMap();
 
 		for (Integer ptId : alive) {
-			boolean eligible = false;			
+			boolean eligible = false;
 			List<Visit> activeVisits = Context.getVisitService().getActiveVisitsByPatient(patientService.getPatient(ptId));
 			if (!activeVisits.isEmpty()) {
 				Date currentDate = new Date();
@@ -141,18 +141,18 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 				Concept jaundiceResult = cs.getConceptByUuid(JAUNDICE);
 				Concept dizzinessResult = cs.getConceptByUuid(DIZZINESS);
 				Concept malaiseResult = cs.getConceptByUuid(MALAISE);
-				Concept limbsWeaknessResult = cs.getConceptByUuid(LIMBS_WEAKNESS);				
+				Concept limbsWeaknessResult = cs.getConceptByUuid(LIMBS_WEAKNESS);
 				//Conditions					
-				String chikungunya = "Chikungunya";				
-				String ili = "ILI";				
-				String sari = "SARI";				
-				String cholera = "Cholera";				
-				String dysentry = "Dysentery";				
-				String haemorrhagic_fever = "Haemorrhagic Fever";				
-				String malaria = "Malaria";				
-				String measles = "Measles";				
-				String rift_valley_fever = "Rift Valley Fever";				
-				String poliomyelitis = "Poliomyelitis";						
+				String chikungunya = "Chikungunya";
+				String ili = "ILI";
+				String sari = "SARI";
+				String cholera = "Cholera";
+				String dysentry = "Dysentery";
+				String haemorrhagic_fever = "Haemorrhagic Fever";
+				String malaria = "Malaria";
+				String measles = "Measles";
+				String rift_valley_fever = "Rift Valley Fever";
+				String poliomyelitis = "Poliomyelitis";
 				//Temperature
 				CalculationResultMap tempMap = Calculations.lastObs(cs.getConceptByUuid(TEMPERATURE), cohort, context);
 				//Fever
@@ -192,7 +192,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 				boolean hivFollowupEncounterHasHeadache = lastHivFollowUpEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastHivFollowUpEncounter, screeningQuestion, headacheResult) : false;
 				boolean clinicalEncounterHasHeadache = lastClinicalEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastClinicalEncounter, screeningQuestion, headacheResult) : false;
 				//Chills
-				boolean triageEncounterHasChills= lastTriageEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastTriageEncounter, screeningQuestion, chillsResult) : false;
+				boolean triageEncounterHasChills = lastTriageEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastTriageEncounter, screeningQuestion, chillsResult) : false;
 				boolean hivFollowupEncounterHasChills = lastHivFollowUpEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastHivFollowUpEncounter, screeningQuestion, chillsResult) : false;
 				boolean clinicalEncounterHasChills = lastClinicalEncounter != null ? EmrUtils.encounterThatPassCodedAnswer(lastClinicalEncounter, screeningQuestion, chillsResult) : false;
 				//Rash
@@ -234,8 +234,8 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 				}
 				//Triage
 				if (lastTriageEncounter != null) {
-					//1. SARI and ILI
-					if (triageEncounterHasFever && triageEncounterHasCough) {
+					//1.1 ILI
+					if (triageEncounterHasCough) {
 						for (Obs obs : lastTriageEncounter.getObs()) {
 							dateCreated = obs.getDateCreated();
 							if (obs.getConcept().getUuid().equals(DURATION)) {
@@ -243,24 +243,31 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 							}
 							if (dateCreated != null) {
 								String createdDate = dateFormat.format(dateCreated);
-								if ((duration > 0.0 && duration < 10) && tempValue != null && tempValue >= 38.0) {
+								if (duration > 0.0 && duration < 10) {
+									if (tempValue != null && tempValue >= 38.0) {
+										if (createdDate.equals(todayDate)) {
+											if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+												eligible = true;
+												idsrMessage.add(ili);
+												break;
+											}
+										}									
+									}
+								} else if ((tempValue != null && tempValue >= 38.0) || triageEncounterHasFever){
 									if (createdDate.equals(todayDate)) {
-										if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+										if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
 											eligible = true;
-											idsrMessage.add(ili);
-											break;
-										} else {
-											eligible = true;
-											idsrMessage.add(sari);											
+											idsrMessage.add(sari);
 											break;
 										}
 									}
 								}
-							}							
+								
+							}
 						}
 					}
 					//2. CHIKUNGUNYA
-					if (triageEncounterHasJointPain && triageEncounterHasFever) {						
+					if (triageEncounterHasJointPain && triageEncounterHasFever) {
 						for (Obs obs : lastTriageEncounter.getObs()) {
 							dateCreated = obs.getDateCreated();
 							if (obs.getConcept().getUuid().equals(DURATION)) {
@@ -275,7 +282,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//3. CHOLERA
@@ -290,7 +297,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										idsrMessage.add(cholera);
 										break;
 									}
-								}								
+								}
 							}
 						}
 					}
@@ -305,7 +312,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									idsrMessage.add(dysentry);
 									break;
 								}
-							}							
+							}
 						}
 					}
 					//5. Viral Haemorrhagic fever
@@ -319,7 +326,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									idsrMessage.add(haemorrhagic_fever);
 									break;
 								}
-							}							
+							}
 						}
 					}
 					//6. Malaria
@@ -334,11 +341,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 1 && tempValue != null && tempValue >= 37.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.add(malaria);										
+										idsrMessage.add(malaria);
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//7.Measles				
@@ -353,11 +360,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.add(measles);				
+										idsrMessage.add(measles);
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 
@@ -377,17 +384,17 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//9.Poliomyelitis
 					if (triageEncounterHasWeakLimbs) {
-						if (patient.getAge() < 15) {							
+						if (patient.getAge() < 15) {
 							for (Obs obs : lastTriageEncounter.getObs()) {
 								dateCreated = obs.getDateCreated();
 								if (obs.getConcept().getUuid().equals(ONSET_QUESTION)) {
 									onsetStatus = obs.getValueCoded().getUuid();
-								}								
+								}
 								if (dateCreated != null && onsetStatus != null) {
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate) && onsetStatus.equals(SUDDEN_ONSET)) {
@@ -395,17 +402,15 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										idsrMessage.add(poliomyelitis);
 										break;
 									}
-								}								
+								}
 							}
 						}
-
 					}
 				}
-
 				//Hiv followup encounter
 				if (lastHivFollowUpEncounter != null) {
 					//1. SARI and ILI
-					if (hivFollowupEncounterHasFever && hivFollowupEncounterHasCough) {
+					if (hivFollowupEncounterHasCough) {
 						for (Obs obs : lastHivFollowUpEncounter.getObs()) {
 							dateCreated = obs.getDateCreated();
 							if (obs.getConcept().getUuid().equals(DURATION)) {
@@ -413,20 +418,26 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 							}
 							if (dateCreated != null) {
 								String createdDate = dateFormat.format(dateCreated);
-								if ((duration > 0.0 && duration < 10) && tempValue != null && tempValue >= 38.0) {
-									if (createdDate.equals(todayDate)) {
-										if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
-											eligible = true;
-											idsrMessage.add(ili);
-											break;
-										} else {
-											eligible = true;
-											idsrMessage.add(sari);
-											break;
+								if (duration > 0.0 && duration < 10) {
+									if (tempValue != null && tempValue >= 38.0) {
+										if (createdDate.equals(todayDate)) {
+											if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+												eligible = true;
+												idsrMessage.add(ili);
+												break;
+											}
+										}
+									} else if ((tempValue != null && tempValue >= 38.0) || hivFollowupEncounterHasFever) {
+										if (createdDate.equals(todayDate)) {
+											if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+												eligible = true;
+												idsrMessage.add(sari);
+												break;
+											}
 										}
 									}
 								}
-							}							
+							}
 						}
 					}
 					//2. CHIKUNGUNYA
@@ -445,7 +456,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//3. CHOLERA
@@ -460,11 +471,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										idsrMessage.add(cholera);
 										break;
 									}
-								}	break;
-							}							
+								}
+								break;
+							}
 						}
 					}
-
 					//4.Dysentry
 					if (hivFollowupEncounterHasBloodyStool && hivFollowupEncounterHasDiarrhea) {
 						for (Obs obs : lastHivFollowUpEncounter.getObs()) {
@@ -473,10 +484,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.add(dysentry);			
+									idsrMessage.add(dysentry);
 									break;
 								}
-							}							
+							}
 						}
 					}
 					//5. Viral Haemorrhagic fever
@@ -490,7 +501,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									idsrMessage.add(haemorrhagic_fever);
 									break;
 								}
-							}							
+							}
 						}
 					}
 					//6. Malaria
@@ -509,7 +520,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//7.Measles
@@ -528,7 +539,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//8.Rift Valley Fever
@@ -547,7 +558,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//9.Poliomyelitis
@@ -565,7 +576,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										idsrMessage.add(poliomyelitis);
 										break;
 									}
-								}							
+								}
 							}
 
 						}
@@ -575,30 +586,36 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 				//Clinical Encounter
 				if (lastClinicalEncounter != null) {
 					//1. SARI and ILI
-					if (clinicalEncounterHasFever && clinicalEncounterHasCough) {
+					if (clinicalEncounterHasCough) {
 						for (Obs obs : lastClinicalEncounter.getObs()) {
 							dateCreated = obs.getDateCreated();
 							if (obs.getConcept().getUuid().equals(DURATION)) {
 								duration = obs.getValueNumeric();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
-									if ((duration > 0.0 && duration < 10) && tempValue != null && tempValue >= 38.0) {
-										if (createdDate.equals(todayDate)) {									
-											if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+									if (duration > 0.0 && duration < 10) {
+										if (tempValue != null && tempValue >= 38.0) {
+											if (createdDate.equals(todayDate)) {
+												if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+													eligible = true;
+													idsrMessage.add(ili);
+													break;
+												}
+											}
+										}
+									} else if ((tempValue != null && tempValue >= 38.0) || clinicalEncounterHasFever) {
+										if (createdDate.equals(todayDate)) {
+											if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
 												eligible = true;
-												idsrMessage.add(ili);									
-												break;
-											} else {
-												eligible = true;
-												idsrMessage.add(sari);										
+												idsrMessage.add(sari);
 												break;
 											}
 										}
 									}
 								}
-							}							
+							}
 						}
-					}
+					} 
 					//2. CHIKUNGUNYA
 					if (clinicalEncounterHasJointPain && clinicalEncounterHasFever) {
 						for (Obs obs : lastClinicalEncounter.getObs()) {
@@ -611,11 +628,11 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								if (duration > 2 && tempValue != null && tempValue > 38.5) {
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.add(chikungunya);							
+										idsrMessage.add(chikungunya);
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//3. CHOLERA
@@ -627,12 +644,12 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
-										idsrMessage.add(cholera);								
+										idsrMessage.add(cholera);
 										break;
 									}
-								}								
+								}
 							}
-							
+
 						}
 					}
 					//4.DYSENTRY
@@ -643,10 +660,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.add(dysentry);						
+									idsrMessage.add(dysentry);
 									break;
 								}
-							}							
+							}
 						}
 					}
 					//5. Viral Haemorrhagic fever
@@ -657,10 +674,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								String createdDate = dateFormat.format(dateCreated);
 								if (createdDate.equals(todayDate)) {
 									eligible = true;
-									idsrMessage.add(haemorrhagic_fever);					
+									idsrMessage.add(haemorrhagic_fever);
 									break;
 								}
-							}							
+							}
 						}
 					}
 					//6. Malaria
@@ -679,7 +696,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//7.Measles					
@@ -698,7 +715,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//8.Rift Valley Fever
@@ -714,10 +731,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									if (createdDate.equals(todayDate)) {
 										eligible = true;
 										idsrMessage.add(rift_valley_fever);
-									    break;
+										break;
 									}
 								}
-							}							
+							}
 						}
 					}
 					//9.Poliomyelitis
@@ -732,10 +749,10 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 									String createdDate = dateFormat.format(dateCreated);
 									if (createdDate.equals(todayDate) && onsetStatus.equals(SUDDEN_ONSET)) {
 										eligible = true;
-										idsrMessage.add(poliomyelitis);						
+										idsrMessage.add(poliomyelitis);
 										break;
 									}
-								}								
+								}
 							}
 						}
 					}
@@ -752,7 +769,7 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 
 	@Override
 	public String getFlagMessage() {
-		return "Suspected "+ idsrMessageString;
+		return "Suspected " + idsrMessageString;
 
 	}
 }
