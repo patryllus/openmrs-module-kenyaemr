@@ -243,26 +243,27 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 							}
 							if (dateCreated != null) {
 								String createdDate = dateFormat.format(dateCreated);
-								if (duration > 0.0 && duration < 10) {
+								if (duration > 0.0 && duration < 10 && createdDate.equals(todayDate)) {
 									if (tempValue != null && tempValue >= 38.0) {
-										if (createdDate.equals(todayDate)) {
-											if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
-												eligible = true;
-												idsrMessage.add(ili);
-												break;
-											}
-										}									
-									}
-								} else if ((tempValue != null && tempValue >= 38.0) || triageEncounterHasFever){
-									if (createdDate.equals(todayDate)) {
-										if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+										if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+											eligible = true;
+											idsrMessage.add(ili);
+											break;
+										} else {
 											eligible = true;
 											idsrMessage.add(sari);
 											break;
 										}
 									}
+									if (triageEncounterHasFever) {
+										if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+											eligible = true;
+											idsrMessage.add(sari);
+											break;
+										}
+
+									}
 								}
-								
 							}
 						}
 					}
@@ -418,23 +419,25 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 							}
 							if (dateCreated != null) {
 								String createdDate = dateFormat.format(dateCreated);
-								if (duration > 0.0 && duration < 10) {
+								if (duration > 0.0 && duration < 10 && createdDate.equals(todayDate)) {
 									if (tempValue != null && tempValue >= 38.0) {
-										if (createdDate.equals(todayDate)) {
-											if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
-												eligible = true;
-												idsrMessage.add(ili);
-												break;
-											}
+										if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+											eligible = true;
+											idsrMessage.add(ili);
+											break;
+										} else {
+											eligible = true;
+											idsrMessage.add(sari);
+											break;
 										}
-									} else if ((tempValue != null && tempValue >= 38.0) || hivFollowupEncounterHasFever) {
-										if (createdDate.equals(todayDate)) {
-											if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
-												eligible = true;
-												idsrMessage.add(sari);
-												break;
-											}
+									}
+									if (triageEncounterHasFever) {
+										if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+											eligible = true;
+											idsrMessage.add(sari);
+											break;
 										}
+
 									}
 								}
 							}
@@ -593,29 +596,31 @@ public class EligibleForIDSRFlagsCalculation extends AbstractPatientCalculation 
 								duration = obs.getValueNumeric();
 								if (dateCreated != null) {
 									String createdDate = dateFormat.format(dateCreated);
-									if (duration > 0.0 && duration < 10) {
+									if (duration > 0.0 && duration < 10 && createdDate.equals(todayDate)) {
 										if (tempValue != null && tempValue >= 38.0) {
-											if (createdDate.equals(todayDate)) {
-												if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
-													eligible = true;
-													idsrMessage.add(ili);
-													break;
-												}
-											}
-										}
-									} else if ((tempValue != null && tempValue >= 38.0) || clinicalEncounterHasFever) {
-										if (createdDate.equals(todayDate)) {
-											if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+											if (!patientAdmissionStatus && !currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+												eligible = true;
+												idsrMessage.add(ili);
+												break;
+											} else {
 												eligible = true;
 												idsrMessage.add(sari);
 												break;
 											}
 										}
+										if (triageEncounterHasFever) {
+											if (patientAdmissionStatus && currentVisit.getVisitType().getUuid().equals("a73e2ac6-263b-47fc-99fc-e0f2c09fc914")) {
+												eligible = true;
+												idsrMessage.add(sari);
+												break;
+											}
+
+										}
 									}
 								}
 							}
 						}
-					} 
+					}
 					//2. CHIKUNGUNYA
 					if (clinicalEncounterHasJointPain && clinicalEncounterHasFever) {
 						for (Obs obs : lastClinicalEncounter.getObs()) {
