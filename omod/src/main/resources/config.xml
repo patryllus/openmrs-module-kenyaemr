@@ -518,5 +518,20 @@
 		</description>
 	</globalProperty>
 
+	<globalProperty>
+		<property>nlmis.processing.periods.endpoint</property>
+		<defaultValue>/api/processingPeriods</defaultValue>
+		<description>
+		   Endpoint URL for retrieving processing periods from NLIMS
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>nlmis.programs.endpoint</property>
+		<defaultValue>/api/programs</defaultValue>
+		<description>
+		   Endpoint URL for retrieving programs from NLIMS
+		</description>
+	</globalProperty>
+
 </module>
         

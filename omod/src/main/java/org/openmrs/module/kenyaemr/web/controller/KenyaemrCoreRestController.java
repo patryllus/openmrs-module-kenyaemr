@@ -118,6 +118,7 @@ import org.openmrs.module.kenyaemr.metadata.TbMetadata;
 import org.openmrs.module.kenyaemr.metadata.VMMCMetadata;
 import org.openmrs.module.kenyaemr.model.AdverseDrugReactionEmailLog;
 import org.openmrs.module.kenyaemr.model.ConsentOTPRequest;
+import org.openmrs.module.kenyaemr.nmlis.NlmisHttpClientService;
 import org.openmrs.module.kenyaemr.nupi.UpiUtilsDataExchange;
 import org.openmrs.module.kenyaemr.regimen.RegimenConfiguration;
 import org.openmrs.module.kenyaemr.util.ADRReportingFormGenerator;
@@ -4475,113 +4476,64 @@ public class KenyaemrCoreRestController extends BaseRestController {
 	@ResponseBody
 	public Object submitHmisRequisition(HttpServletRequest request) {
 
-		String fallbackResponse = "{\"status\":\"Error\"}";
-		HttpsURLConnection con = null;
-
 		try {
-			System.out.println("NLMIS Requisition: Received request");
-
-			// --- Load configuration from Global Properties ---
-			AdministrationService adminService = Context.getAdministrationService();
-
-			String baseUrl = adminService.getGlobalProperty("nlmis.base.url");
-			String submitEndpoint = adminService.getGlobalProperty("nlmis.requisition.submit.endpoint");
-			String bearerToken = adminService.getGlobalProperty("nlmis.oauth.token");
-
-			if (baseUrl == null || submitEndpoint == null || bearerToken == null) {
-				throw new IllegalStateException("Missing NLMIS configuration Global Properties");
-			}
-
-			String completeUrl = baseUrl + submitEndpoint;
-			System.out.println("NLMIS Requisition: Posting to " + completeUrl);
-
-			URL url = new URL(completeUrl);
-
-			// --- Open connection ---
-			con = (HttpsURLConnection) url.openConnection();
-			con.setRequestMethod("POST");
-			con.setDoOutput(true);
-			con.setConnectTimeout(15000);
-			con.setReadTimeout(15000);
-
-			// --- Headers ---
-			con.setRequestProperty("Authorization", "Bearer " + bearerToken);
-			con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-			con.setRequestProperty("Accept", "application/json");
-
-			// --- Read incoming request body ---
-			StringBuilder requestBody = new StringBuilder();
+			StringBuilder payload = new StringBuilder();
 			BufferedReader reader = request.getReader();
 			String line;
 
 			while ((line = reader.readLine()) != null) {
-				requestBody.append(line);
+				payload.append(line);
 			}
 
-			System.out.println("NLMIS Requisition: Payload -> " + requestBody);
+			String endpoint = Context.getAdministrationService()
+					.getGlobalProperty("nlmis.requisition.submit.endpoint");
 
-			// --- Forward payload ---
-			PrintStream os = new PrintStream(con.getOutputStream());
-			os.print(requestBody.toString());
-			os.flush();
-			os.close();
-
-			int responseCode = con.getResponseCode();
-
-			// --- Success ---
-			if (responseCode == HttpURLConnection.HTTP_OK
-					|| responseCode == HttpURLConnection.HTTP_CREATED) {
-
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(con.getInputStream()));
-				StringBuilder response = new StringBuilder();
-				String input;
-
-				while ((input = in.readLine()) != null) {
-					response.append(input);
-				}
-				in.close();
-
-				System.out.println("NLMIS Requisition: Success Response -> " + response);
-
-				HttpHeaders headers = new HttpHeaders();
-				headers.setContentType(MediaType.APPLICATION_JSON);
-
-				return ResponseEntity.ok()
-						.headers(headers)
-						.body(response.toString());
-			}
-
-			// --- Error response ---
-			InputStream errorStream = con.getErrorStream();
-			BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
-			StringBuilder errorResponse = new StringBuilder();
-
-			while ((line = errorReader.readLine()) != null) {
-				errorResponse.append(line);
-			}
-
-			errorReader.close();
-			errorStream.close();
-
-			System.err.println("NLMIS Requisition: Error (" + responseCode + ") -> " + errorResponse);
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-
-			return ResponseEntity.status(responseCode)
-					.headers(headers)
-					.body(errorResponse.toString());
+			NlmisHttpClientService service = new NlmisHttpClientService();
+			return service.executePost(endpoint, payload.toString());
 
 		} catch (Exception e) {
-			System.err.println("NLMIS Requisition: Exception");
 			e.printStackTrace();
 		}
 
 		return ResponseEntity.badRequest()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body(fallbackResponse);
+				.body("{\"status\":\"Error\"}");
 	}
+	/**
+	 * Get NLMIS processing periods
+	 * @return
+	 */	
+	
+	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.OPTIONS })
+	@RequestMapping(method = RequestMethod.GET, value = "/nlmis/processing-periods")
+	@ResponseBody
+	public Object getProcessingPeriods() {
+
+		String endpoint = Context.getAdministrationService()
+				.getGlobalProperty("nlmis.processing.periods.endpoint");
+
+		NlmisHttpClientService service = new NlmisHttpClientService();
+		return service.executeGet(endpoint);
+	}
+	
+	/**
+	 * Get NLMIS programs
+	 * @return
+	 */
+
+	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.OPTIONS })
+	@RequestMapping(method = RequestMethod.GET, value = "/nlmis/programs")
+	@ResponseBody
+	public Object getPrograms() {
+
+		String endpoint = Context.getAdministrationService()
+				.getGlobalProperty("nlmis.programs.endpoint");
+
+		NlmisHttpClientService service = new NlmisHttpClientService();
+		return service.executeGet(endpoint);
+	}
+
+
 
 }
 
