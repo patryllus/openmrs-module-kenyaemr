@@ -118,6 +118,7 @@ import org.openmrs.module.kenyaemr.metadata.TbMetadata;
 import org.openmrs.module.kenyaemr.metadata.VMMCMetadata;
 import org.openmrs.module.kenyaemr.model.AdverseDrugReactionEmailLog;
 import org.openmrs.module.kenyaemr.model.ConsentOTPRequest;
+import org.openmrs.module.kenyaemr.nmlis.NlmisHttpClientService;
 import org.openmrs.module.kenyaemr.nupi.UpiUtilsDataExchange;
 import org.openmrs.module.kenyaemr.regimen.RegimenConfiguration;
 import org.openmrs.module.kenyaemr.util.ADRReportingFormGenerator;
@@ -638,6 +639,19 @@ public class KenyaemrCoreRestController extends BaseRestController {
 		locationNode.put("display", location.getName());
 
 		return locationNode.toString();
+	}
+	/**
+	 * Fetches hie facility registry code.
+	 *
+	 * @return string
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/facility-registry-code")
+	@ResponseBody
+	public String getFacilityRegistryCode() {
+		GlobalProperty gp = Context.getAdministrationService()
+				.getGlobalPropertyObject(CommonMetadata.GP_SHA_FACILITY_REGISTRY_CODE);
+
+		return gp.getPropertyValue();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/sha-facility-status")
@@ -4450,5 +4464,76 @@ public class KenyaemrCoreRestController extends BaseRestController {
             this.message = message;
         }
     }
+
+	/**
+	 * Submit HMIS Requisition to NLMIS
+	 *
+	 * @param request
+	 * @return
+	 */
+	@CrossOrigin(origins = "*", methods = { RequestMethod.POST, RequestMethod.OPTIONS })
+	@RequestMapping(method = RequestMethod.POST, value = "/hmis-requisition/submit")
+	@ResponseBody
+	public Object submitHmisRequisition(HttpServletRequest request) {
+
+		try {
+			StringBuilder payload = new StringBuilder();
+			BufferedReader reader = request.getReader();
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				payload.append(line);
+			}
+
+			String endpoint = Context.getAdministrationService()
+					.getGlobalProperty("nlmis.requisition.submit.endpoint");
+
+			NlmisHttpClientService service = new NlmisHttpClientService();
+			return service.executePost(endpoint, payload.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return ResponseEntity.badRequest()
+				.contentType(MediaType.APPLICATION_JSON)
+				.body("{\"status\":\"Error\"}");
+	}
+	/**
+	 * Get NLMIS processing periods
+	 * @return
+	 */	
+	
+	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.OPTIONS })
+	@RequestMapping(method = RequestMethod.GET, value = "/nlmis/processing-periods")
+	@ResponseBody
+	public Object getProcessingPeriods() {
+
+		String endpoint = Context.getAdministrationService()
+				.getGlobalProperty("nlmis.processing.periods.endpoint");
+
+		NlmisHttpClientService service = new NlmisHttpClientService();
+		return service.executeGet(endpoint);
+	}
+	
+	/**
+	 * Get NLMIS programs
+	 * @return
+	 */
+
+	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.OPTIONS })
+	@RequestMapping(method = RequestMethod.GET, value = "/nlmis/programs")
+	@ResponseBody
+	public Object getPrograms() {
+
+		String endpoint = Context.getAdministrationService()
+				.getGlobalProperty("nlmis.programs.endpoint");
+
+		NlmisHttpClientService service = new NlmisHttpClientService();
+		return service.executeGet(endpoint);
+	}
+
+
+
 }
 
