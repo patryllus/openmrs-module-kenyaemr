@@ -250,111 +250,133 @@
 			{
 				"category": "Admin Roles",
 				"roles": [
-				"o3: System Administrator",
-				"System Administrator",
-				"System Developer",
-				"ETL Administration",
-				"IL Administration",
-				"ML Administration",
-				"API Privileges",
-				"API Privileges (View and Edit)",
-				"Edit Settings Role",
-				"Upi Verification",
-				"Ushauri Administration",
-				"nimeCONFIRM app administration",
-				"Privilege Level: Full",
-				"Privilege Level: High",
-				"Manager",
-				"Administration"
+					"o3: System Administrator",
+					"System Administrator",
+					"System Developer",
+					"ETL Administration",
+					"IL Administration",
+					"ML administration",
+					"API Privileges",
+					"API Privileges (View and Edit)",
+					"Edit Settings Role",
+					"Upi verification",
+					"Ushauri Administration",
+					"nimeCONFIRM app administration",
+					"Privilege Level: Full",
+					"Privilege Level: High",
+					"Manager",
+					"Administration",
+					"o3: ICT Officer",
+					"Afyastat delete queue items",
+					"Afyastat queue administration",
+					"Application: Configure HRS Report",
+					"Application: Configure SpeedPhases Reports Module",
+					"covid-19 app administration",
+					"Cross-Border app administration",
+					"ncd app administration"
 				]
 			},
 			{
 				"category": "Billing Roles",
 				"roles": [
-				"o3: Cashier/Accountant",
-				"o3: Finance Administrator",
-				"o3 Cashier",
-				"Billing Manager",
-				"Finance Administrator"
+					"o3: Cashier/Accountant",
+					"o3: Finance Administrator",
+					"o3 Cashier",
+					"Billing Manager",
+					"Finance Administrator",
+					"o3: Insurance Agent"
 				]
 			},
 			{
 				"category": "Clinician Roles",
 				"roles": [
-				"o3: Nurse",
-				"o3: Doctors/Clinicians/Specialists",
-				"o3: Adherence Counsellor",
-				"o3: HTS Counsellor",
-				"Adherence Counselor",
-				"o3 Clinician",
-				"Provider",
-				"o3: Physiotherapist",
-				"o3: Occupational Therapist",
-				"o3: Nutritionist",
-				"o3: Orthopedics",
-				"Peer Educator",
-				"o3: Peer Educator/Mentor Mother",
-				"o3: Triage Nurse",
-				"Key Population Module"
+					"o3: Nurse",
+					"o3: Doctors/Clinicians/Specialists",
+					"o3: Adherence counsellor",
+					"o3: HTS Counsellor",
+					"Adherence Counselor",
+					"o3 Clinician",
+					"Provider",
+					"o3: Physiotherapist",
+					"o3: Occupational Therapist",
+					"o3: Nutritionist",
+					"o3: Orthopedics",
+					"Peer Educator",
+					"o3: Peer Eductor/Mentor Mother",
+					"o3: Triage Nurse",
+					"Key Population Module",
+					"Clinician",
+					"HTS Counsellor",
+					"Nutritionist",
+					"o3: Dentist",
+					"o3: Pathologist",
+					"o3: Social Worker",
+					"o3: Public Health Officer/Surveillance Officer",
+					"o3: Linkage Services",
+					"o3: Community Pharmacist"
 				]
 			},
 			{
 				"category": "Records Roles",
 				"roles": [
-				"o3: Receptionist/Registration",
-				"Registration",
-				"Data Clerk",
-				"Health Record Officer",
-				"Registration Officer",
-				"Lab Manifest",
-				"Lab Manifest Administration",
-				"Referral Administration",
-				"Intake",
-				"AIR",
-				"Anonymous",
-				"Authenticated"
+					"o3: Receptionist/Registration",
+					"Registration",
+					"Data Clerk",
+					"o3: Health Record Officer",
+					"Registration Officer",
+					"Lab Manifest",
+					"Lab Manifest Administration",
+					"Referral Administration",
+					"Intake",
+					"AIR",
+					"Anonymous",
+					"Authenticated",
+					"o3: RDE Clerk",
+					"o3: Mortician"
 				]
 			},
 			{
 				"category": "Investigation Roles",
 				"roles": [
-				"o3: Laboratory Technician",
-				"o3: Radiologist",
-				"Investigation Roles",
-				"ML pull risk scores from NDWH"
+					"o3: Laboratory Technician",
+					"o3: Radiologist",
+					"Investigation Roles",
+					"ML pull risk scores from NDWH",
+					"Lab Technician"
 				]
 			},
 			{
 				"category": "Pharmacist Roles",
 				"roles": [
-				"o3: Pharmacist",
-				"Community Pharmacy"
+					"o3: Pharmacist",
+					"Community Pharmacy",
+					"Pharmacist"
 				]
 			},
 			{
 				"category": "Inventory Roles",
 				"roles": [
-				"o3: Stock Controller/Manager",
-				"o3 Stock Manager",
-				"Inventory Administrator",
-				"Inventory Provider Access",
-				"Inventory Clerk",
-				"Inventory Manager",
-				"Stock Management Base Role",
-				"Inventory Reporting",
-				"Inventory Dispensing"
+					"o3: Stock Controller/Manager",
+					"o3 Stock Manager",
+					"Inventory Administrator",
+					"Inventory Provider Access",
+					"Inventory Clerk",
+					"Inventory Manager",
+					"Stock Management Base Role",
+					"Inventory Reporting",
+					"Inventory Dispensing"
 				]
 			},
-				{
+			{
 				"category": "Core Inventory Roles",
 				"roles": [
-				"Inventory Administrator",
-				"Inventory Provider Access",
-				"Inventory Clerk",
-				"Inventory Manager",
-				"Stock Management Base Role",
-				"Inventory Reporting",
-				"Inventory Dispensing"
+					"Inventory Administrator",
+					"Inventory Provider Access",
+					"Inventory Clerk",
+					"Inventory Manager",
+					"Stock Management Base Role",
+					"Inventory Reporting",
+					"Inventory Dispensing"
 				]
 			}
 		]
