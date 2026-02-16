@@ -4576,13 +4576,14 @@ public class KenyaemrCoreRestController extends BaseRestController {
 	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.OPTIONS })
 	@RequestMapping(method = RequestMethod.GET, value = "/nlmis/requisition-status")
 	@ResponseBody
-	public Object getRequisitionStatus() {
+	public Object getRequisitionStatus(HttpServletRequest request) {
 
 		String endpoint = Context.getAdministrationService()
 				.getGlobalProperty("nlmis.requisition.status.endpoint");
+		String queryString = request.getQueryString();
 
 		NlmisHttpClientService service = new NlmisHttpClientService();
-		return service.executeGet(endpoint);
+		return service.executeGet(endpoint, queryString);
 	}
 
 
