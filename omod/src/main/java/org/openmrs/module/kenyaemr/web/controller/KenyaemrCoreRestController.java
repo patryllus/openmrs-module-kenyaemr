@@ -4533,6 +4533,58 @@ public class KenyaemrCoreRestController extends BaseRestController {
 		return service.executeGet(endpoint);
 	}
 
+	/**
+	 * Submit daily stock status to NLMIS
+	 *
+	 * @param request
+	 * @return
+	 */
+	@CrossOrigin(origins = "*", methods = { RequestMethod.POST, RequestMethod.OPTIONS })
+	@RequestMapping(method = RequestMethod.POST, value = "/daily-stock-status/submit")
+	@ResponseBody
+	public Object submitDailyStockStatus(HttpServletRequest request) {
+
+		try {
+			StringBuilder payload = new StringBuilder();
+			BufferedReader reader = request.getReader();
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				payload.append(line);
+			}
+
+			String endpoint = Context.getAdministrationService()
+					.getGlobalProperty("nlmis.daily.stock.status.submit.endpoint");
+
+			NlmisHttpClientService service = new NlmisHttpClientService();
+			return service.executePost(endpoint, payload.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return ResponseEntity.badRequest()
+				.contentType(MediaType.APPLICATION_JSON)
+				.body("{\"status\":\"Error\"}");
+	}
+
+	/**
+	 * Get Requisition Status from NLMIS
+	 * @return
+	 */
+
+	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.OPTIONS })
+	@RequestMapping(method = RequestMethod.GET, value = "/nlmis/requisition-status")
+	@ResponseBody
+	public Object getRequisitionStatus() {
+
+		String endpoint = Context.getAdministrationService()
+				.getGlobalProperty("nlmis.requisition.status.endpoint");
+
+		NlmisHttpClientService service = new NlmisHttpClientService();
+		return service.executeGet(endpoint);
+	}
+
 
 
 }

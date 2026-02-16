@@ -554,6 +554,21 @@
 		   Endpoint URL for retrieving programs from NLIMS
 		</description>
 	</globalProperty>
+	<globalProperty>
+		<property>nlmis.daily.stock.status.submit.endpoint</property>
+		<defaultValue>/api/daily-stock-status</defaultValue>
+		<description>
+		   Endpoint URL for submitting daily stock status to NLIMS
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>nlmis.requisition.status.endpoint</property>
+		<defaultValue>/api/hmis-requisition/status</defaultValue>
+		<description>
+		   Endpoint URL for retrieving requisition status from NLIMS
+		</description>
+	</globalProperty>
 
 </module>
         
