@@ -70,6 +70,40 @@ public class NlmisHttpClientService {
 	}
 
 	/**
+	 * GET with query params
+	 */
+	public ResponseEntity<String> executeGet(String endpoint, String queryString) {
+
+		HttpsURLConnection con = null;
+
+		try {
+			String completeUrl = buildUrl(endpoint);
+
+			if (queryString != null && !queryString.trim().isEmpty()) {
+				completeUrl += "?" + queryString;
+			}
+
+			URL url = new URL(completeUrl);
+
+			con = (HttpsURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("Authorization", "Bearer " + getToken());
+			con.setRequestProperty("Accept", "application/json");
+			con.setConnectTimeout(50000);
+			con.setReadTimeout(50000);
+
+			return handleResponse(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return ResponseEntity.badRequest()
+				.contentType(MediaType.APPLICATION_JSON)
+				.body("{\"status\":\"Error\"}");
+	}
+
+	/**
 	 * Generic POST Executor
 	 */
 	public ResponseEntity<String> executePost(String endpoint, String payload) {
