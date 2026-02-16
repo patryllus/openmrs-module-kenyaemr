@@ -11,7 +11,6 @@
 package org.openmrs.module.kenyaemr.nmlis;
 
 
-import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class NlmisHttpClientService {
@@ -57,8 +55,8 @@ public class NlmisHttpClientService {
 			con.setRequestMethod("GET");
 			con.setRequestProperty("Authorization", "Bearer " + getToken());
 			con.setRequestProperty("Accept", "application/json");
-			con.setConnectTimeout(15000);
-			con.setReadTimeout(15000);
+			con.setConnectTimeout(50000);
+			con.setReadTimeout(50000);
 
 			return handleResponse(con);
 
@@ -88,8 +86,8 @@ public class NlmisHttpClientService {
 			con.setRequestProperty("Authorization", "Bearer " + getToken());
 			con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 			con.setRequestProperty("Accept", "application/json");
-			con.setConnectTimeout(15000);
-			con.setReadTimeout(15000);
+			con.setConnectTimeout(50000);
+			con.setReadTimeout(50000);
 
 			// Send payload
 			PrintStream os = new PrintStream(con.getOutputStream());
