@@ -44,8 +44,7 @@ public class EligibleForFamilyPlanningCalculation extends AbstractPatientCalcula
 
             boolean eligible = false;
             if (alive.contains(ptId) && patient.getAge() >= 15
-                    && (patient.getGender().equals("F") && patient.getAge() <= 49
-                        || patient.getGender().equals("M"))) {
+                    && patient.getAge() <= 49) {
                 eligible = true;
             }
             ret.put(ptId, new BooleanResult(eligible, this));
