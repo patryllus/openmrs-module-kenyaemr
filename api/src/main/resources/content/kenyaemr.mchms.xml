@@ -73,7 +73,7 @@
     <bean id="kenyaemr.fp.program" class="org.openmrs.module.kenyacore.program.ProgramDescriptor">
         <property name="targetUuid" value="${metadata.program.FAMILY_PLANNING}"/>
         <property name="eligibilityCalculation"
-                  value="org.openmrs.module.kenyaemr.calculation.library.mchms.EligibleForMchmsProgramCalculation"/>
+                  value="org.openmrs.module.kenyaemr.calculation.library.EligibleForFamilyPlanningCalculation"/>
         <property name="defaultEnrollmentForm" ref="kenyaemr.mchms.form.fp.enrollment"/>
         <property name="defaultCompletionForm" ref="kenyaemr.mchms.form.fp.completion"/>
         <!--<property name="patientForms">
