@@ -36,7 +36,8 @@ public class NCDMetadata extends AbstractMetadataBundle {
 	}
 
 	public static final class _Form {
-		public static final String NCD_INITIAL_FORM = "c4994dd7-f2b6-4c28-bdc7-8b1d9d2a6a97";
+		public static final String NCD_ENROLLMENT_FORM = "c4994dd7-f2b6-4c28-bdc7-8b1d9d2a6a97";
+		public static final String NCD_INITIAL_FORM = "fca1aad8-aa0d-4027-b10d-a26079f1f20e";
 		public static final String NCD_FOLLOWUP_FORM = "3e1057da-f130-44d9-b2bb-53e039b953c6";
 		public static final String NCD_DISCONTINUATION_FORM = "63182d28-a23f-4d14-b48e-38077bbd8ed2";
 	}
@@ -56,7 +57,7 @@ public class NCDMetadata extends AbstractMetadataBundle {
 	 */
 	@Override
 	public void install() {
-		install(encounterType("NCD Initial", "Enrolment into NCD", _EncounterType.NCD_INITIAL));
+		install(encounterType("NCD Enrollment", "Enrolment into NCD", _EncounterType.NCD_INITIAL));
 		install(encounterType("NCD Followup", "NCD followup encounter", _EncounterType.NCD_FOLLOWUP));
 		install(encounterType("NCD Discontinuation", "NCD program discontinuation encounter", _EncounterType.NCD_DISCONTINUATION));
 
@@ -64,7 +65,8 @@ public class NCDMetadata extends AbstractMetadataBundle {
 		
 		if (installForms) {
 			logger.info("=== NCDMetadata: Installing forms because shouldInstallForms() returned true ===");
-			install(form("NCD Enrollment Form", null, _EncounterType.NCD_INITIAL, "1", _Form.NCD_INITIAL_FORM));
+			install(form("NCD Enrollment Form", null, _EncounterType.NCD_INITIAL, "1", _Form.NCD_ENROLLMENT_FORM));
+			install(form("NCD Initial Form", null, _EncounterType.NCD_INITIAL, "1", _Form.NCD_INITIAL_FORM));
 			install(form("NCD Followup Form", null, _EncounterType.NCD_FOLLOWUP, "1", _Form.NCD_FOLLOWUP_FORM));
 			install(form("NCD Discontinuation Form", null, _EncounterType.NCD_DISCONTINUATION, "1", _Form.NCD_DISCONTINUATION_FORM));
 		} else {
