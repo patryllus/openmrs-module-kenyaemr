@@ -17,8 +17,6 @@
 	<!-- ===================== Configurations ===================== -->
     <bean id="kenyaemr.nutrition.program" class="org.openmrs.module.kenyacore.program.ProgramDescriptor">
         <property name="targetUuid" value="${metadata.program.NUTRITION}"/>
-             <property name="eligibilityCalculation"
-                       value="org.openmrs.module.kenyaemr.calculation.library.mchms.EligibleForMchmsProgramCalculation"/>
         <property name="defaultEnrollmentForm" ref="kenyaemr.common.form.nutrition.enrollment"/>
         <property name="defaultCompletionForm" ref="kenyaemr.common.form.nutrition.completion"/>
         <!--   <property name="patientForms">
