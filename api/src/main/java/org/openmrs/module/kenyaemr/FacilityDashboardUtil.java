@@ -1304,7 +1304,9 @@ public class FacilityDashboardUtil {
 				"AND lnp.latest_hiv_followup_visit > lnp.date_test_requested\n" +
 				" /* critical exclusion: if the latest request is pending, do NOT count them */\n" +
 				"AND lar.vl_status <> 'Pending'\n" +
-				"ORDER BY lnp.patient_id) b on e.patient_id = b.patient_id;";
+				"ORDER BY lnp.patient_id) b on e.patient_id = b.patient_id\n" +
+				"GROUP BY DATE(e.visit_date)\n" +
+				"ORDER BY DATE(e.visit_date) ASC;";
 		return getSimpleObject(eligibleForVlSampleNotTakenQuery);
 	}
 
@@ -1653,7 +1655,9 @@ public class FacilityDashboardUtil {
 				"                                         AND t.date_test_result_received IS NULL\n" +
 				"                                         AND t.base_viral_load_test_result IS NULL\n" +
 				"                                         AND t.previous_test_result IS NULL\n" +
-				"                                     )) b on e.patient_id = b.patient_id;";
+				"                                     )) b on e.patient_id = b.patient_id\n" +
+				"GROUP BY DATE(e.visit_date)\n" +
+				"order by DATE(e.visit_date);";
 
 		return getSimpleObject(eligibleForVlQuery);
 	}

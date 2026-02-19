@@ -36,8 +36,15 @@ public class ActiveInMCHProgramCalculation extends AbstractPatientCalculation {
         params.put("program", Context.getProgramWorkflowService().getProgramByUuid(Metadata.Program.MCH_MS));
         CalculationResultMap mch_msProgram = new InProgramCalculation().evaluate(cohort, params, Context.getService(PatientCalculationService.class).createCalculationContext());
 
+        params.put("program", Context.getProgramWorkflowService().getProgramByUuid(Metadata.Program.ANTENATAL_CARE));
+        CalculationResultMap ancProgram = new InProgramCalculation().evaluate(cohort, params, Context.getService(PatientCalculationService.class).createCalculationContext());
+
+        params.put("program", Context.getProgramWorkflowService().getProgramByUuid(Metadata.Program.POSTNATAL_CARE));
+        CalculationResultMap pncProgram = new InProgramCalculation().evaluate(cohort, params, Context.getService(PatientCalculationService.class).createCalculationContext());
+
         for(Integer ptId: cohort){
-                if ((mch_csProgram.get(ptId) != null && (Boolean) mch_csProgram.get(ptId).getValue()) || (mch_msProgram.get(ptId) != null && (Boolean)mch_msProgram.get(ptId).getValue())) {
+                if ((mch_csProgram.get(ptId) != null && (Boolean) mch_csProgram.get(ptId).getValue()) || (mch_msProgram.get(ptId) != null && (Boolean)mch_msProgram.get(ptId).getValue())
+            || (ancProgram.get(ptId) != null && (Boolean) ancProgram.get(ptId).getValue()) || (pncProgram.get(ptId) != null && (Boolean) pncProgram.get(ptId).getValue())) {
                     ret.put(ptId, new BooleanResult(true, this));
                 } else {
                     ret.put(ptId, new BooleanResult(false, this));
