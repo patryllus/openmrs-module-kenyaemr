@@ -1360,7 +1360,7 @@ public class FacilityDashboardUtil {
 				"           AND x.order_reason NOT IN (2001236, 162080)\n" +
 				"           AND COALESCE(x.vl_result, x.previous_test_result, x.base_viral_load_test_result) >= 200\n" +
 				"           AND COALESCE(x.date_test_result_received, x.previous_date_test_requested, x.base_viral_load_test_date)\n" +
-				"             BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 21 DAY)\n" +
+				"             BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)\n" +
 				"             AND DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)\n" +
 				"     ) vl\n" +
 				"         INNER JOIN (\n" +
@@ -1704,7 +1704,7 @@ public class FacilityDashboardUtil {
 				"           AND x.order_reason NOT IN (2001236, 162080)\n" +
 				"           AND COALESCE(x.vl_result, x.previous_test_result, x.base_viral_load_test_result) >= 200\n" +
 				"           AND COALESCE(x.date_test_result_received, x.previous_date_test_requested, x.base_viral_load_test_date)\n" +
-				"             BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 21 DAY)\n" +
+				"             BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)\n" +
 				"             AND DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)\n" +
 				"     ) vl\n" +
 				"         INNER JOIN (\n" +
