@@ -1749,8 +1749,8 @@ public class FacilityDashboardUtil {
 				"                 )\n" +
 				"         ) t\n" +
 				") active ON vl.patient_id = active.patient_id\n" +
-				"GROUP BY vl_effective_date\n" +
-				"ORDER BY vl_effective_date ASC;";
+				"GROUP BY DATE(vl_effective_date)\n" +
+				"ORDER BY DATE(vl_effective_date) ASC;";
 		return getSimpleObject(getVirallyUnsuppressedQuery);
 	}
 
