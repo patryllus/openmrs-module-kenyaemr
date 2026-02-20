@@ -1693,7 +1693,7 @@ public class FacilityDashboardUtil {
 	 */
 	public static SimpleObject getMonthlyVirallyUnsuppressed(String startDate, String endDate) {
 		long days = getNumberOfDays(startDate, endDate);
-		String getVirallyUnsuppressedQuery = "SELECT COUNT(DISTINCT(vl.patient_id)) as vl_unsuppressed_denominator, vl_effective_date\n" +
+		String getVirallyUnsuppressedQuery = "SELECT COUNT(DISTINCT(vl.patient_id)) as vl_unsuppressed_denominator, DATE(vl_effective_date)\n" +
 				"FROM (\n" +
 				"         -- Get latest VL results ≥ 200 within the period\n" +
 				"         SELECT x.patient_id,\n" +
