@@ -556,7 +556,7 @@
 	</globalProperty>
 	<globalProperty>
 		<property>nlmis.daily.stock.status.submit.endpoint</property>
-		<defaultValue>/api/daily-stock-status</defaultValue>
+		<defaultValue>/api/dailyStockStatus</defaultValue>
 		<description>
 		   Endpoint URL for submitting daily stock status to NLIMS
 		</description>
