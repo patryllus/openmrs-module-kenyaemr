@@ -90,6 +90,7 @@
 				<ref bean="kenyaemr.common.form.ATPTakeChargeTracking"/>
 				<ref bean="kenyaemr.common.form.ATPTransitionReadinessAssessment"/>
 				<ref bean="kenyaemr.common.form.ATPDisclosureReadiness"/>
+				<ref bean="kenyaemr.common.form.ATPDisclosureTracking"/>
 
 				<!--<ref bean="kenyaemr_knh_testing.common.form.inpatientCareForm"/>-->
 			</set>
@@ -785,6 +786,23 @@
 	</bean>
 	<bean id="kenyaemr.common.form.ATPTakeChargeTracking" class="org.openmrs.module.kenyacore.form.FormDescriptor">
 		<property name="targetUuid" value="a4276b08-5bf1-402a-bb6a-0b2e54b41d67" />
+		<property name="apps">
+			<set>
+				<ref bean="kenyaemr.app.registration" />
+				<ref bean="kenyaemr.app.clinician" />
+				<ref bean="kenyaemr.app.chart" />
+				<ref bean="kenyaemr.app.hts" />
+				<ref bean="kenyaemr.app.prep" />
+				<ref bean="kenyaemr.app.counselling" />
+			</set>
+		</property>
+		<property name="showIfCalculation" value="org.openmrs.module.kenyaemr.calculation.library.EligibilityToShowATPForms" />
+		<property name="icon" value="kenyaui:forms/generic.png" />
+		<property name="htmlform" value="kenyaemr:nutritionFormDoesNotExistOn2x.html" />
+		<property name="order" value="201017" />
+	</bean>
+	<bean id="kenyaemr.common.form.ATPDisclosureTracking" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+		<property name="targetUuid" value="40b6b389-5b4e-47b1-aa15-88ee24b56f6a" />
 		<property name="apps">
 			<set>
 				<ref bean="kenyaemr.app.registration" />
