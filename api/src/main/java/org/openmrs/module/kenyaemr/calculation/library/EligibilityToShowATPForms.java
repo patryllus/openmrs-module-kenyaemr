@@ -47,7 +47,7 @@ public class EligibilityToShowATPForms extends AbstractPatientCalculation {
 			boolean eligible = false;
             Patient patient = patientService.getPatient(ptId);
 	
-			if (inHivProgram.contains(ptId) && patient.getAge() < 18) {
+			if (inHivProgram.contains(ptId) && patient.getAge() < 25) {
 				eligible = true;
 			}			
 			ret.put(ptId, new BooleanResult(eligible, this));
